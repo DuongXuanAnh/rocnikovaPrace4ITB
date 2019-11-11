@@ -26,7 +26,6 @@ class App extends Component<Props, State> {
 
       return (
         <Router>
-         
           <React.Fragment>
             <Route exact path="/" component={Navbar} />
             <Route exact path="/home" component={Navbar} />
@@ -34,19 +33,20 @@ class App extends Component<Props, State> {
             <Route exact path="/register" component={Register} />
             {/* ------------------------------------------------------ */}
             <Route exact path="/dila" component={Navbar} />
+            <Route exact path="/dila/diloDetail" component={Navbar} />
+
             <Route exact path="/autori" component={Navbar} />
+            <Route exact path="/autor/:id" component={Navbar} />
+
             <Route exact path="/ceskaLiteratura" component={Navbar} />
             <Route exact path="/svetovaLiteratura" component={Navbar} />
             <Route exact path="/testy" component={Navbar} />
             <Route exact path="/kviz" component={Navbar} />
+
           </React.Fragment>
-         
-         
-          
         </Router>
       );
     
- 
   }
 }
 

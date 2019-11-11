@@ -7,6 +7,8 @@ import CeskaLiteratura from './literatura/ceska/CeskaLiteratura';
 import SvetovaLiteratura from './literatura/svetova/SvetovaLiteratura';
 import Testy from './testy/Testy';
 import Kviz from './kviz/Kviz';
+import DiloDetail from './dila/DiloDetail';
+import AutoriDetail from './autori/AutoriDetail';
 
 interface iState {
     collapsed: boolean // Otevírání a zavírání leftMenu
@@ -120,7 +122,9 @@ class Navbar extends Component<iProps, iState> {
 
                             <Content>
                                 <Route exact path="/dila" component={DilaList} />
+                                <Route exact path="/dila/diloDetail" component={DiloDetail} />
                                 <Route exact path="/autori" component={AutorsList} />
+                                <Route exact path="/autor/:id" component={AutoriDetail} />
                                 <Route exact path="/ceskaLiteratura" component={CeskaLiteratura} />
                                 <Route exact path="/svetovaLiteratura" component={SvetovaLiteratura} />
                                 <Route exact path="/testy" component={Testy} />

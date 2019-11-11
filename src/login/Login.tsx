@@ -32,8 +32,6 @@ class Login extends Component<Props, State> {
     componentDidMount() {
         this.checkLoggedUser();
     }
-    
-
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -111,7 +109,8 @@ class Login extends Component<Props, State> {
                     data: { email: values.email, password: values.password }
                 }).then(
                     res => {
-                        console.log(res.data);
+                        console.log(res.data.token);
+                        localStorage.setItem('token', res.data.token);
                         if (this.props.dispatch) {
                             this.props.dispatch(actions.login(res.data));
                         }
@@ -141,7 +140,6 @@ class Login extends Component<Props, State> {
                 }
             ).catch(err => err)
       }
-
 }
 
 export default connect(reducer => reducer)(Form.create({ name: 'normal_login' })(Login));

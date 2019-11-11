@@ -1,29 +1,21 @@
 import React, { Component } from 'react';
 import { List, Avatar, Input } from 'antd';
-
-
+import axios from 'axios';
+import { Reducer } from '../../utils/generalTypes';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 interface Props {
-
+    match: any
+    location: any
+    history: any
+    reducer?: Reducer;
+    dispatch?: Function;
 }
 
 interface State {
+    autori?: any
 }
-
-const data = [
-    {
-        title: 'Ant Design Title 1',
-    },
-    {
-        title: 'Ant Design Title 2',
-    },
-    {
-        title: 'Ant Design Title 3',
-    },
-    {
-        title: 'Ant Design Title 4',
-    },
-];
 
 const { Search } = Input;
 
@@ -31,10 +23,17 @@ class AutorsList extends Component<Props, State>  {
 
     constructor(props: Props) {
         super(props);
-
+        this.state = {
+            autori: []
+        }
     }
-    render() {
 
+    componentDidMount() {
+        this.getAutori();
+    }
+    
+
+    render() {
         return (
             <React.Fragment>
                 <Search
@@ -47,20 +46,21 @@ class AutorsList extends Component<Props, State>  {
                 ></div>
                 <List
                     itemLayout="horizontal"
-                    dataSource={data}
+                    dataSource={this.state.autori}
                     style={{ marginLeft: "2em", marginRight: "2em" }}
-                    renderItem={item => (
+                    renderItem={(item: any) => (
                         <List.Item
+                            onDoubleClick = {() => this.autorDetail(item.id)}
                         >
                             <List.Item.Meta
                                 avatar={
                                     <Avatar
-                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToQm7Fmwn_-iIa7TuITtJ4adTBzQDYN9JJisDWvJ0oKPo47ogy"
+                                        src={item.img}
                                         size={92}
                                     />}
-                                // title={<a href="https://ant.design">{item.title}</a>}
-                                title={item.title}
-                                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                                title={item.name}
+                                description={item.zarazeni}
+ 
                             />
                         </List.Item>
                     )}
@@ -68,6 +68,27 @@ class AutorsList extends Component<Props, State>  {
             </React.Fragment>
         );
     }
+
+    private getAutori = () => {
+        axios({
+            method: 'get',
+            url: '/autori',
+            withCredentials: true,
+        })
+            .then(
+                res => {
+                   this.setState({
+                    autori: res.data
+                   });
+
+                   console.log(this.state.autori);
+                }
+            ).catch(err => err)
+    }
+
+    private autorDetail(id:number){
+        this.props.history.push('autor/' + id);
+   }
 }
 
-export default AutorsList;
+export default withRouter((connect(reducer => reducer)(AutorsList)));
