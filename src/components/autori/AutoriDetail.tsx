@@ -3,6 +3,7 @@ import { Row, Col, Spin } from 'antd';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Reducer } from '../../utils/generalTypes';
+import marked from "marked";
 
 interface Props {
     match: any
@@ -10,11 +11,18 @@ interface Props {
     history: any
     reducer?: Reducer
     dispatch?: Function
+
 }
 
 interface State {
     autor: any
     loading: boolean
+    zarazeni: any
+    zivot: any
+    dila:any
+    autorZarazeniPath: any
+    autorZivotPath: any
+    autorDilaPath: any
 }
 
 class AutoriDetail extends Component<Props, State>{
@@ -22,7 +30,13 @@ class AutoriDetail extends Component<Props, State>{
         super(props);
         this.state = {
             autor: {},
-            loading: false
+            loading: false,
+            zarazeni: null,
+            zivot: null,
+            dila: null,
+            autorZarazeniPath: null,
+            autorZivotPath: null,
+            autorDilaPath: null
 
         }
     }
@@ -46,11 +60,11 @@ class AutoriDetail extends Component<Props, State>{
 
                         }}>>
                         <Spin tip="Načítání autora..." size="large" style={{
-                            fontSize: '1.5em', 
+                            fontSize: '1.5em',
                             position: 'absolute',
                             left: '50%',
                             top: '45%',
-                            "transform":"translate(-50%, -50%)"
+                            "transform": "translate(-50%, -50%)"
                         }}></Spin>
                     </div>
                     :
@@ -73,32 +87,15 @@ class AutoriDetail extends Component<Props, State>{
                             <Row>
                                 <Col span={8} style={{ paddingRight: "1em" }}>
                                     <h3>Zařazení:</h3>
-                                    {this.state.autor.zarazeni !== undefined ?
-                                        this.state.autor.zarazeni.map((value: string, key: number) => <li>{value}</li>)
-                                        :
-                                        <div></div>
-                                    }
+                                    <div dangerouslySetInnerHTML={{ __html: this.state.zarazeni }}></div>
                                 </Col>
                                 <Col span={8} style={{ paddingRight: "1em" }}>
                                     <h3>Život:</h3>
-                                    {this.state.autor.zivot !== undefined ?
-                                        this.state.autor.zivot.map((value: string, key: number) => <li>{value}</li>)
-                                        :
-                                        <div></div>
-                                    }
+                                    <div dangerouslySetInnerHTML={{ __html: this.state.zivot }}></div>
                                 </Col>
                                 <Col span={8} style={{ paddingRight: "1em" }}>
                                     <h3>Díla:</h3>
-                                    {this.state.autor.druhDila !== undefined ?
-                                        this.state.autor.druhDila.map(
-                                            (value: string, key: number) =>
-                                                <div>
-                                                    {value}
-                                                </div>
-                                        )
-                                        :
-                                        <div></div>
-                                    }
+                                    <div dangerouslySetInnerHTML={{ __html: this.state.dila }}></div>
                                 </Col>
                             </Row>
                         </Col>
@@ -119,15 +116,58 @@ class AutoriDetail extends Component<Props, State>{
             withCredentials: true,
         })
             .then(
-                res => {
 
+                res => {
                     this.setState({
                         autor: res.data[0],
-                        loading: false
+                        loading: false,
+                        autorZarazeniPath: res.data[0].zarazeni,               
+                        autorZivotPath: res.data[0].zivot,               
+                        autorDilaPath: res.data[0].dila,               
                     });
-
+                  
+                    this.showZarazeni();
+                    this.showZivot();
+                    this.showDila();
                 }
             ).catch(err => err)
+    }
+
+    private showZarazeni = () => {
+        let zarazeniPath = require("./../../autori/"+this.state.autorZarazeniPath);
+        fetch(zarazeniPath)
+            .then(response => {
+                return response.text()
+            })
+            .then(text => {
+                this.setState({
+                    zarazeni: marked(text)
+                })
+            })
+    }
+    private showZivot = () => {
+        let zivotPath = require("./../../autori/"+this.state.autorZivotPath);
+        fetch(zivotPath)
+            .then(response => {
+                return response.text()
+            })
+            .then(text => {
+                this.setState({
+                    zivot: marked(text)
+                })
+            })
+    }
+    private showDila = () => {
+        let diloPath = require("./../../autori/"+this.state.autorDilaPath);
+        fetch(diloPath)
+            .then(response => {
+                return response.text()
+            })
+            .then(text => {
+                this.setState({
+                    dila: marked(text)
+                })
+            })
     }
 }
 

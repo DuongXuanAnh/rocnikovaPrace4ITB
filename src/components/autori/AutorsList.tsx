@@ -59,7 +59,7 @@ class AutorsList extends Component<Props, State>  {
                                         size={92}
                                     />}
                                 title={item.name}
-                                description={item.zarazeni[0] +" "+ item.zarazeni[1] + "..."}
+                                description= { item.description }
  
                             />
                         </List.Item>

@@ -10,27 +10,35 @@ import Kviz from './kviz/Kviz';
 import DiloDetail from './dila/DiloDetail';
 import AutoriDetail from './autori/AutoriDetail';
 
-interface iState {
+
+interface State {
     collapsed: boolean // Otevírání a zavírání leftMenu
+   
 }
 
-interface iProps {
+interface Props {
 
 }
 
 const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu;
 
-class Navbar extends Component<iProps, iState> {
+class Navbar extends Component<Props, State> {
 
-    constructor(props: iProps) {
+    constructor(props: Props) {
         super(props);
         this.state = {
-            collapsed: false
+            collapsed: false,
+            
         }
     }
 
+    componentDidMount() {
+       
+      }
+
     render() {
+    
         return (
             <Router>
                 <React.Fragment>
@@ -121,6 +129,7 @@ class Navbar extends Component<iProps, iState> {
                             </Header>
 
                             <Content>
+                                
                                 <Route exact path="/dila" component={DilaList} />
                                 <Route exact path="/dila/diloDetail" component={DiloDetail} />
                                 <Route exact path="/autori" component={AutorsList} />
