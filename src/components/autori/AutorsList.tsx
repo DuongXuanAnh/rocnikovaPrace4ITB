@@ -47,6 +47,12 @@ class AutorsList extends Component<Props, State>  {
                 <List
                     itemLayout="horizontal"
                     dataSource={this.state.autori}
+                    pagination={{
+                        onChange: (page) => {
+                          console.log(page);
+                        },
+                        pageSize: 3,
+                      }}
                     style={{ marginLeft: "2em", marginRight: "2em" }}
                     renderItem={(item: any) => (
                         <List.Item

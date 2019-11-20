@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import AutorsList from './autori/AutorsList';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom";
 import DilaList from './dila/DilaList';
 import CeskaLiteratura from './literatura/ceska/CeskaLiteratura';
 import SvetovaLiteratura from './literatura/svetova/SvetovaLiteratura';
@@ -9,15 +9,21 @@ import Testy from './testy/Testy';
 import Kviz from './kviz/Kviz';
 import DiloDetail from './dila/DiloDetail';
 import AutoriDetail from './autori/AutoriDetail';
+import { connect } from 'react-redux';
+import { Reducer } from '../utils/generalTypes';
+
+interface Props {
+    match: any
+    location: any
+    history: any
+    reducer?: Reducer
+    dispatch?: Function
+}
 
 
 interface State {
     collapsed: boolean // Otevírání a zavírání leftMenu
    
-}
-
-interface Props {
-
 }
 
 const { Header, Content, Sider } = Layout;
@@ -116,11 +122,11 @@ class Navbar extends Component<Props, State> {
                                             </span>
                                         }
                                     >
-                                        <Menu.Item key="loginRedirect">
-                                            <a href="/login">Přihlásit se</a>
+                                        <Menu.Item key="loginRedirect" onClick={() => this.loginRedirect()}>
+                                            <span>Přihlásit se</span>
                                         </Menu.Item>
-                                        <Menu.Item key="registerRedirect">
-                                            <a href="/register">Vytvořit nový účet</a>
+                                        <Menu.Item key="registerRedirect" onClick={() => this.registerRedirect()}>
+                                            <span>Vytvořit nový účet</span>
                                         </Menu.Item>
 
                                     </SubMenu>
@@ -131,7 +137,7 @@ class Navbar extends Component<Props, State> {
                             <Content>
                                 
                                 <Route exact path="/dila" component={DilaList} />
-                                <Route exact path="/dila/diloDetail" component={DiloDetail} />
+                                <Route exact path="/dilo/:id" component={DiloDetail} />
                                 <Route exact path="/autori" component={AutorsList} />
                                 <Route exact path="/autor/:id" component={AutoriDetail} />
                                 <Route exact path="/ceskaLiteratura" component={CeskaLiteratura} />
@@ -152,6 +158,14 @@ class Navbar extends Component<Props, State> {
         });
     };
 
+    private loginRedirect = () => {
+        this.props.history.push('login');
+    }
+
+    private registerRedirect = () => {
+        this.props.history.push('register');
+    }
+
 }
 
-export default Navbar;
+export default withRouter((connect(reducer => reducer)(Navbar)));

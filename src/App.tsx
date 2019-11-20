@@ -33,7 +33,7 @@ class App extends Component<Props, State> {
             <Route exact path="/register" component={Register} />
             {/* ------------------------------------------------------ */}
             <Route exact path="/dila" component={Navbar} />
-            <Route exact path="/dila/diloDetail" component={Navbar} />
+            <Route exact path="/dilo/:id" component={Navbar} />
 
             <Route exact path="/autori" component={Navbar} />
             <Route exact path="/autor/:id" component={Navbar} />
