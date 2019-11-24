@@ -20,6 +20,7 @@ interface State {
     postavy: any
     obsahDilaPath: any
     postavyPath: any
+    
 }
 
 const { Panel } = Collapse;
@@ -51,24 +52,63 @@ class DiloDetail extends Component<Props, State> {
 
 
     render() {
+
+        const dilo: any = this.state.dilo;
+
         return (
             <React.Fragment>
                 <h1 style={{ textTransform: "uppercase" }}>Krysař - Viktor dyk</h1>
 
                 <Descriptions title="" bordered>
-                    <Descriptions.Item label="Literární druh">Próza</Descriptions.Item>
-                    <Descriptions.Item label="Literární žánr">Epika</Descriptions.Item>
-                    <Descriptions.Item label="Konkrétní literární útvar">Novela</Descriptions.Item>
-                    <Descriptions.Item label="Místo a doba děje" span={3}>V městě Hammeln</Descriptions.Item>
-                    <Descriptions.Item label="Téma díla" span={3}>
-                        Láska a pomsta
+                    <Descriptions.Item label="Literární druh">{dilo.lit_druh}</Descriptions.Item>
+                    <Descriptions.Item label="Literární žánr">{dilo.lit_zanr}</Descriptions.Item>
+                    <Descriptions.Item label="Konkrétní literární útvar">{dilo.konkretni_utvar}</Descriptions.Item>
+                    <Descriptions.Item label="Místo a doba děje" span={3}>
+
+                        {
+                            dilo.mistoDeje !== "" ? <li>{dilo.mistoDeje}</li> : ""
+                        }
+                        {
+                            dilo.dobaDeje !== "" ? <li>{dilo.dobaDeje}</li> : ""
+                        }
                     </Descriptions.Item>
+                    <Descriptions.Item label="Téma díla" span={3}>{dilo.tema_dila}</Descriptions.Item>
                     <Descriptions.Item label="Hlavní postavy" span={3}>
+                    <div dangerouslySetInnerHTML={{ __html: this.state.postavy }}></div>
                     </Descriptions.Item>
-                    <Descriptions.Item label="Vypraveč">Er forma - 3. osoba</Descriptions.Item>
-                    <Descriptions.Item label="Typy promluv postav">Dialog, monolog, přímá řeč</Descriptions.Item>
-                    <Descriptions.Item label="Veršévá výstavba">Jedna se pouze o poezii</Descriptions.Item>
-                    <Descriptions.Item label="Jazykové prostředky">Dílo je napsáno výhradně spisovnou češtinou</Descriptions.Item>
+                    <Descriptions.Item label="Vypraveč">
+                        {
+                            dilo.Vypravecs !== undefined ? 
+                            dilo.Vypravecs.map((value: any, key: any) => {
+                                return <li>{value.name}</li>
+                            }) : ""
+                        }
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Typy promluv postav">
+                    {
+                            dilo.Typ_Promluvy_Postavs !== undefined ? 
+                            dilo.Typ_Promluvy_Postavs.map((value: any, key: any) => {
+                                return <li>{value.nazev}</li>
+                            }) : ""
+                        }
+                    </Descriptions.Item>
+
+                    {
+                        dilo.Versova_vystavbas !== undefined ? 
+                   
+                            <Descriptions.Item label="Veršová výstavba">
+                            {
+                                dilo.Versova_vystavbas === "" ?
+                                 dilo.Versova_vystavbas.map((value: any, key: any) => {
+                                     return <li>{value.nazev}</li>
+                                 }) : "Nejedná se o verše"
+                            }
+                            
+                           </Descriptions.Item>
+                         : ""
+                    }
+                   
+                    <Descriptions.Item label="Jazykové prostředky">{dilo.jazykove_prostredky}</Descriptions.Item>
 
                 </Descriptions>
                 <Collapse
@@ -76,9 +116,7 @@ class DiloDetail extends Component<Props, State> {
                     expandIcon={({ isActive }) => <Icon type="caret-right" rotate={isActive ? 90 : 0} />}
                 >
                     <Panel header="Obsah díla" key="1" style={customPanelStyle}>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi doloribus quod ipsa? Quae magnam eius repudiandae asperiores deserunt rerum sunt, quidem natus laboriosam amet obcaecati atque fugiat aspernatur facere ullam.
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi doloribus quod ipsa? Quae magnam eius repudiandae asperiores deserunt rerum sunt, quidem natus laboriosam amet obcaecati atque fugiat aspernatur facere ullam.Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi doloribus quod ipsa? Quae magnam eius repudiandae asperiores deserunt rerum sunt, quidem natus laboriosam amet obcaecati atque fugiat aspernatur facere ullam.Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi doloribus quod ipsa? Quae magnam eius repudiandae asperiores deserunt rerum sunt, quidem natus laboriosam amet obcaecati atque fugiat aspernatur facere ullam.Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi doloribus quod ipsa? Quae magnam eius repudiandae asperiores deserunt rerum sunt, quidem natus laboriosam amet obcaecati atque fugiat aspernatur facere ullam.Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi doloribus quod ipsa? Quae magnam eius repudiandae asperiores deserunt rerum sunt, quidem natus laboriosam amet obcaecati atque fugiat aspernatur facere ullam.Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi doloribus quod ipsa? Quae magnam eius repudiandae asperiores deserunt rerum sunt, quidem natus laboriosam amet obcaecati atque fugiat aspernatur facere ullam.Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi doloribus quod ipsa? Quae magnam eius repudiandae asperiores deserunt rerum sunt, quidem natus laboriosam amet obcaecati atque fugiat aspernatur facere ullam.Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi doloribus quod ipsa? Quae magnam eius repudiandae asperiores deserunt rerum sunt, quidem natus laboriosam amet obcaecati atque fugiat aspernatur facere ullam.Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi doloribus quod ipsa? Quae magnam eius repudiandae asperiores deserunt rerum sunt, quidem natus laboriosam amet obcaecati atque fugiat aspernatur facere ullam.Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi doloribus quod ipsa? Quae magnam eius repudiandae asperiores deserunt rerum sunt, quidem natus laboriosam amet obcaecati atque fugiat aspernatur facere ullam.Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi doloribus quod ipsa? Quae magnam eius repudiandae asperiores deserunt rerum sunt, quidem natus laboriosam amet obcaecati atque fugiat aspernatur facere ullam.
-                        </p>
+                    <div dangerouslySetInnerHTML={{ __html: this.state.obsahDila }}></div>
                     </Panel>
                 </Collapse>
             </React.Fragment>
@@ -97,14 +135,46 @@ class DiloDetail extends Component<Props, State> {
         })
             .then(
                 res => {
-                   
-                  this.setState({
-                        dilo: res.data[0],
-                  });
+                    let normalized: any = { ...res.data[0], lit_druh: res.data[0].Lit_druh.nazev, lit_zanr: res.data[0].Lit_zanr.nazev, konkretni_utvar: res.data[0].Konkretni_utvar.nazev }
 
-                  console.log(this.state.dilo);
+                    this.setState({
+                        dilo: normalized,
+                        postavy: normalized.postavy,
+                        obsahDila: normalized.obsahDila
+                    });
+        
+                    this.showPostavy();
+                    this.showObsahDila();
+
                 }
             ).catch(err => err)
+    }
+
+    private showPostavy = () => {
+        let zarazeniPath = require("./../../dila/postavy/"+this.state.postavy);
+        fetch(zarazeniPath)
+            .then(response => {
+                return response.text()
+            })
+            .then(text => {
+                this.setState({
+                    postavy: marked(text)
+                })
+              
+            })
+    }
+
+    private showObsahDila = () => {
+        let zarazeniPath = require("./../../dila/obsah/"+this.state.obsahDila);
+        fetch(zarazeniPath)
+            .then(response => {
+                return response.text()
+            })
+            .then(text => {
+                this.setState({
+                    obsahDila: marked(text)
+                })
+            })
     }
 }
 
