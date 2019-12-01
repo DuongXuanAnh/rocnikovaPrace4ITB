@@ -31,7 +31,7 @@ class AutorsList extends Component<Props, State>  {
     componentDidMount() {
         this.getAutori();
     }
-    
+
 
     render() {
         return (
@@ -48,25 +48,28 @@ class AutorsList extends Component<Props, State>  {
                     itemLayout="horizontal"
                     dataSource={this.state.autori}
                     pagination={{
-                        onChange: (page) => {
-                          console.log(page);
-                        },
+                        simple: true,
                         pageSize: 3,
-                      }}
+                        style: {
+                            position: "fixed",
+                            left: "50%",
+                            margin: "0 auto",
+                            bottom: "1.5em",
+                        }
+                    }}
                     style={{ marginLeft: "2em", marginRight: "2em" }}
                     renderItem={(item: any) => (
                         <List.Item
-                            onDoubleClick = {() => this.autorDetail(item.id)}
+                            onDoubleClick={() => this.autorDetail(item.id)}
                         >
                             <List.Item.Meta
                                 avatar={
                                     <Avatar
-                                        src={item.img}
-                                        size={92}
+                                        src={item.smallImg}
+                                        size={145}
                                     />}
-                                title={item.name}
-                                description= { item.description }
- 
+                                title={<h1 style={{ "fontSize": "2em" }}>{item.name}</h1>}
+                                description={item.description}
                             />
                         </List.Item>
                     )}
@@ -83,18 +86,18 @@ class AutorsList extends Component<Props, State>  {
         })
             .then(
                 res => {
-                   this.setState({
-                    autori: res.data
-                   });
+                    this.setState({
+                        autori: res.data
+                    });
 
-                   console.log(this.state.autori);
+                    console.log(this.state.autori);
                 }
             ).catch(err => err)
     }
 
-    private autorDetail(id:number){
+    private autorDetail(id: number) {
         this.props.history.push('autor/' + id);
-   }
+    }
 }
 
 export default withRouter((connect(reducer => reducer)(AutorsList)));

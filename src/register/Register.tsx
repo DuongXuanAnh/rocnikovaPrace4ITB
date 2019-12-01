@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Input, Button, Row, Col } from 'antd';
 import { BrowserRouter as Router, Link } from "react-router-dom";
+import axios from 'axios';
 
 interface iState {
     confirmDirty: boolean
@@ -124,7 +125,23 @@ class Register extends Component<iProps, iState> {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err: any, values: any) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                console.log('Received values of form: ', values.password);
+                
+
+                axios({
+                    method: 'post',
+                    url: '/addNewUser',
+                    // withCredentials: true,
+                    data: {
+                        email: values.email,
+                        password: values.password,
+                    }
+                })
+                    .then(
+                        res => {
+                            console.log(res);
+                        }
+                    ).catch(err => err)
             }
         });
     };

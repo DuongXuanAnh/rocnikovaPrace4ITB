@@ -159,11 +159,11 @@ class Navbar extends Component<Props, State> {
     };
 
     private loginRedirect = () => {
-        this.props.history.push('login');
+        this.props.history.push('/login');
     }
 
     private registerRedirect = () => {
-        this.props.history.push('register');
+        this.props.history.push('/register');
     }
 
 }
