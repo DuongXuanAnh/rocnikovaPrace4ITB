@@ -6,3 +6,10 @@ export function login(user: types.User)  {
 		value: user
 	}
 }
+
+export const createTest = (test: types.Test) => {
+	return {
+		type: 'CREATE_TEST',
+		value: test
+	}
+}

@@ -11,6 +11,8 @@ import DiloDetail from './dila/DiloDetail';
 import AutoriDetail from './autori/AutoriDetail';
 import { connect } from 'react-redux';
 import { Reducer } from '../utils/generalTypes';
+import TestDashboard from './testy/TestDashboard';
+import Hodnoceni from './testy/Hodnoceni';
 
 interface Props {
     match: any
@@ -23,7 +25,7 @@ interface Props {
 
 interface State {
     collapsed: boolean // Otevírání a zavírání leftMenu
-   
+
 }
 
 const { Header, Content, Sider } = Layout;
@@ -35,16 +37,16 @@ class Navbar extends Component<Props, State> {
         super(props);
         this.state = {
             collapsed: false,
-            
+
         }
     }
 
     componentDidMount() {
-       
-      }
+
+    }
 
     render() {
-    
+
         return (
             <Router>
                 <React.Fragment>
@@ -135,7 +137,7 @@ class Navbar extends Component<Props, State> {
                             </Header>
 
                             <Content>
-                                
+
                                 <Route exact path="/dila" component={DilaList} />
                                 <Route exact path="/dilo/:id" component={DiloDetail} />
                                 <Route exact path="/autori" component={AutorsList} />
@@ -143,6 +145,11 @@ class Navbar extends Component<Props, State> {
                                 <Route exact path="/ceskaLiteratura" component={CeskaLiteratura} />
                                 <Route exact path="/svetovaLiteratura" component={SvetovaLiteratura} />
                                 <Route exact path="/testy" component={Testy} />
+                                {this.props.reducer !== undefined && this.props.reducer.test !== undefined ?
+                                    <Route exact path="/testDashboard" component={TestDashboard} /> :
+                                    <Route exact path="/testDashboard" component={Testy} />
+                                 }
+                                <Route exact path="/honoceniTestu" component={Hodnoceni} />
                                 <Route exact path="/kviz" component={Kviz} />
                             </Content>
                         </Layout>

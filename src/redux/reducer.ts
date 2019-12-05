@@ -1,7 +1,8 @@
 import * as generalTypes from './../utils/generalTypes';
 
 const initialState: generalTypes.Reducer = {
-    user: undefined
+    user: undefined,
+    test: undefined,
 };
 
 export default (state = initialState, payload: { type: string, value: any }) => {
@@ -11,6 +12,13 @@ export default (state = initialState, payload: { type: string, value: any }) => 
             return {
                 ...state,
                 user: payload.value
+            };
+        };
+
+        case 'CREATE_TEST':{
+            return {
+                ...state,
+                test: payload.value
             };
         };
         

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Collapse, Icon, Descriptions, Badge, Spin } from 'antd';
+import { Collapse, Icon, Descriptions, Spin } from 'antd';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Reducer } from '../../utils/generalTypes';

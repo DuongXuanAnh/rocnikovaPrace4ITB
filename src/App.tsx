@@ -7,7 +7,6 @@ import Register from './register/Register';
 import { Reducer } from './utils/generalTypes';
 import { connect } from 'react-redux';
 
-
 export interface State {
 
 };
@@ -40,7 +39,11 @@ class App extends Component<Props, State> {
 
             <Route exact path="/ceskaLiteratura" component={Navbar} />
             <Route exact path="/svetovaLiteratura" component={Navbar} />
+
             <Route exact path="/testy" component={Navbar} />
+            <Route exact path="/testDashboard" component={Navbar} />
+            <Route exact path="/hodnoceniTesty" component={Navbar} />
+            
             <Route exact path="/kviz" component={Navbar} />
 
           </React.Fragment>

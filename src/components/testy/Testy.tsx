@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import { Button, Slider, Row, Col, InputNumber } from 'antd';
+import { Reducer } from '../../utils/generalTypes';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import * as actions from './../../redux/actions';
 
 interface Props {
-
+    match: any
+    location: any
+    history: any
+    reducer?: Reducer
+    dispatch?: Function
 }
 
 interface State {
@@ -15,9 +23,6 @@ interface State {
     btnDisable: boolean
 }
 
-
-
-
 class Testy extends Component<Props, State> {
 
     constructor(props: Props) {
@@ -25,7 +30,11 @@ class Testy extends Component<Props, State> {
 
         this.state = {
             testSZ: false,
-            inputValue: 20,
+            testIY: false,
+            testU: false,
+            testVyj: false,
+            testBEBJE: false,
+            inputValue: 4,
             btnDisable: true
         }
     }
@@ -37,7 +46,9 @@ class Testy extends Component<Props, State> {
     };
 
     componentDidUpdate(prevProps: Props, prevState: State) {
-        
+        if( prevState.testSZ !== this.state.testSZ || prevState.testIY !== this.state.testIY || prevState.testU !== this.state.testU || prevState.testVyj !== this.state.testVyj || prevState.testBEBJE !== this.state.testBEBJE){
+            this.enableBtn();
+        }
     }
 
     render() {
@@ -45,7 +56,7 @@ class Testy extends Component<Props, State> {
             <React.Fragment>
                 <Row>
                     <Col span={6}>
-                        <Button type="primary" style={{ height: "3em", width: "100%", margin: "2em" }} disabled={this.state.btnDisable}>
+                        <Button type="primary" style={{ height: "3em", width: "100%", margin: "2em" }} disabled={this.state.btnDisable} onClick={() => this.startTest()}>
                             ZAČÍT TEST
                         </Button>
                     </Col>
@@ -261,6 +272,23 @@ class Testy extends Component<Props, State> {
         }
     }
 
+    private startTest = () => {
+
+        const test = {
+            countQuestions: this.state.inputValue,
+            testSZ: this.state.testSZ,
+            testIY: this.state.testIY,
+            testU: this.state.testU,
+            testVyj: this.state.testVyj,
+            testBEBJE: this.state.testBEBJE,
+        }
+
+        if (this.props.dispatch) {
+            this.props.dispatch(actions.createTest(test));
+            this.props.history.push('/testDashboard');
+        }
+    }
+
 }
 
-export default Testy;
+export default withRouter((connect(reducer => reducer)(Testy)));
