@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import { Reducer, Test } from '../../utils/generalTypes';
 import { Row, Col, Button, Icon } from 'antd';
 import axios from 'axios';
+import * as actions from './../../redux/actions';
 
 interface Props {
     match: any
@@ -16,11 +17,9 @@ interface Props {
 interface State {
     questions: Test[]
     numberOfQuestion: number
-    countWrong: number
-    countRight: number
     answers: any
-    rightAnswer?: string[]
-    wrongAnswer?: string[]
+    rightAnswer?: any
+    wrongAnswer?: any
     hide: boolean // Schovat napovedu a honoceni
     odpovedelDobre?: boolean
     colorOfButton1: string
@@ -34,12 +33,12 @@ class TestDashboard extends Component<Props, State> {
         this.state = {
             questions: [],
             numberOfQuestion: 0,
-            countWrong: 0,
-            countRight: 0,
             answers: [],
             hide: true,
             colorOfButton1: "#FFFFFF",
             colorOfButton2: "#FFFFFF",
+            rightAnswer:[],
+            wrongAnswer:[],
         }
     }
 
@@ -74,7 +73,7 @@ class TestDashboard extends Component<Props, State> {
                         lineHeight: "4.5rem",
                         textAlign: "center",
                     }}>
-                        {this.state.countRight}
+                       {this.state.rightAnswer.length}
                     </Col >
                     <Col span={4} style={{
                         background: "#f5222d",
@@ -84,7 +83,7 @@ class TestDashboard extends Component<Props, State> {
                         textAlign: "center",
                         "borderRadius": "0 0.5em 0.5em 0"
                     }}>
-                        {this.state.countWrong}
+                        {this.state.wrongAnswer.length}
                     </Col >
                 </Row>
                 <Row style={{
@@ -180,18 +179,23 @@ class TestDashboard extends Component<Props, State> {
             method: 'get',
             url: '/test',
             withCredentials: true,
-
+            params: {
+                test: (this.props.reducer)?this.props.reducer.test:0
+            }
         })
             .then(
                 res => {
 
+                    console.log(res);
+
+                    const otazkyZamychany = this.shuffle(res.data);
+
                     let rightAnswer: any = [];
                     let wrongAnswer: any = [];
-
                     let question: any = [];
 
                     // Michanni odpovedi
-                    res.data.map((value: any, key: any) => {
+                    otazkyZamychany.map((value: any, key: any) => {
                         let rand: number = Math.floor(Math.random() * 2) + 1;
                         rightAnswer.push(value.rightAnswer)
                         wrongAnswer.push(value.wrongAnswer)
@@ -213,7 +217,7 @@ class TestDashboard extends Component<Props, State> {
                     let answer: any = question;
 
                     this.setState({
-                        questions: res.data,
+                        questions: otazkyZamychany,
                         answers: answer
                     });
 
@@ -223,40 +227,45 @@ class TestDashboard extends Component<Props, State> {
 
     private hodnotitOdpoved = (e: any) => {
 
+        let rightAnswer:any = this.state.rightAnswer;
+        let wrongAnswer:any = this.state.wrongAnswer;
+
         if (this.state.questions !== undefined) {
             if (this.state.questions[this.state.numberOfQuestion].rightAnswer === e.target.innerText) {
+                rightAnswer.push(this.state.questions[this.state.numberOfQuestion]);
                 if (e.target.id === "btnAnswer1") {
                     this.setState({
                         hide: false,
-                        countRight: this.state.countRight + 1,
                         odpovedelDobre: true,
                         colorOfButton1: "#73d13d"
                     });
                 } else {
                     this.setState({
                         hide: false,
-                        countRight: this.state.countRight + 1,
                         odpovedelDobre: true,
                         colorOfButton2: "#73d13d"
                     });
                 }
             } else {
+                wrongAnswer.push(this.state.questions[this.state.numberOfQuestion]);
                 if (e.target.id === "btnAnswer1") {
                     this.setState({
                         hide: false,
-                        countWrong: this.state.countWrong + 1,
                         odpovedelDobre: false,
                         colorOfButton1: "#f5222d"
                     });
                 } else {
                     this.setState({
                         hide: false,
-                        countWrong: this.state.countWrong + 1,
                         odpovedelDobre: false,
                         colorOfButton2: "#f5222d"
                     });
                 }
             }
+            this.setState({
+                rightAnswer:rightAnswer,
+                wrongAnswer:wrongAnswer,
+            });
         }
     }
 
@@ -272,10 +281,58 @@ class TestDashboard extends Component<Props, State> {
     }
 
     private celkoveHodnoceni = () => {
+ 
         if (this.state.numberOfQuestion + 1 === this.props.reducer!.test!.countQuestions) {
-            // this.props.history.push('/honoceniTestu');
+            
+            const vysledek = [
+                {type: 'testSZ', nazev:"s/z", countRight: 0, countWrong: 0},
+                {type: 'testIY', nazev:"i/y koncovkách", countRight: 0, countWrong: 0},
+                {type: 'testBEBJE', nazev:"bě/bje, vě/vje, pě, mě/mně", countRight: 0, countWrong: 0},
+                {type: 'testU', nazev:"ů/ú", countRight: 0, countWrong: 0},
+                {type: 'testVyj', nazev:"vyjmenovaná slova", countRight: 0, countWrong: 0},
+            ]
+
+            this.state.rightAnswer.map((value:any, key:any) => {
+                vysledek.map((value1:any, key1: any) => {
+                    if(value.type === value1.type){
+                        value1.countRight =  value1.countRight + 1
+                    }
+                })
+            })
+            this.state.wrongAnswer.map((value:any, key:any) => {
+                vysledek.map((value1:any, key1: any) => {
+                    if(value.type === value1.type){
+                        value1.countWrong =  value1.countWrong + 1
+                    }
+                })
+            })
+            
+            if (this.props.dispatch) {
+
+                const procent:number = this.state.rightAnswer.length / (this.state.numberOfQuestion+1) * 100;
+
+                this.props.dispatch(actions.vysledekTestu(vysledek));
+                this.props.dispatch(actions.procentUspechuTestu(procent));
+            }    
+            this.props.history.push('/honoceniTestu');
         }
     }
+
+    // Michani otazek
+    private shuffle = (array:any) => {
+        var currentIndex = array.length, temporaryValue, randomIndex;
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+          // Pick a remaining element...
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex -= 1;
+          // And swap it with the current element.
+          temporaryValue = array[currentIndex];
+          array[currentIndex] = array[randomIndex];
+          array[randomIndex] = temporaryValue;
+        }
+        return array;
+      }
 }
 
 export default withRouter((connect(reducer => reducer)(TestDashboard)));

@@ -13,3 +13,17 @@ export const createTest = (test: types.Test) => {
 		value: test
 	}
 }
+
+export const vysledekTestu = (vysledekTestu: types.VysledekTestu[]) => {
+	return {
+		type: 'VYSLEDEK_TESTU',
+		value: vysledekTestu
+	}
+}
+
+export const procentUspechuTestu = (procentUspechuTestu: number) => {
+	return {
+		type: 'PROCENT_TESTU',
+		value: procentUspechuTestu
+	}
+}

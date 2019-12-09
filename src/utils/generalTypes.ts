@@ -1,8 +1,9 @@
 
-
 export interface Reducer {
     user?:User
     test?: Test
+    vysledekTestu?: VysledekTestu[]
+    procentUspechuTestu:number
 }
 
 export interface User {
@@ -24,6 +25,9 @@ export interface Test {
     rightAnswer?: string
 }
 
-export interface Honoceni {
-    
+export interface VysledekTestu {
+    type: string,
+    nazev: string,
+    countRight: number,
+    countWrong: number,
 }
