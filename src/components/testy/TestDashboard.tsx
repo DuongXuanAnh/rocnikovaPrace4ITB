@@ -21,9 +21,12 @@ interface State {
     rightAnswer?: any
     wrongAnswer?: any
     hide: boolean // Schovat napovedu a honoceni
+    btnDisable: boolean
     odpovedelDobre?: boolean
     colorOfButton1: string
     colorOfButton2: string
+    actualQuestion: number
+    showPreviousBtn: boolean
 }
 
 class TestDashboard extends Component<Props, State> {
@@ -33,18 +36,31 @@ class TestDashboard extends Component<Props, State> {
         this.state = {
             questions: [],
             numberOfQuestion: 0,
+            actualQuestion: 0,
             answers: [],
             hide: true,
+            btnDisable: false,
             colorOfButton1: "#FFFFFF",
             colorOfButton2: "#FFFFFF",
-            rightAnswer:[],
-            wrongAnswer:[],
+            rightAnswer: [],
+            wrongAnswer: [],
+            showPreviousBtn: true
         }
     }
 
     componentDidMount() {
         this.getQuestion();
+    
     }
+
+    componentDidUpdate(prevProps: Props, prevState: State) {
+        if(prevState.numberOfQuestion !== this.state.numberOfQuestion){
+            this.zpracovaniPredchoziOtazky();
+            return;
+        }
+   
+    }
+    
 
     render() {
 
@@ -73,7 +89,7 @@ class TestDashboard extends Component<Props, State> {
                         lineHeight: "4.5rem",
                         textAlign: "center",
                     }}>
-                       {this.state.rightAnswer.length}
+                        {this.state.rightAnswer.length}
                     </Col >
                     <Col span={4} style={{
                         background: "#f5222d",
@@ -109,8 +125,9 @@ class TestDashboard extends Component<Props, State> {
                                 fontSize: "2.5em",
                                 background: this.state.colorOfButton1,
                             }}
-                            disabled={!this.state.hide}
+                            disabled={this.state.btnDisable}
                             id="btnAnswer1"
+                            
                             onClick={(event) => this.hodnotitOdpoved(event)}
                         >
                             {this.state.answers[this.state.numberOfQuestion] !== undefined ? this.state.answers[this.state.numberOfQuestion].answer1 : ""}
@@ -124,7 +141,7 @@ class TestDashboard extends Component<Props, State> {
                                 fontSize: "2.5em",
                                 background: this.state.colorOfButton2,
                             }}
-                            disabled={!this.state.hide}
+                            disabled={this.state.btnDisable}
                             id="btnAnswer2"
                             onClick={(event) => this.hodnotitOdpoved(event)}
                         >
@@ -169,6 +186,26 @@ class TestDashboard extends Component<Props, State> {
                         </Row>
                     </div> : ""
                 }
+                <Row style={{
+                    bottom: "3em",
+                    position: "absolute",
+                }}>
+
+                    {this.state.numberOfQuestion > 0 && this.state.showPreviousBtn ?
+                        <Button type="primary"
+                            style={{
+                                height: "4em",
+                                width: "20em",
+                                marginLeft: "3em"
+                            }}
+                            onClick={() => this.previousQuestion()}
+                        >
+                            <Icon type="left" />
+                            PŘEDCHOZÍ PŘÍKLAD
+                        </Button>
+                        : ""}
+
+                </Row>
 
             </React.Fragment >
         );
@@ -180,14 +217,11 @@ class TestDashboard extends Component<Props, State> {
             url: '/test',
             withCredentials: true,
             params: {
-                test: (this.props.reducer)?this.props.reducer.test:0
+                test: (this.props.reducer) ? this.props.reducer.test : 0
             }
         })
             .then(
                 res => {
-
-                    console.log(res);
-
                     const otazkyZamychany = this.shuffle(res.data);
 
                     let rightAnswer: any = [];
@@ -227,8 +261,8 @@ class TestDashboard extends Component<Props, State> {
 
     private hodnotitOdpoved = (e: any) => {
 
-        let rightAnswer:any = this.state.rightAnswer;
-        let wrongAnswer:any = this.state.wrongAnswer;
+        let rightAnswer: any = this.state.rightAnswer;
+        let wrongAnswer: any = this.state.wrongAnswer;
 
         if (this.state.questions !== undefined) {
             if (this.state.questions[this.state.numberOfQuestion].rightAnswer === e.target.innerText) {
@@ -236,12 +270,14 @@ class TestDashboard extends Component<Props, State> {
                 if (e.target.id === "btnAnswer1") {
                     this.setState({
                         hide: false,
+                        btnDisable: true,
                         odpovedelDobre: true,
                         colorOfButton1: "#73d13d"
                     });
                 } else {
                     this.setState({
                         hide: false,
+                        btnDisable: true,
                         odpovedelDobre: true,
                         colorOfButton2: "#73d13d"
                     });
@@ -251,88 +287,215 @@ class TestDashboard extends Component<Props, State> {
                 if (e.target.id === "btnAnswer1") {
                     this.setState({
                         hide: false,
+                        btnDisable: true,
                         odpovedelDobre: false,
                         colorOfButton1: "#f5222d"
                     });
                 } else {
                     this.setState({
                         hide: false,
+                        btnDisable: true,
                         odpovedelDobre: false,
                         colorOfButton2: "#f5222d"
                     });
                 }
             }
             this.setState({
-                rightAnswer:rightAnswer,
-                wrongAnswer:wrongAnswer,
+                rightAnswer: rightAnswer,
+                wrongAnswer: wrongAnswer,
+                showPreviousBtn: false
             });
         }
     }
 
     private nextQuestion = () => {
         this.celkoveHodnoceni();
+
+        if(this.state.numberOfQuestion === this.state.actualQuestion){
+            this.setState({
+            actualQuestion: this.state.actualQuestion + 1,
+            });
+        }
+     
         this.setState({
             hide: true,
+            btnDisable: false,
             numberOfQuestion: this.state.numberOfQuestion + 1,
             colorOfButton1: "#FFFFFF",
             colorOfButton2: "#FFFFFF",
+            showPreviousBtn: true
         });
+
+      
+         if(this.state.numberOfQuestion < this.state.actualQuestion-1){
+             this.oznacovaniOdpovediNext();
+         }
+        
 
     }
 
+    private previousQuestion = () => {
+
+        this.setState({
+            numberOfQuestion: this.state.numberOfQuestion - 1,
+        });    
+            this.oznacovaniOdpovediPrevious();
+    }
+
+
     private celkoveHodnoceni = () => {
- 
+
         if (this.state.numberOfQuestion + 1 === this.props.reducer!.test!.countQuestions) {
-            
+
             const vysledek = [
-                {type: 'testSZ', nazev:"s/z", countRight: 0, countWrong: 0},
-                {type: 'testIY', nazev:"i/y koncovkách", countRight: 0, countWrong: 0},
-                {type: 'testBEBJE', nazev:"bě/bje, vě/vje, pě, mě/mně", countRight: 0, countWrong: 0},
-                {type: 'testU', nazev:"ů/ú", countRight: 0, countWrong: 0},
-                {type: 'testVyj', nazev:"vyjmenovaná slova", countRight: 0, countWrong: 0},
+                { type: 'testSZ', nazev: "s/z", countRight: 0, countWrong: 0 },
+                { type: 'testIY', nazev: "i/y koncovkách", countRight: 0, countWrong: 0 },
+                { type: 'testBEBJE', nazev: "bě/bje, vě/vje, pě, mě/mně", countRight: 0, countWrong: 0 },
+                { type: 'testU', nazev: "ů/ú", countRight: 0, countWrong: 0 },
+                { type: 'testVyj', nazev: "vyjmenovaná slova", countRight: 0, countWrong: 0 },
             ]
 
-            this.state.rightAnswer.map((value:any, key:any) => {
-                vysledek.map((value1:any, key1: any) => {
-                    if(value.type === value1.type){
-                        value1.countRight =  value1.countRight + 1
+            this.state.rightAnswer.map((value: any, key: any) => {
+                vysledek.map((value1: any, key1: any) => {
+                    if (value.type === value1.type) {
+                        value1.countRight = value1.countRight + 1
                     }
                 })
             })
-            this.state.wrongAnswer.map((value:any, key:any) => {
-                vysledek.map((value1:any, key1: any) => {
-                    if(value.type === value1.type){
-                        value1.countWrong =  value1.countWrong + 1
+            this.state.wrongAnswer.map((value: any, key: any) => {
+                vysledek.map((value1: any, key1: any) => {
+                    if (value.type === value1.type) {
+                        value1.countWrong = value1.countWrong + 1
                     }
                 })
             })
-            
+
             if (this.props.dispatch) {
 
-                const procent:number = this.state.rightAnswer.length / (this.state.numberOfQuestion+1) * 100;
+                const procent: number = parseFloat((this.state.rightAnswer.length / (this.state.numberOfQuestion + 1) * 100).toFixed(2));
 
                 this.props.dispatch(actions.vysledekTestu(vysledek));
                 this.props.dispatch(actions.procentUspechuTestu(procent));
-            }    
+            }
             this.props.history.push('/honoceniTestu');
         }
     }
 
     // Michani otazek
-    private shuffle = (array:any) => {
+    private shuffle = (array: any) => {
         var currentIndex = array.length, temporaryValue, randomIndex;
         // While there remain elements to shuffle...
         while (0 !== currentIndex) {
-          // Pick a remaining element...
-          randomIndex = Math.floor(Math.random() * currentIndex);
-          currentIndex -= 1;
-          // And swap it with the current element.
-          temporaryValue = array[currentIndex];
-          array[currentIndex] = array[randomIndex];
-          array[randomIndex] = temporaryValue;
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
         }
         return array;
-      }
+    }
+
+    private zpracovaniPredchoziOtazky = () => {
+        console.log("akt: "+this.state.actualQuestion);
+        console.log("now: "+this.state.numberOfQuestion );
+        if(this.state.numberOfQuestion < this.state.actualQuestion)
+        {
+            this.setState({
+               hide: false,
+               btnDisable: true,
+            });
+        }else{
+            this.setState({
+                hide: true,
+                btnDisable: false,
+             });
+        }
+    }
+
+    private oznacovaniOdpovediPrevious = () => {
+        this.setState({
+            colorOfButton1: "#FFFFFF",
+            colorOfButton2: "#FFFFFF",
+        });
+      
+        this.state.rightAnswer.map((value:any, key:any) => {
+            if(value === this.state.questions[this.state.numberOfQuestion-1]){
+
+                if(value.rightAnswer === this.state.answers[this.state.numberOfQuestion-1].answer1){
+                    this.setState({
+                        odpovedelDobre: true,
+                        colorOfButton1: "#73d13d"
+                    });
+                }
+            if(value.rightAnswer === this.state.answers[this.state.numberOfQuestion-1].answer2){
+                    this.setState({
+                        odpovedelDobre: true,
+                        colorOfButton2: "#73d13d"
+                    });
+                }
+              
+            }
+        })
+        this.state.wrongAnswer.map((value:any, key:any) => {
+            if(value === this.state.questions[this.state.numberOfQuestion-1]){
+                if(value.wrongAnswer === this.state.answers[this.state.numberOfQuestion-1].answer1){
+                    this.setState({
+                        odpovedelDobre: false,
+                        colorOfButton1: "#f5222d"
+                    });
+                }
+                if(value.wrongAnswer === this.state.answers[this.state.numberOfQuestion-1].answer2){
+                    this.setState({
+                        odpovedelDobre: false,
+                        colorOfButton2: "#f5222d"
+                    });
+                }
+            }
+        })
+    }
+
+    private oznacovaniOdpovediNext = () => {
+        this.setState({
+            colorOfButton1: "#FFFFFF",
+            colorOfButton2: "#FFFFFF",
+        });
+        this.state.rightAnswer.map((value:any, key:any) => {
+            if(value === this.state.questions[this.state.numberOfQuestion+1]){
+
+                if(value.rightAnswer === this.state.answers[this.state.numberOfQuestion+1].answer1){
+                    this.setState({
+                        odpovedelDobre: true,
+                        colorOfButton1: "#73d13d"
+                    });
+                }
+            if(value.rightAnswer === this.state.answers[this.state.numberOfQuestion+1].answer2){
+                    this.setState({
+                        odpovedelDobre: true,
+                        colorOfButton2: "#73d13d"
+                    });
+                }
+              
+            }
+        })
+        this.state.wrongAnswer.map((value:any, key:any) => {
+            if(value === this.state.questions[this.state.numberOfQuestion+1]){
+                if(value.wrongAnswer === this.state.answers[this.state.numberOfQuestion+1].answer1){
+                    this.setState({
+                        odpovedelDobre: false,
+                        colorOfButton1: "#f5222d"
+                    });
+                }
+                if(value.wrongAnswer === this.state.answers[this.state.numberOfQuestion+1].answer2){
+                    this.setState({
+                        odpovedelDobre: false,
+                        colorOfButton2: "#f5222d"
+                    });
+                }
+            }
+        })
+    }
 }
 
 export default withRouter((connect(reducer => reducer)(TestDashboard)));
