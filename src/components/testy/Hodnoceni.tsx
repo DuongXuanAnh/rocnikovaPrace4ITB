@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Progress, Row, Col } from 'antd';
+import { Progress, Row, Col, Button } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Reducer } from '../../utils/generalTypes';
+import * as actions from './../../redux/actions';
 
 interface Props {
     match: any
@@ -13,7 +14,7 @@ interface Props {
 }
 
 interface State {
-    
+
 }
 
 class Hodnoceni extends Component<Props, State> {
@@ -21,10 +22,15 @@ class Hodnoceni extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-          
+
         }
     }
 
+    componentDidMount() {
+        if(this.props.reducer!.vysledekTestu!.length === 0){
+            this.props.history.push('/testy');
+        }
+    }
 
 
     render() {
@@ -61,7 +67,7 @@ class Hodnoceni extends Component<Props, State> {
                                 }}>
                                 <Row style={{ fontSize: "2.5em", textAlign: "center", borderBottom: "1px solid #d8d8d8" }}>Podropný Výsledek</Row>
                                 {this.props.reducer!.vysledekTestu!.map((value: any, key: any) => {
-                                    if(value.countRight !== 0 || value.countWrong !==0){
+                                    if (value.countRight !== 0 || value.countWrong !== 0) {
                                         return (
                                             <Row style={{ fontSize: "1.5em", borderBottom: "1px solid #d8d8d8" }} >
                                                 <Col span={18} style={{ background: "#f3f3f3", paddingLeft: "1em" }}>
@@ -78,6 +84,17 @@ class Hodnoceni extends Component<Props, State> {
                                     }
                                 })}
                             </Row>
+                            <Row style={{
+                                marginTop: "6em",
+                                textAlign: "center",
+                            }}>
+                                <Col span={12}>
+                                    <Button type="primary" style={{width:"14em"}} onClick={() => this.jesteJednou()}>JEŠTĚ JEDNOU</Button>
+                                </Col>
+                                <Col span={12}>
+                                    <Button type="primary" onClick={() => this.novyTest()}>NADEFINOVAT NOVÝ TEST</Button>
+                                </Col>
+                            </Row>
                         </div>
                     </Col>
 
@@ -85,6 +102,17 @@ class Hodnoceni extends Component<Props, State> {
 
             </React.Fragment>
         );
+    }
+
+    private jesteJednou = () => {
+        if (this.props.dispatch) {
+            this.props.dispatch(actions.createTest(this.props.reducer!.test!));
+            this.props.history.push('/testDashboard');
+        }
+    }
+
+    private novyTest = () => {
+        this.props.history.push('/testy');
     }
 }
 

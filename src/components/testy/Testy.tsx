@@ -86,8 +86,11 @@ class Testy extends Component<Props, State> {
                         </Col>
                     </Col>
                 </Row>
+                
                 <h1 style={{ fontSize: "2em", textAlign: "center" }}>Vytoř si svůj test</h1>
-                {this.state.testSZ ?
+                <Row>
+                    <Col>
+                    {this.state.testSZ ?
                     <Button
                         type="primary"
                         shape="circle"
@@ -219,8 +222,9 @@ class Testy extends Component<Props, State> {
                         <div>vě/vje</div>
                     </Button>
                 }
-
-
+                    </Col>
+                </Row>
+            
             </React.Fragment>
         );
     }

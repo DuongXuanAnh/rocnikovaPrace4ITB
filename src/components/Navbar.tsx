@@ -145,10 +145,7 @@ class Navbar extends Component<Props, State> {
                                 <Route exact path="/ceskaLiteratura" component={CeskaLiteratura} />
                                 <Route exact path="/svetovaLiteratura" component={SvetovaLiteratura} />
                                 <Route exact path="/testy" component={Testy} />
-                                {this.props.reducer !== undefined && this.props.reducer.test !== undefined ?
-                                    <Route exact path="/testDashboard" component={TestDashboard} /> :
-                                    <Route exact path="/testDashboard" component={Testy} />
-                                 }
+                                <Route exact path="/testDashboard" component={TestDashboard} />
                                 <Route exact path="/honoceniTestu" component={Hodnoceni} />
                                 <Route exact path="/kviz" component={Kviz} />
                             </Content>
