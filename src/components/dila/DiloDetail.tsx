@@ -101,10 +101,10 @@ class DiloDetail extends Component<Props, State> {
                             <Descriptions.Item label="Místo a doba děje" span={1.5}>
 
                                 {
-                                    dilo.mistoDeje !== "" ? <li>{dilo.mistoDeje}</li> : ""
+                                    dilo.mistoDeje !== null ? <li>{dilo.mistoDeje}</li> : ""
                                 }
                                 {
-                                    dilo.dobaDeje !== "" ? <li>{dilo.dobaDeje}</li> : ""
+                                    dilo.dobaDeje !== null ? <li>{dilo.dobaDeje}</li> : ""
                                 }
                             </Descriptions.Item>
                             <Descriptions.Item label="Téma díla" span={1.5}>{dilo.tema_dila}</Descriptions.Item>
@@ -136,7 +136,7 @@ class DiloDetail extends Component<Props, State> {
                                             dilo.Versova_vystavbas === "" ?
                                                 dilo.Versova_vystavbas.map((value: any, key: any) => {
                                                     return <li>{value.nazev}</li>
-                                                }) : "Nejedná se o verše"
+                                                }) : "Nemá"
                                         }
 
                                     </Descriptions.Item>

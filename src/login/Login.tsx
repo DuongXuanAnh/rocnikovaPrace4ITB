@@ -50,7 +50,6 @@ class Login extends Component<Props, State> {
                                 onSubmit={this.handleSubmit}
                                 className="login-form"
                                 style={{
-                                    // "width": "100%",
                                     "margin": "0 auto",
                                     "position": "relative",
                                     "top": "35%",
@@ -109,11 +108,11 @@ class Login extends Component<Props, State> {
                     data: { email: values.email, password: values.password }
                 }).then(
                     res => {
-                        console.log(res.data.token);
-                        localStorage.setItem('token', res.data.token);
-                        if (this.props.dispatch) {
-                            this.props.dispatch(actions.login(res.data));
-                        }
+                        console.log(res.data);
+                        // localStorage.setItem('token', res.data.token);
+                        // if (this.props.dispatch) {
+                        //     this.props.dispatch(actions.login(res.data));
+                        // }
                     }
                 ).catch(
                     err => {

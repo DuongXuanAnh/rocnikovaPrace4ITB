@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, List, Input, Pagination } from 'antd';
+import { Icon, List, Input } from 'antd';
 import axios from 'axios';
 import { Reducer } from '../../utils/generalTypes';
 import { connect } from 'react-redux';
@@ -108,7 +108,7 @@ class DilaList extends Component<Props, State> {
       url: '/dila',
       withCredentials: true,
       params: {
-        searchKey: this.state.searchKey
+        searchKey: this.state.searchKey!.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
       }
     })
       .then(

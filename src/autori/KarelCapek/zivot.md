@@ -1,0 +1,9 @@
+- Narozen r. 1890 - Malé Svatoňovice v rodině lékaře.
+- Dětství na venkově.
+- **Vzdělání:**
+- Gymnázium.
+- Universita - v Praze, v Berlíně, v Paříži.
+- Universální titul - doktor filosofie.
+- Po studiích novinářská práce - po celý zbytek života - redaktor Lidových novin.
+- Lit. tvorba.
+- Zemřel r. 1938. 

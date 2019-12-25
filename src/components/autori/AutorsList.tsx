@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { List, Avatar, Input } from 'antd';
+import { List, Avatar, Input, Icon } from 'antd';
 import axios from 'axios';
 import { Reducer } from '../../utils/generalTypes';
 import { connect } from 'react-redux';
@@ -15,8 +15,15 @@ interface Props {
 
 interface State {
     autori?: any
+    searchKey?: string
 }
 
+const IconText = ({ type, text }: { type: any, text: string }) => (
+    <span>
+      <Icon type={type} style={{ marginRight: 8 }} />
+      {text}
+    </span>
+  );
 const { Search } = Input;
 
 class AutorsList extends Component<Props, State>  {
@@ -24,7 +31,8 @@ class AutorsList extends Component<Props, State>  {
     constructor(props: Props) {
         super(props);
         this.state = {
-            autori: []
+            autori: [],
+            searchKey: ""
         }
     }
 
@@ -32,6 +40,11 @@ class AutorsList extends Component<Props, State>  {
         this.getAutori();
     }
 
+    componentDidUpdate(prevProps: Props, prevState: State) {
+        if (prevState.searchKey !== this.state.searchKey) {
+            this.getAutori();
+        }
+    }
 
     render() {
         return (
@@ -39,7 +52,8 @@ class AutorsList extends Component<Props, State>  {
                 <Search
                     style={{ width: "50%", float: "right", margin: "2em 2em 1em 0" }}
                     placeholder="Hledat autora"
-                    onSearch={value => console.log(value)}
+                    onSearch={value => { this.setState({ searchKey: value }); }}
+                    onChange={value => { this.setState({ searchKey: value.target.value }); }}
                     enterButton />
                 <div
                     style={{ clear: "both" }}
@@ -60,6 +74,7 @@ class AutorsList extends Component<Props, State>  {
                     style={{ marginLeft: "2em", marginRight: "2em" }}
                     renderItem={(item: any) => (
                         <List.Item
+                            key={item.id}
                             onDoubleClick={() => this.autorDetail(item.id)}
                         >
                             <List.Item.Meta
@@ -83,14 +98,15 @@ class AutorsList extends Component<Props, State>  {
             method: 'get',
             url: '/autori',
             withCredentials: true,
+            params: {
+                searchKey: this.state.searchKey!.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            }
         })
             .then(
                 res => {
                     this.setState({
                         autori: res.data
                     });
-
-                    console.log(this.state.autori);
                 }
             ).catch(err => err)
     }
