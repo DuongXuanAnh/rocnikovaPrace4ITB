@@ -1,1 +1,3 @@
-- abc
+- Český autor 3. fáze NO.
+- Psal rozsáhlé básně i kratinké - tzv. epigram.
+- Prozaik, novinář, lit. teoritik (Jeden ze zakladatelů moderní ČS. lit. kritiky).

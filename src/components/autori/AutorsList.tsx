@@ -80,7 +80,7 @@ class AutorsList extends Component<Props, State>  {
                             <List.Item.Meta
                                 avatar={
                                     <Avatar
-                                        src={item.smallImg}
+                                        src= {item.smallImg}
                                         size={145}
                                     />}
                                 title={<h1 style={{ "fontSize": "2em" }}>{item.name}</h1>}

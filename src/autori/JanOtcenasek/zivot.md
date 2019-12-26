@@ -1,1 +1,8 @@
-- abc
+- Narodil se v roku 1924 v Praze.
+- Vzdělání: Obchodní akademie (maturoval za okupace).
+- Zbytek okupace - dělník ve zbrojním průmyslu - továrna ČKD a Avia.
+- Zapohen i do domácího ilegálního odboje.
+- Zkušenosti z této doby využil i leterárně.
+- Od 50. let 20. stol. - lit.tvorba
+- Spisovatel z povolání.
+- Zemřel r. 1979 v Praze.
