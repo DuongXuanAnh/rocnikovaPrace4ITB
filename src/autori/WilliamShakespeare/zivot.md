@@ -1,1 +1,12 @@
-- abc
+- Narozen roku 1564 ve Statfordu nad Avonou.
+- Pocházel z měšťanské rodiny - jeho otec byl ve Startfordu radním (Konšelem).
+- Vzdělání: Královská střední škola ve Stratfordu.
+- Po ukončení studií pracoval jako učitel a oženil se.
+- Brzo u něj převážil zájem o divadlo - herec kočovné div. spol.
+- Sen - stát se slavným hercem - opouští Stratford a odchází do Londýna.
+- V Londýně začal psát div. hry a během krátké doby se stal jedním z nejznávanejších herců a dramatiků.
+- Vrchol kariéry - spolumajitel divadla Globe a ředitel vlastní div. společnosti.
+- V Londýně stávil 20 let naplněných neustálou prací.
+- Negativní dopad na jeho zdravodní stav.
+- Vážně onemocněl, byl nucen svou kariéru v Londýně přerušit.
+- Vrátil se do Stratfordu, kde prožil zbytek života a kde roku 1616 (52 let) zemřel.
