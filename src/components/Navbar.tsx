@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { Reducer } from '../utils/generalTypes';
 import TestDashboard from './testy/TestDashboard';
 import Hodnoceni from './testy/Hodnoceni';
+import AddNewDilo from './dila/AddNewDilo';
 
 interface Props {
     match: any
@@ -140,6 +141,7 @@ class Navbar extends Component<Props, State> {
 
                                 <Route exact path="/dila" component={DilaList} />
                                 <Route exact path="/dilo/:id" component={DiloDetail} />
+                                <Route exact path="/addNewDilo" component={AddNewDilo} />
                                 <Route exact path="/autori" component={AutorsList} />
                                 <Route exact path="/autor/:id" component={AutoriDetail} />
                                 <Route exact path="/ceskaLiteratura" component={CeskaLiteratura} />

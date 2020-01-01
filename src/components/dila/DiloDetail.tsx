@@ -58,7 +58,6 @@ class DiloDetail extends Component<Props, State> {
 
         return (
             <React.Fragment>
-
                 {this.state.loading ?
                     <div
                         style={{

@@ -3,19 +3,21 @@ import { Form, Icon, Input, Button, Row, Col } from 'antd';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Link } from "react-router-dom";
-import { Reducer } from '../utils/generalTypes';
+import { Reducer, User } from '../utils/generalTypes';
 import * as actions from '../redux/actions';
 
 interface Props {
     form: any;
+    match: any
+    location: any
+    history: any
     reducer?: Reducer;
     dispatch?: Function;
 }
 
 interface State {
-    email: string;
-    password: string;
-    admin: boolean;
+    user?: User,
+    token: string;
 }
 
 class Login extends Component<Props, State> {
@@ -23,9 +25,8 @@ class Login extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            email: '',
-            password: '',
-            admin: false
+            user: undefined,
+            token: ""
         }
     }
 
@@ -68,6 +69,7 @@ class Login extends Component<Props, State> {
                                         <Input
                                             prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                             placeholder="Email"
+                                            name="email"
                                         />,
                                     )}
                                 </Form.Item>
@@ -79,6 +81,7 @@ class Login extends Component<Props, State> {
                                             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                             type="password"
                                             placeholder="Password"
+                                            name="password"
                                         />,
                                     )}
                                 </Form.Item>
@@ -92,6 +95,7 @@ class Login extends Component<Props, State> {
                         </Col>
                         <Col xs={1} lg={8}></Col>
                     </Row>
+                    <Button type="primary" onClick={() => this.test()}>Test</Button>
                 </React.Fragment>
             </Router>
         );
@@ -109,10 +113,15 @@ class Login extends Component<Props, State> {
                 }).then(
                     res => {
                         console.log(res.data);
-                        // localStorage.setItem('token', res.data.token);
-                        // if (this.props.dispatch) {
-                        //     this.props.dispatch(actions.login(res.data));
-                        // }
+                        this.setState({
+                            user: res.data.user,
+                            token: res.data.accessToken
+                        });
+                        localStorage.setItem('token', res.data.accessToken);
+                        if (this.props.dispatch) {
+                            this.props.dispatch(actions.login(res.data));
+                        }
+                        this.props.history.push('/dila');
                     }
                 ).catch(
                     err => {
@@ -135,10 +144,24 @@ class Login extends Component<Props, State> {
                     //     this.props.dispatch(actions.login(res.data));
                     // }
                     console.log(res.data);
-                  
+
                 }
             ).catch(err => err)
-      }
+    }
+
+    private test = () => {
+        axios({
+            method: 'get',
+            url: '/home',
+            headers: { 'Authorization': 'Bearer ' + this.state.token },
+            withCredentials: true
+        })
+            .then(
+                res => {
+                    console.log(res.data);
+                }
+            ).catch(err => err)
+    }
 }
 
 export default connect(reducer => reducer)(Form.create({ name: 'normal_login' })(Login));
