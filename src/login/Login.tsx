@@ -7,17 +7,17 @@ import { Reducer, User } from '../utils/generalTypes';
 import * as actions from '../redux/actions';
 
 interface Props {
-    form: any;
+    form: any
     match: any
     location: any
     history: any
-    reducer?: Reducer;
-    dispatch?: Function;
+    reducer?: Reducer
+    dispatch?: Function
 }
 
 interface State {
     user?: User,
-    token: string;
+    accessToken: string;
 }
 
 class Login extends Component<Props, State> {
@@ -26,7 +26,7 @@ class Login extends Component<Props, State> {
         super(props);
         this.state = {
             user: undefined,
-            token: ""
+            accessToken: ""
         }
     }
 
@@ -103,6 +103,7 @@ class Login extends Component<Props, State> {
 
     private handleSubmit = (e: any) => {
         e.preventDefault();
+        let user: User;
         this.props.form.validateFields((err: any, values: any) => {
             if (!err) {
                 axios({
@@ -112,16 +113,20 @@ class Login extends Component<Props, State> {
                     data: { email: values.email, password: values.password }
                 }).then(
                     res => {
-                        console.log(res.data);
+                        user = res.data.user;
+                        user.accessToken = res.data.accessToken;
                         this.setState({
-                            user: res.data.user,
-                            token: res.data.accessToken
+                            user: user,
+                            accessToken: res.data.accessToken
                         });
-                        localStorage.setItem('token', res.data.accessToken);
+                        localStorage.setItem('accessToken', res.data.accessToken);
+                        localStorage.setItem('id', res.data.user.id);
+                        localStorage.setItem('email', res.data.user.email);
+                        localStorage.setItem('admin', res.data.user.admin);
                         if (this.props.dispatch) {
-                            this.props.dispatch(actions.login(res.data));
+                            this.props.dispatch(actions.login(user));
                         }
-                        this.props.history.push('/dila');
+                        this.props.history.push('/');
                     }
                 ).catch(
                     err => {
@@ -133,35 +138,29 @@ class Login extends Component<Props, State> {
     };
 
     private checkLoggedUser = () => {
-        axios({
-            method: 'get',
-            url: '/logged-user',
-            withCredentials: true
-        })
-            .then(
-                res => {
-                    // if (this.props.dispatch) {
-                    //     this.props.dispatch(actions.login(res.data));
-                    // }
-                    console.log(res.data);
-
-                }
-            ).catch(err => err)
+        var accessToken = localStorage.getItem('accessToken');
+        var id = Number(localStorage.getItem('id'));
+        var email = localStorage.getItem('email');
+        var admin = localStorage.getItem('admin');
+        if (id !== 0 && accessToken !== null && email !== null && admin !== null) {
+            this.props.history.push('/');
+        }
     }
+
 
     private test = () => {
-        axios({
-            method: 'get',
-            url: '/home',
-            headers: { 'Authorization': 'Bearer ' + this.state.token },
-            withCredentials: true
-        })
-            .then(
-                res => {
-                    console.log(res.data);
-                }
-            ).catch(err => err)
-    }
+    axios({
+        method: 'get',
+        url: '/home',
+        headers: { 'Authorization': 'Bearer ' + this.state.accessToken },
+        withCredentials: true
+    })
+        .then(
+            res => {
+                console.log(res.data);
+            }
+        ).catch(err => err)
+}
 }
 
 export default connect(reducer => reducer)(Form.create({ name: 'normal_login' })(Login));

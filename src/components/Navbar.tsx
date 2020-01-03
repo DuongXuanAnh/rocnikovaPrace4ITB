@@ -113,7 +113,6 @@ class Navbar extends Component<Props, State> {
                                     <SubMenu
                                         style={{
                                             "float": "right",
-                                            // "verticalAlign": "bottom",
                                             "marginRight": "1em",
                                         }}
                                         title={

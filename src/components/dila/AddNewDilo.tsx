@@ -14,7 +14,7 @@ interface State {
     konkretni_utvar?: any
     vypravec?: any
     typPromluvyPostav?: any
-    versovaVystavba?:any
+    versovaVystavba?: any
 }
 
 const { Option } = Select;
@@ -30,17 +30,21 @@ class AddNewDilo extends Component<Props, State> {
                 lit_druh: "",
                 lit_zanr: "",
                 konkretni_utvar: "",
-                vypravec:[],
-                typPromluvyPostav:[],
-                versovaVystavba:[],
+                dobaDeje: "",
+                mistoDeje: "",
+                temaDila: "",
+                vypravec: [],
+                typPromluvyPostav: [],
+                versovaVystavba: [],
+                jazykoveProstredky: "",
             },
             autori: [],
             lit_druh: [],
             lit_zanr: [],
             konkretni_utvar: [],
             vypravec: [],
-            typPromluvyPostav:[],
-            versovaVystavba:[]
+            typPromluvyPostav: [],
+            versovaVystavba: []
         }
     }
 
@@ -57,10 +61,10 @@ class AddNewDilo extends Component<Props, State> {
     render() {
         return (
             <React.Fragment>
-              
+
                 <Descriptions title="" bordered>
-                <Descriptions.Item label="Název díl" span={3}>
-                <Input placeholder="Název díla" />
+                    <Descriptions.Item label="Název díl" span={3}>
+                        <Input placeholder="Název díla" onChange={(e: any) => { this.setState({ dilo: { ...this.state.dilo, nazevDila: e.target.value } }); }} />
                     </Descriptions.Item>
                     <Descriptions.Item label="Autor" span={3}>
                         <Select
@@ -88,12 +92,12 @@ class AddNewDilo extends Component<Props, State> {
                         </Select>
                     </Descriptions.Item>
                     <Descriptions.Item label="Místo a doba děje" span={1.5}>
-                        <Input placeholder="Doba děje" />
+                        <Input placeholder="Doba děje" onChange={(e: any) => { this.setState({ dilo: { ...this.state.dilo, dobaDeje: e.target.value } }) }} />
                         <hr></hr>
-                        <Input placeholder="Místo děje" />
+                        <Input placeholder="Místo děje" onChange={(e: any) => { this.setState({ dilo: { ...this.state.dilo, mistoDeje: e.target.value } }) }} />
                     </Descriptions.Item>
                     <Descriptions.Item label="Téma díla" span={1.5}>
-                    <Input placeholder="Téma díla"/>
+                        <Input placeholder="Téma díla" onChange={(e: any) => { this.setState({ dilo: { ...this.state.dilo, temaDila: e.target.value } }) }}/>
                     </Descriptions.Item>
                     <Descriptions.Item label="Hlavní postavy" span={3}>{}</Descriptions.Item>
                     <Descriptions.Item label="Vypraveč" span={1.5}>
@@ -107,7 +111,7 @@ class AddNewDilo extends Component<Props, State> {
                         </Select>
                     </Descriptions.Item>
                     <Descriptions.Item label="Typy promluv postav" span={1.5}>
-                    <Select
+                        <Select
                             mode="multiple"
                             style={{ width: '100%' }}
                             placeholder="Typy promluv postav"
@@ -117,7 +121,7 @@ class AddNewDilo extends Component<Props, State> {
                         </Select>
                     </Descriptions.Item>
                     <Descriptions.Item label="Veršová výstavba" span={3}>
-                    <Select
+                        <Select
                             mode="multiple"
                             style={{ width: '100%' }}
                             placeholder="Veršová výstavba"
@@ -127,7 +131,7 @@ class AddNewDilo extends Component<Props, State> {
                         </Select>
                     </Descriptions.Item>
                     <Descriptions.Item label="Jazykové prostředky">
-                    <Input placeholder="Jazykové prostředky" />
+                        <Input placeholder="Jazykové prostředky" />
                     </Descriptions.Item>
                 </Descriptions>
 
@@ -275,99 +279,48 @@ class AddNewDilo extends Component<Props, State> {
 
     private sstAutora = (e: any) => {
         this.setState({
-            dilo: {
-                idAutoru: e,                
-                lit_druh: this.state.dilo.lit_druh,
-                lit_zanr: this.state.dilo.lit_zanr,
-                konkretni_utvar: this.state.dilo.konkretni_utvar,
-                vypravec: this.state.dilo.vypravec,
-                typPromluvyPostav:this.state.dilo.typPromluvyPostav,
-                versovaVystavba: this.state.dilo.versovaVystavba,
-            }
+            dilo: { ...this.state.dilo, idAutor: e },
         });
     }
 
     private sstLitDruh = (e: any) => {
         this.setState({
-            dilo: {
-                idAutoru: this.state.dilo.idAutoru,
-                lit_druh: e,
-                lit_zanr: this.state.dilo.lit_zanr,
-                konkretni_utvar: this.state.dilo.konkretni_utvar,
-                vypravec: this.state.dilo.vypravec,
-                typPromluvyPostav:this.state.dilo.typPromluvyPostav,
-                versovaVystavba: this.state.dilo.versovaVystavba,
-            }
+            dilo: { ...this.state.dilo, lit_druh: e }
         });
     }
 
     private sstLitZanr = (e: any) => {
         this.setState({
+            dilo: { ...this.state.dilo, lit_zanr: e }
+        });
+    }
+
+    private sstKonkretniUtvar = (e: any) => {
+        this.setState({
+            dilo: { ...this.state.dilo, konkretni_utvar: e }
+        });
+    }
+
+    private sstVypravec = (e: any) => {
+        this.setState({
             dilo: {
-                idAutoru: this.state.dilo.idAutoru,
-                lit_druh: this.state.dilo.lit_druh,
-                lit_zanr: e,
-                konkretni_utvar: this.state.dilo.konkretni_utvar,
-                vypravec: this.state.dilo.vypravec,
-                typPromluvyPostav:this.state.dilo.typPromluvyPostav,
-                versovaVystavba: this.state.dilo.versovaVystavba,
+                ...this.state.dilo, vypravec: e
             }
         });
     }
 
-    private sstKonkretniUtvar = (e:any) => {
+    private sstTypPromluvyPostav = (e: any) => {
         this.setState({
             dilo: {
-                idAutoru: this.state.dilo.idAutoru,
-                lit_druh: this.state.dilo.lit_druh,
-                lit_zanr: this.state.dilo.lit_zanr,
-                konkretni_utvar: e,
-                vypravec: this.state.dilo.vypravec,
-                typPromluvyPostav:this.state.dilo.typPromluvyPostav,
-                versovaVystavba: this.state.dilo.versovaVystavba,
+                ...this.state.dilo, typPromluvyPostav: e
             }
         });
     }
 
-    private sstVypravec = (e:any) => {
+    private sstVersovaVystavba = (e: any) => {
         this.setState({
             dilo: {
-                idAutoru: this.state.dilo.idAutoru,
-                lit_druh: this.state.dilo.lit_druh,
-                lit_zanr: this.state.dilo.lit_zanr,
-                konkretni_utvar: this.state.dilo.konkretni_utvar,
-                vypravec: e,
-                typPromluvyPostav:this.state.dilo.typPromluvyPostav,
-                versovaVystavba: this.state.dilo.versovaVystavba,
-            }
-        });
-    }
-
-    private sstTypPromluvyPostav = (e:any) => {
-        this.setState({
-            dilo: {
-                idAutoru: this.state.dilo.idAutoru,
-                lit_druh: this.state.dilo.lit_druh,
-                lit_zanr: this.state.dilo.lit_zanr,
-                konkretni_utvar: this.state.dilo.konkretni_utvar,
-                vypravec: this.state.dilo.vypravec,
-                typPromluvyPostav:e,
-                versovaVystavba: this.state.dilo.versovaVystavba,
-            }
-        });
-    }
-
-    private sstVersovaVystavba = (e:any) => {
-        this.setState({
-            dilo: {
-                idAutoru: this.state.dilo.idAutoru,
-                lit_druh: this.state.dilo.lit_druh,
-                lit_zanr: this.state.dilo.lit_zanr,
-                konkretni_utvar: this.state.dilo.konkretni_utvar,
-                vypravec: this.state.dilo.vypravec,
-                typPromluvyPostav: this.state.dilo.typPromluvyPostav,
-                versovaVystavba: e
-                
+                ...this.state.dilo, versovaVystavba: e
             }
         });
     }

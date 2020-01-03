@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, Input, Button, Row, Col } from 'antd';
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 interface iState {
     confirmDirty: boolean
@@ -10,6 +11,7 @@ interface iState {
 
 interface iProps {
     form: any
+    history: any
 }
 
 class Register extends Component<iProps, iState> {
@@ -43,6 +45,11 @@ class Register extends Component<iProps, iState> {
             callback();
         }
     };
+
+    componentDidMount() {
+        this.checkLoggedUser();
+    }
+    
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -146,6 +153,17 @@ class Register extends Component<iProps, iState> {
         });
     };
 
+    private checkLoggedUser = () => {
+        var accessToken = localStorage.getItem('accessToken');
+        var id = Number(localStorage.getItem('id'));
+        var email = localStorage.getItem('email');
+        var admin = localStorage.getItem('admin');
+        if (id !== 0 && accessToken !== null && email !== null && admin !== null) {
+            this.props.history.push('/');
+        }
+    }
+
+
 }
 
-export default Form.create({ name: 'register' })(Register);
+export default connect(reducer => reducer)(Form.create({ name: 'register' })(Register));

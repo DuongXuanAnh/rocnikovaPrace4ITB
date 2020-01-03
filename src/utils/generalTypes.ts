@@ -7,10 +7,11 @@ export interface Reducer {
 }
 
 export interface User {
-    id: number
+    id?: number
     email: string
-    password: string
+    password?: string
     admin: boolean
+    accessToken: string
 }
 
 export interface Test {
