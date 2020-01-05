@@ -1,0 +1,2 @@
+- **Král Lávra:**   starý dobrý král, lidé ho měli rádi, protože je nenechával trpět, byl moudrý a oblíbená ale měl jeden rozmar – nechával se stříhat jednou za rok a potom holiče nechal popravit.
+- **Kukulín :**     holič, utrápený s potřebou se svěřit.

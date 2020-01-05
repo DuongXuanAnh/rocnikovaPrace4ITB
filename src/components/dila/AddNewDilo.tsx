@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Descriptions, Select, Button, Input } from 'antd';
 import axios from 'axios';
+import { Reducer } from '../../utils/generalTypes';
+import { connect } from 'react-redux';
 
 interface Props {
-
+    reducer?: Reducer;
+    dispatch?: Function;
 }
 
 interface State {
@@ -25,18 +28,19 @@ class AddNewDilo extends Component<Props, State> {
         super(props);
         this.state = {
             dilo: {
-                nazevDila: "",
+                nazev: "",
+                description:"",
                 idAutoru: [],
                 lit_druh: "",
                 lit_zanr: "",
                 konkretni_utvar: "",
                 dobaDeje: "",
                 mistoDeje: "",
-                temaDila: "",
+                tema_dila: "",
                 vypravec: [],
                 typPromluvyPostav: [],
                 versovaVystavba: [],
-                jazykoveProstredky: "",
+                jazykove_prostredky: "",
             },
             autori: [],
             lit_druh: [],
@@ -64,7 +68,10 @@ class AddNewDilo extends Component<Props, State> {
 
                 <Descriptions title="" bordered>
                     <Descriptions.Item label="Název díl" span={3}>
-                        <Input placeholder="Název díla" onChange={(e: any) => { this.setState({ dilo: { ...this.state.dilo, nazevDila: e.target.value } }); }} />
+                        <Input placeholder="Název díla" onChange={(e: any) => { this.setState({ dilo: { ...this.state.dilo, nazev: e.target.value } }); }} />
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Description" span={3}>
+                        <Input placeholder="Description" onChange={(e: any) => { this.setState({ dilo: { ...this.state.dilo, description: e.target.value } }); }} />
                     </Descriptions.Item>
                     <Descriptions.Item label="Autor" span={3}>
                         <Select
@@ -97,7 +104,7 @@ class AddNewDilo extends Component<Props, State> {
                         <Input placeholder="Místo děje" onChange={(e: any) => { this.setState({ dilo: { ...this.state.dilo, mistoDeje: e.target.value } }) }} />
                     </Descriptions.Item>
                     <Descriptions.Item label="Téma díla" span={1.5}>
-                        <Input placeholder="Téma díla" onChange={(e: any) => { this.setState({ dilo: { ...this.state.dilo, temaDila: e.target.value } }) }}/>
+                        <Input placeholder="Téma díla" onChange={(e: any) => { this.setState({ dilo: { ...this.state.dilo, tema_dila: e.target.value } }) }}/>
                     </Descriptions.Item>
                     <Descriptions.Item label="Hlavní postavy" span={3}>{}</Descriptions.Item>
                     <Descriptions.Item label="Vypraveč" span={1.5}>
@@ -327,7 +334,22 @@ class AddNewDilo extends Component<Props, State> {
 
     private addNewDilo = () => {
         console.log(this.state.dilo);
+
+        axios({
+            method: 'post',
+            url: '/addNovyDilo',
+            withCredentials: true,
+            headers: { 'Authorization': 'Bearer ' + this.props.reducer!.user!.accessToken },
+            data: {
+                dilo: this.state.dilo
+            }
+        })
+            .then(
+                res => {
+                   console.log(res);
+                }
+            ).catch(err => err)
     }
 }
 
-export default AddNewDilo;
+export default (connect(reducer => reducer)(AddNewDilo));

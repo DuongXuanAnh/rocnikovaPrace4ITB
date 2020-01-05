@@ -6,7 +6,6 @@ import Login from './login/Login';
 import Register from './register/Register';
 import { Reducer, User } from './utils/generalTypes';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import * as actions from './redux/actions';
 
 export interface Props {
@@ -23,15 +22,12 @@ class App extends Component<Props, State> {
     super(props);
 
   }
-
-  componentDidMount() {
+  
+  componentWillMount() {
     this.checkLoginUser();
-
   }
-
-
+  
   render() {
-
     return (
       <Router>
         <React.Fragment>
@@ -79,6 +75,10 @@ class App extends Component<Props, State> {
       }
     } else {
       console.log("No user login");
+    }
+
+    if(id === 0 || accessToken === null || email === null && admin === null){
+      localStorage.clear();
     }
   }
 }

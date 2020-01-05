@@ -1,5 +1,6 @@
+    
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button, Row, Col } from 'antd';
+import { Form, Icon, Input, Button, Row, Col, notification } from 'antd';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Link } from "react-router-dom";
@@ -89,13 +90,12 @@ class Login extends Component<Props, State> {
                                     <Button type="primary" htmlType="submit" className="login-form-button" style={{ "width": "100%" }}>
                                         Přihlásit se
                         </Button>
-                                    <Link to="/register">Vytvořit nový účet !</Link>
+                                    <a onClick={() => { this.props.history.push('/register') }}>Vytvořit nový účet ! </a>
                                 </Form.Item>
                             </Form>
                         </Col>
                         <Col xs={1} lg={8}></Col>
                     </Row>
-                    <Button type="primary" onClick={() => this.test()}>Test</Button>
                 </React.Fragment>
             </Router>
         );
@@ -113,6 +113,9 @@ class Login extends Component<Props, State> {
                     data: { email: values.email, password: values.password }
                 }).then(
                     res => {
+                       if(res.data === "notExist"){
+                        this.openNotification();
+                       }else{
                         user = res.data.user;
                         user.accessToken = res.data.accessToken;
                         this.setState({
@@ -127,6 +130,7 @@ class Login extends Component<Props, State> {
                             this.props.dispatch(actions.login(user));
                         }
                         this.props.history.push('/');
+                       }
                     }
                 ).catch(
                     err => {
@@ -147,20 +151,16 @@ class Login extends Component<Props, State> {
         }
     }
 
-
-    private test = () => {
-    axios({
-        method: 'get',
-        url: '/home',
-        headers: { 'Authorization': 'Bearer ' + this.state.accessToken },
-        withCredentials: true
-    })
-        .then(
-            res => {
-                console.log(res.data);
-            }
-        ).catch(err => err)
-}
+private openNotification = () => {
+    notification.open({
+      message: 'Upozornění',
+      description:
+        'E-mail nebo heslo není správné!',
+      onClick: () => {
+        console.log('Notification Clicked!');
+      },
+    });
+  };
 }
 
 export default connect(reducer => reducer)(Form.create({ name: 'normal_login' })(Login));

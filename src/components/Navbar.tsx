@@ -47,7 +47,7 @@ class Navbar extends Component<Props, State> {
     }
 
     render() {
-
+        const email = localStorage.getItem('email');
         return (
             <Router>
                 <React.Fragment>
@@ -102,6 +102,7 @@ class Navbar extends Component<Props, State> {
 
                         </Sider>
                         <Layout>
+
                             <Header style={{ background: '#fff', padding: 0 }}>
                                 <Menu mode="horizontal" style={{ "height": "100%" }}>
                                     <Icon
@@ -110,30 +111,49 @@ class Navbar extends Component<Props, State> {
                                         type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                                         onClick={this.toggle}
                                     />
-                                    <SubMenu
-                                        style={{
-                                            "float": "right",
-                                            "marginRight": "1em",
-                                        }}
-                                        title={
-                                            <span className="submenu-title-wrapper">
-                                                <Icon
-                                                    style={{ "fontSize": "2rem", "verticalAlign": "bottom" }}
-                                                    type="user"
-                                                />
-                                            </span>
-                                        }
-                                    >
-                                        <Menu.Item key="loginRedirect" onClick={() => this.loginRedirect()}>
-                                            <span>Přihlásit se</span>
-                                        </Menu.Item>
-                                        <Menu.Item key="registerRedirect" onClick={() => this.registerRedirect()}>
-                                            <span>Vytvořit nový účet</span>
-                                        </Menu.Item>
 
-                                    </SubMenu>
+                                    {email !== null ?
+                                        <SubMenu
+                                            style={{
+                                                "float": "right",
+                                                "marginRight": "1em",
+                                            }}
+                                            title={
+                                                <span className="submenu-title-wrapper">
+                                                    <span style={{fontSize: "1.5em", lineHeight: "3em"}}>{ email }</span>
+                                                </span>
+                                            }
+                                        >
+                                            <Menu.Item key="logout" onClick={() => this.logOut()} >
+                                                <span>Odhlásit se</span>
+                                            </Menu.Item>
+                                        </SubMenu>
+                                        :
+                                        <SubMenu
+                                            style={{
+                                                "float": "right",
+                                                "marginRight": "1em",
+                                            }}
+                                            title={
+                                                <span className="submenu-title-wrapper">
+                                                    <Icon
+                                                        style={{ "fontSize": "2rem", "verticalAlign": "bottom" }}
+                                                        type="user"
+                                                    />
+                                                </span>
+                                            }
+                                        >
+                                            <Menu.Item key="loginRedirect" onClick={() => this.loginRedirect()}>
+                                                <span>Přihlásit se</span>
+                                            </Menu.Item>
+                                            <Menu.Item key="registerRedirect" onClick={() => this.registerRedirect()}>
+                                                <span>Vytvořit nový účet</span>
+                                            </Menu.Item>
+                                        </SubMenu>
+                                    }
+
+
                                 </Menu>
-
                             </Header>
 
                             <Content>
@@ -169,6 +189,11 @@ class Navbar extends Component<Props, State> {
 
     private registerRedirect = () => {
         this.props.history.push('/register');
+    }
+
+    private logOut = () => {
+        localStorage.clear();
+        window.location.reload();
     }
 
 }

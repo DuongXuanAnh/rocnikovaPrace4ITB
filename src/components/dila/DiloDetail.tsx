@@ -132,7 +132,7 @@ class DiloDetail extends Component<Props, State> {
 
                                     <Descriptions.Item label="Veršová výstavba">
                                         {
-                                            dilo.Versova_vystavbas === "" ?
+                                            dilo.Versova_vystavbas !== "" ?
                                                 dilo.Versova_vystavbas.map((value: any, key: any) => {
                                                     return <li>{value.nazev}</li>
                                                 }) : "Nemá"
@@ -180,7 +180,6 @@ class DiloDetail extends Component<Props, State> {
                         obsahDila: normalized.obsahDila,
                         loading: false
                     });
-
                     this.showPostavy();
                     this.showObsahDila();
 
@@ -211,7 +210,7 @@ class DiloDetail extends Component<Props, State> {
             .then(text => {
                 this.setState({
                     obsahDila: marked(text),
-    
+
                 })
             })
     }

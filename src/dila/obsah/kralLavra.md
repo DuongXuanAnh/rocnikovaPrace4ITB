@@ -1,0 +1,9 @@
+- Král Lávra tají před svými poddnými, že má oslí uši.
+- Jednou za rok se nechá ostříhat a holiče dá popravit.
+- Na řadu přijde Kukulín, zjistí královo tajemství a má být popraven.
+- Jeho matka mu u krále vyprosí milost - tajemství nesní nikomu prozradit.
+- Tajemství Kukulína tíží, na radu staré bylinářky ho vyšeptá do vrby.
+- Na zámku se koná bál, kolem rybníka a vrby procházejí muzikanti, basista Roubíček ztratí kolíček od basy.
+- Vyrobý si nový z proutku vrby.
+- Na zámku při plese basa začne prozpěvovat: "Král Lávra má oslí uši".
+- Tajemství je prozrazeno, ale obavy krále se nesplní - lidé ho mají stále stejně rádi a váží so ho jako dobrého krále.
