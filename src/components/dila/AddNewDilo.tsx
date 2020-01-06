@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Descriptions, Select, Button, Input } from 'antd';
+import { Descriptions, Select, Button, Input, Form } from 'antd';
 import axios from 'axios';
 import { Reducer } from '../../utils/generalTypes';
 import { connect } from 'react-redux';
 
 interface Props {
+    form: any;
     reducer?: Reducer;
     dispatch?: Function;
 }
@@ -29,7 +30,7 @@ class AddNewDilo extends Component<Props, State> {
         this.state = {
             dilo: {
                 nazev: "",
-                description:"",
+                description: "",
                 idAutoru: [],
                 lit_druh: "",
                 lit_zanr: "",
@@ -63,89 +64,166 @@ class AddNewDilo extends Component<Props, State> {
     }
 
     render() {
+
+        const { getFieldDecorator } = this.props.form;
+
         return (
             <React.Fragment>
 
-                <Descriptions title="" bordered>
-                    <Descriptions.Item label="Název díl" span={3}>
-                        <Input placeholder="Název díla" onChange={(e: any) => { this.setState({ dilo: { ...this.state.dilo, nazev: e.target.value } }); }} />
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Description" span={3}>
-                        <Input placeholder="Description" onChange={(e: any) => { this.setState({ dilo: { ...this.state.dilo, description: e.target.value } }); }} />
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Autor" span={3}>
-                        <Select
-                            mode="multiple"
-                            style={{ width: '100%' }}
-                            placeholder="Vyberte si autora"
-                            onChange={(event: any) => this.sstAutora(event)}
-                        >
-                            {this.state.autori}
-                        </Select>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Literární druh" span={1}>
-                        <Select style={{ width: '100%' }} onChange={(event: any) => this.sstLitDruh(event)}>
-                            {this.state.lit_druh}
-                        </Select>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Literární žánr" span={1}>
-                        <Select style={{ width: '100%' }} onChange={(event: any) => this.sstLitZanr(event)}>
-                            {this.state.lit_zanr}
-                        </Select>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Konkrétní literární útvar" span={1}>
-                        <Select style={{ width: '100%' }} onChange={(event: any) => this.sstKonkretniUtvar(event)}>
-                            {this.state.konkretni_utvar}
-                        </Select>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Místo a doba děje" span={1.5}>
-                        <Input placeholder="Doba děje" onChange={(e: any) => { this.setState({ dilo: { ...this.state.dilo, dobaDeje: e.target.value } }) }} />
-                        <hr></hr>
-                        <Input placeholder="Místo děje" onChange={(e: any) => { this.setState({ dilo: { ...this.state.dilo, mistoDeje: e.target.value } }) }} />
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Téma díla" span={1.5}>
-                        <Input placeholder="Téma díla" onChange={(e: any) => { this.setState({ dilo: { ...this.state.dilo, tema_dila: e.target.value } }) }}/>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Hlavní postavy" span={3}>{}</Descriptions.Item>
-                    <Descriptions.Item label="Vypraveč" span={1.5}>
-                        <Select
-                            mode="multiple"
-                            style={{ width: '100%' }}
-                            placeholder="Vypraveč"
-                            onChange={(event: any) => this.sstVypravec(event)}
-                        >
-                            {this.state.vypravec}
-                        </Select>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Typy promluv postav" span={1.5}>
-                        <Select
-                            mode="multiple"
-                            style={{ width: '100%' }}
-                            placeholder="Typy promluv postav"
-                            onChange={(event: any) => this.sstTypPromluvyPostav(event)}
-                        >
-                            {this.state.typPromluvyPostav}
-                        </Select>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Veršová výstavba" span={3}>
-                        <Select
-                            mode="multiple"
-                            style={{ width: '100%' }}
-                            placeholder="Veršová výstavba"
-                            onChange={(event: any) => this.sstVersovaVystavba(event)}
-                        >
-                            {this.state.versovaVystavba}
-                        </Select>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Jazykové prostředky">
-                        <Input placeholder="Jazykové prostředky" />
-                    </Descriptions.Item>
-                </Descriptions>
+                <Form onSubmit={this.handleSubmit} className="login-form">
 
-                <Button type="primary" onClick={() => this.addNewDilo()}>Přidat dílo</Button>
+                    <Form.Item label="Název díla">
+                        {getFieldDecorator('nazev', {
+                            rules: [{ required: true, message: " " }],
+                        })(
+                            <Input placeholder="Název díla" />
+                        )}
+                    </Form.Item>
+                    <Form.Item label="Description">
+                        {getFieldDecorator('description', {
+                            rules: [{ required: true, message: " " }],
+                        })(
+                            <Input placeholder="Description" />
+                        )}
+                    </Form.Item>
+                    <Form.Item label="Autor">
+                        {getFieldDecorator('autor', {
+                            rules: [{ required: true, message: " " }],
+                        })(
+                            <Select
+                                mode="multiple"
+                                style={{ width: '100%' }}
+                                placeholder="Vyberte si autora"
+                            >
+                                {this.state.autori}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label="Literární druh">
+                        {getFieldDecorator('lit_druh', {
+                            rules: [{ required: true, message: " " }],
+                        })(
+                            <Select style={{ width: '100%' }} >
+                                {this.state.lit_druh}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label="Literární druh">
+                        {getFieldDecorator('lit_zanr', {
+                            rules: [{ required: true, message: " " }],
+                        })(
+                            <Select style={{ width: '100%' }} >
+                                {this.state.lit_zanr}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label="Konkrétní literární útvar">
+                        {getFieldDecorator('konkretni_utvar', {
+                            rules: [{ required: true, message: " " }],
+                        })(
+                            <Select style={{ width: '100%' }} >
+                                {this.state.konkretni_utvar}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label="Doba děje">
+                        {getFieldDecorator('dobaDeje', {
+                            rules: [{ required: true, message: " " }],
+                        })(
+                            <Input placeholder="Doba děje" />
+                        )}
+                    </Form.Item>
+                    <Form.Item label="Místo děje">
+                        {getFieldDecorator('mistoDeje', {
+                            rules: [{ required: true, message: " " }],
+                        })(
+                            <Input placeholder="Místo děje" />
+                        )}
+                    </Form.Item>
+                    <Form.Item label="Téma díla">
+                        {getFieldDecorator('tema_dila', {
+                            rules: [{ required: true, message: " " }],
+                        })(
+                            <Input placeholder="Téma díla" />
+                        )}
+                    </Form.Item>
+                    <Form.Item label="Vypraveč">
+                        {getFieldDecorator('vypravec', {
+                            rules: [{ required: true, message: " " }],
+                        })(
+                            <Select
+                                mode="multiple"
+                                style={{ width: '100%' }}
+                                placeholder="Vypraveč"
+                            >
+                                {this.state.vypravec}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label="Typy promluv postav">
+                        {getFieldDecorator('typPromluvyPostav', {
+                            rules: [{ required: true, message: " " }],
+                        })(
+                            <Select
+                                mode="multiple"
+                                style={{ width: '100%' }}
+                                placeholder="Typy promluv postav"
+                            >
+                                {this.state.typPromluvyPostav}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label="Veršová výstavba">
+                        {getFieldDecorator('versovaVystavba', {
+                            rules: [{ required: true, message: " " }],
+                        })(
+                            <Select
+                                mode="multiple"
+                                style={{ width: '100%' }}
+                                placeholder="Veršová výstavba"
+                                
+                            >
+                                {this.state.versovaVystavba}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label="Jazykové prostředky">
+                        {getFieldDecorator('jazykoveProstredky', {
+                            rules: [{ required: true, message: " " }],
+                        })(
+                            <Input placeholder="Jazykové prostředky" />
+                        )}
+                    </Form.Item>
+                    <Button type="primary" htmlType="submit" className="login-form-button">
+                        Přidat dílo
+                    </Button>
+                </Form>
             </React.Fragment>
         );
     }
+
+    private handleSubmit = (e: any) => {
+        e.preventDefault();
+        this.props.form.validateFields((err: any, values: any) => {
+            if (!err) {
+                console.log('Received values of form: ', values);
+                axios({
+                    method: 'post',
+                    url: '/addNovyDilo',
+                    withCredentials: true,
+                    headers: { 'Authorization': 'Bearer ' + this.props.reducer!.user!.accessToken },
+                    data: {
+                        dilo: values
+                    }
+                })
+                    .then(
+                        res => {
+                            console.log(res);
+                        }
+                    ).catch(err => err)
+            }
+        });
+    };
 
     private getAutori = () => {
         let autori: any = [];
@@ -283,73 +361,6 @@ class AddNewDilo extends Component<Props, State> {
                 }
             ).catch(err => err)
     }
-
-    private sstAutora = (e: any) => {
-        this.setState({
-            dilo: { ...this.state.dilo, idAutor: e },
-        });
-    }
-
-    private sstLitDruh = (e: any) => {
-        this.setState({
-            dilo: { ...this.state.dilo, lit_druh: e }
-        });
-    }
-
-    private sstLitZanr = (e: any) => {
-        this.setState({
-            dilo: { ...this.state.dilo, lit_zanr: e }
-        });
-    }
-
-    private sstKonkretniUtvar = (e: any) => {
-        this.setState({
-            dilo: { ...this.state.dilo, konkretni_utvar: e }
-        });
-    }
-
-    private sstVypravec = (e: any) => {
-        this.setState({
-            dilo: {
-                ...this.state.dilo, vypravec: e
-            }
-        });
-    }
-
-    private sstTypPromluvyPostav = (e: any) => {
-        this.setState({
-            dilo: {
-                ...this.state.dilo, typPromluvyPostav: e
-            }
-        });
-    }
-
-    private sstVersovaVystavba = (e: any) => {
-        this.setState({
-            dilo: {
-                ...this.state.dilo, versovaVystavba: e
-            }
-        });
-    }
-
-    private addNewDilo = () => {
-        console.log(this.state.dilo);
-
-        axios({
-            method: 'post',
-            url: '/addNovyDilo',
-            withCredentials: true,
-            headers: { 'Authorization': 'Bearer ' + this.props.reducer!.user!.accessToken },
-            data: {
-                dilo: this.state.dilo
-            }
-        })
-            .then(
-                res => {
-                   console.log(res);
-                }
-            ).catch(err => err)
-    }
 }
 
-export default (connect(reducer => reducer)(AddNewDilo));
+export default connect(reducer => reducer)(Form.create({ name: 'addNewDilo' })(AddNewDilo));

@@ -67,14 +67,12 @@ class App extends Component<Props, State> {
       const user: User = {
         id: id,
         email: email,
-        admin: true,
+        admin: (admin === 'true'),
         accessToken: accessToken
       }
       if (this.props.dispatch) {
         this.props.dispatch(actions.login(user));
       }
-    } else {
-      console.log("No user login");
     }
 
     if(id === 0 || accessToken === null || email === null && admin === null){

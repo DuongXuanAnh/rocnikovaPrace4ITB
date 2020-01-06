@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Collapse, Icon, Descriptions, Spin } from 'antd';
+import { Collapse, Icon, Descriptions, Spin, Popconfirm, message, Button } from 'antd';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Reducer } from '../../utils/generalTypes';
@@ -51,11 +51,8 @@ class DiloDetail extends Component<Props, State> {
         this.getDiloDetail();
     }
 
-
     render() {
-
         const dilo: any = this.state.dilo;
-
         return (
             <React.Fragment>
                 {this.state.loading ?
@@ -78,13 +75,28 @@ class DiloDetail extends Component<Props, State> {
                         }}></Spin>
                     </div> :
                     <div>
+                        {
+                            (this.props.reducer && this.props.reducer.user && this.props.reducer.user.admin === true) ?
+                                <Popconfirm
+                                    title="Opravdu chcete smazat toto dílo?"
+                                    onConfirm={(event) => this.confirm(event)}
+                                    onCancel={(event) => this.cancel(event)}
+                                    okText="Ano"
+                                    cancelText="Ne"
+                                >
+                                    <Button type="danger" style={{
+                                        margin: "2em 0 0 2em"
+                                    }}>Smazat dílo</Button>
+
+                                </Popconfirm>
+                                : ""
+                        }
                         <h1 style={{
                             textTransform: "uppercase",
                             padding: "1em",
                             fontSize: "2em"
                         }}
                         >{dilo.nazev}</h1>
-
                         <Descriptions title="" bordered>
                             <Descriptions.Item label="Autor" span={3}>
                                 {
@@ -164,7 +176,7 @@ class DiloDetail extends Component<Props, State> {
         this.setState({
             loading: true
         });
-        const id: number = parseInt(this.props.match.params.id, 10);;
+        const id: number = parseInt(this.props.match.params.id, 10);
         axios({
             method: 'get',
             url: '/dilo/' + id,
@@ -217,6 +229,27 @@ class DiloDetail extends Component<Props, State> {
 
     private autorDetail(id: number) {
         this.props.history.push('../autor/' + id);
+    }
+
+    private confirm(e: any) {
+        const id: number = parseInt(this.props.match.params.id, 10);
+        axios({
+            method: 'delete',
+            url: '/deleteDilo/' + id,
+            withCredentials: true,
+            headers: { 'Authorization': 'Bearer ' + this.props.reducer!.user!.accessToken },
+        })
+            .then(
+                res => {
+                    if (res.data === "deleted") {
+                        this.props.history.push('/dila');
+                    }
+                }
+            ).catch(err => err)
+    }
+
+    private cancel(e: any) {
+
     }
 }
 

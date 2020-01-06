@@ -161,8 +161,6 @@ class Register extends Component<iProps, iState> {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err: any, values: any) => {
             if (!err) {
-                console.log('Received values of form: ', values.password);
-
                 this.setState({
                     loading: true
                 });
