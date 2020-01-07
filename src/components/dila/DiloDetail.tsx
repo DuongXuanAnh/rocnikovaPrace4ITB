@@ -184,47 +184,15 @@ class DiloDetail extends Component<Props, State> {
         })
             .then(
                 res => {
-                    let normalized: any = { ...res.data[0], lit_druh: res.data[0].Lit_druh.nazev, lit_zanr: res.data[0].Lit_zanr.nazev, konkretni_utvar: res.data[0].Konkretni_utvar.nazev }
-
                     this.setState({
-                        dilo: normalized,
-                        postavy: normalized.postavy,
-                        obsahDila: normalized.obsahDila,
+                        dilo: res.data,
+                        postavy:  marked(res.data.postavy),
+                        obsahDila:  marked(res.data.obsahDila),
                         loading: false
                     });
-                    this.showPostavy();
-                    this.showObsahDila();
 
                 }
             ).catch(err => err)
-    }
-
-    private showPostavy = () => {
-        let zarazeniPath = require("./../../dila/postavy/" + this.state.postavy);
-        fetch(zarazeniPath)
-            .then(response => {
-                return response.text()
-            })
-            .then(text => {
-                this.setState({
-                    postavy: marked(text)
-                })
-
-            })
-    }
-
-    private showObsahDila = () => {
-        let zarazeniPath = require("./../../dila/obsah/" + this.state.obsahDila);
-        fetch(zarazeniPath)
-            .then(response => {
-                return response.text()
-            })
-            .then(text => {
-                this.setState({
-                    obsahDila: marked(text),
-
-                })
-            })
     }
 
     private autorDetail(id: number) {

@@ -70,6 +70,8 @@ class AddNewDilo extends Component<Props, State> {
         return (
             <React.Fragment>
 
+                <Button onClick={() => this.addFile()}>Add file</Button>
+
                 <Form onSubmit={this.handleSubmit} className="login-form">
 
                     <Form.Item label="Název díla">
@@ -358,6 +360,19 @@ class AddNewDilo extends Component<Props, State> {
                     this.setState({
                         versovaVystavba: versovaVystavba
                     });
+                }
+            ).catch(err => err)
+    }
+
+    private addFile = () => {
+        axios({
+            method: 'post',
+            url: '/addFile',
+            withCredentials: true,
+        })
+            .then(
+                res => {
+                  console.log(res);
                 }
             ).catch(err => err)
     }
