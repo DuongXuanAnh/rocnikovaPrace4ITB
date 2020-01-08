@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Collapse, Icon, Descriptions, Spin, Popconfirm, message, Button } from 'antd';
+import { Collapse, Icon, Descriptions, Spin, Popconfirm, Button } from 'antd';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Reducer } from '../../utils/generalTypes';
@@ -53,6 +53,7 @@ class DiloDetail extends Component<Props, State> {
 
     render() {
         const dilo: any = this.state.dilo;
+
         return (
             <React.Fragment>
                 {this.state.loading ?
@@ -174,7 +175,7 @@ class DiloDetail extends Component<Props, State> {
 
     private getDiloDetail() {
         this.setState({
-            loading: true
+            //loading: true
         });
         const id: number = parseInt(this.props.match.params.id, 10);
         axios({
@@ -184,13 +185,13 @@ class DiloDetail extends Component<Props, State> {
         })
             .then(
                 res => {
+                    console.log(res.data);
                     this.setState({
-                        dilo: res.data,
-                        postavy:  marked(res.data.postavy),
-                        obsahDila:  marked(res.data.obsahDila),
+                        dilo: {...res.data, lit_druh: res.data.Lit_druh.nazev, lit_zanr: res.data.Lit_zanr.nazev, konkretni_utvar: res.data.Konkretni_utvar.nazev},
+                        postavy: marked(res.data.postavy),
+                        obsahDila: marked(res.data.obsahDila),
                         loading: false
                     });
-
                 }
             ).catch(err => err)
     }

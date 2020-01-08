@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Descriptions, Select, Button, Input, Form } from 'antd';
+import { Select, Button, Input, Form } from 'antd';
 import axios from 'axios';
 import { Reducer } from '../../utils/generalTypes';
 import { connect } from 'react-redux';
@@ -22,6 +22,8 @@ interface State {
 }
 
 const { Option } = Select;
+const { TextArea } = Input;
+
 
 class AddNewDilo extends Component<Props, State> {
 
@@ -69,9 +71,6 @@ class AddNewDilo extends Component<Props, State> {
 
         return (
             <React.Fragment>
-
-                <Button onClick={() => this.addFile()}>Add file</Button>
-
                 <Form onSubmit={this.handleSubmit} className="login-form">
 
                     <Form.Item label="Název díla">
@@ -142,6 +141,16 @@ class AddNewDilo extends Component<Props, State> {
                             <Input placeholder="Místo děje" />
                         )}
                     </Form.Item>
+                    <Form.Item label="Postavy">
+                        {getFieldDecorator('postavy', {
+                            rules: [{ required: true, message: " " }],
+                        })(
+                            <TextArea
+                                placeholder="- **Jméno postavy: ** popis postavy."
+                                autoSize={{ minRows: 3, maxRows: 5 }}
+                            />
+                        )}
+                    </Form.Item>
                     <Form.Item label="Téma díla">
                         {getFieldDecorator('tema_dila', {
                             rules: [{ required: true, message: " " }],
@@ -183,7 +192,7 @@ class AddNewDilo extends Component<Props, State> {
                                 mode="multiple"
                                 style={{ width: '100%' }}
                                 placeholder="Veršová výstavba"
-                                
+
                             >
                                 {this.state.versovaVystavba}
                             </Select>
@@ -194,6 +203,16 @@ class AddNewDilo extends Component<Props, State> {
                             rules: [{ required: true, message: " " }],
                         })(
                             <Input placeholder="Jazykové prostředky" />
+                        )}
+                    </Form.Item>
+                    <Form.Item label="Obsah díla">
+                        {getFieldDecorator('obsahDila', {
+                            rules: [{ required: true, message: " " }],
+                        })(
+                            <TextArea
+                                placeholder="Obsah díla"
+                                autoSize={{ minRows: 4, maxRows: 8 }}
+                            />
                         )}
                     </Form.Item>
                     <Button type="primary" htmlType="submit" className="login-form-button">
@@ -208,6 +227,7 @@ class AddNewDilo extends Component<Props, State> {
         e.preventDefault();
         this.props.form.validateFields((err: any, values: any) => {
             if (!err) {
+                
                 console.log('Received values of form: ', values);
                 axios({
                     method: 'post',
@@ -364,18 +384,6 @@ class AddNewDilo extends Component<Props, State> {
             ).catch(err => err)
     }
 
-    private addFile = () => {
-        axios({
-            method: 'post',
-            url: '/addFile',
-            withCredentials: true,
-        })
-            .then(
-                res => {
-                  console.log(res);
-                }
-            ).catch(err => err)
-    }
 }
 
 export default connect(reducer => reducer)(Form.create({ name: 'addNewDilo' })(AddNewDilo));
