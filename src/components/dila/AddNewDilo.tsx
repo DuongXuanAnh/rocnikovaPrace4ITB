@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Select, Button, Input, Form } from 'antd';
+import { Select, Button, Input, Form, Row, Col, Upload, Icon } from 'antd';
 import axios from 'axios';
 import { Reducer } from '../../utils/generalTypes';
 import { connect } from 'react-redux';
@@ -24,9 +24,7 @@ interface State {
 const { Option } = Select;
 const { TextArea } = Input;
 
-
 class AddNewDilo extends Component<Props, State> {
-
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -51,7 +49,7 @@ class AddNewDilo extends Component<Props, State> {
             konkretni_utvar: [],
             vypravec: [],
             typPromluvyPostav: [],
-            versovaVystavba: []
+            versovaVystavba: [],
         }
     }
 
@@ -68,157 +66,184 @@ class AddNewDilo extends Component<Props, State> {
     render() {
 
         const { getFieldDecorator } = this.props.form;
-
+        const config = {
+            beforeUpload: () => false
+        };
         return (
             <React.Fragment>
-                <Form onSubmit={this.handleSubmit} className="login-form">
+                <Row
+                    style={{
+                        width: "90%",
+                        margin: "0 auto",
+                    }}>
+                    <Form onSubmit={this.handleSubmit} className="login-form">
 
-                    <Form.Item label="Název díla">
-                        {getFieldDecorator('nazev', {
-                            rules: [{ required: true, message: " " }],
-                        })(
-                            <Input placeholder="Název díla" />
-                        )}
-                    </Form.Item>
-                    <Form.Item label="Description">
-                        {getFieldDecorator('description', {
-                            rules: [{ required: true, message: " " }],
-                        })(
-                            <Input placeholder="Description" />
-                        )}
-                    </Form.Item>
-                    <Form.Item label="Autor">
-                        {getFieldDecorator('autor', {
-                            rules: [{ required: true, message: " " }],
-                        })(
-                            <Select
-                                mode="multiple"
-                                style={{ width: '100%' }}
-                                placeholder="Vyberte si autora"
-                            >
-                                {this.state.autori}
-                            </Select>
-                        )}
-                    </Form.Item>
-                    <Form.Item label="Literární druh">
-                        {getFieldDecorator('lit_druh', {
-                            rules: [{ required: true, message: " " }],
-                        })(
-                            <Select style={{ width: '100%' }} >
-                                {this.state.lit_druh}
-                            </Select>
-                        )}
-                    </Form.Item>
-                    <Form.Item label="Literární druh">
-                        {getFieldDecorator('lit_zanr', {
-                            rules: [{ required: true, message: " " }],
-                        })(
-                            <Select style={{ width: '100%' }} >
-                                {this.state.lit_zanr}
-                            </Select>
-                        )}
-                    </Form.Item>
-                    <Form.Item label="Konkrétní literární útvar">
-                        {getFieldDecorator('konkretni_utvar', {
-                            rules: [{ required: true, message: " " }],
-                        })(
-                            <Select style={{ width: '100%' }} >
-                                {this.state.konkretni_utvar}
-                            </Select>
-                        )}
-                    </Form.Item>
-                    <Form.Item label="Doba děje">
-                        {getFieldDecorator('dobaDeje', {
-                            rules: [{ required: true, message: " " }],
-                        })(
-                            <Input placeholder="Doba děje" />
-                        )}
-                    </Form.Item>
-                    <Form.Item label="Místo děje">
-                        {getFieldDecorator('mistoDeje', {
-                            rules: [{ required: true, message: " " }],
-                        })(
-                            <Input placeholder="Místo děje" />
-                        )}
-                    </Form.Item>
-                    <Form.Item label="Postavy">
-                        {getFieldDecorator('postavy', {
-                            rules: [{ required: true, message: " " }],
-                        })(
-                            <TextArea
-                                placeholder="- **Jméno postavy: ** popis postavy."
-                                autoSize={{ minRows: 3, maxRows: 5 }}
-                            />
-                        )}
-                    </Form.Item>
-                    <Form.Item label="Téma díla">
-                        {getFieldDecorator('tema_dila', {
-                            rules: [{ required: true, message: " " }],
-                        })(
-                            <Input placeholder="Téma díla" />
-                        )}
-                    </Form.Item>
-                    <Form.Item label="Vypraveč">
-                        {getFieldDecorator('vypravec', {
-                            rules: [{ required: true, message: " " }],
-                        })(
-                            <Select
-                                mode="multiple"
-                                style={{ width: '100%' }}
-                                placeholder="Vypraveč"
-                            >
-                                {this.state.vypravec}
-                            </Select>
-                        )}
-                    </Form.Item>
-                    <Form.Item label="Typy promluv postav">
-                        {getFieldDecorator('typPromluvyPostav', {
-                            rules: [{ required: true, message: " " }],
-                        })(
-                            <Select
-                                mode="multiple"
-                                style={{ width: '100%' }}
-                                placeholder="Typy promluv postav"
-                            >
-                                {this.state.typPromluvyPostav}
-                            </Select>
-                        )}
-                    </Form.Item>
-                    <Form.Item label="Veršová výstavba">
-                        {getFieldDecorator('versovaVystavba', {
-                            rules: [{ required: true, message: " " }],
-                        })(
-                            <Select
-                                mode="multiple"
-                                style={{ width: '100%' }}
-                                placeholder="Veršová výstavba"
+                        <Form.Item label="Název díla">
+                            {getFieldDecorator('nazev', {
+                                rules: [{ required: true, message: " " }],
+                            })(
+                                <Input placeholder="Název díla" />
+                            )}
+                        </Form.Item>
+                        <Form.Item label="Description">
+                            {getFieldDecorator('description', {
+                                rules: [{ required: true, message: " " }],
+                            })(
+                                <Input placeholder="Description" />
+                            )}
+                        </Form.Item>
+                        <Form.Item label="Autor">
+                            {getFieldDecorator('autor', {
+                                rules: [{ required: true, message: " " }],
+                            })(
+                                <Select
+                                    mode="multiple"
+                                    style={{ width: '100%' }}
+                                    placeholder="Vyberte si autora"
+                                >
+                                    {this.state.autori}
+                                </Select>
+                            )}
+                        </Form.Item>
 
-                            >
-                                {this.state.versovaVystavba}
-                            </Select>
-                        )}
-                    </Form.Item>
-                    <Form.Item label="Jazykové prostředky">
-                        {getFieldDecorator('jazykoveProstredky', {
-                            rules: [{ required: true, message: " " }],
-                        })(
-                            <Input placeholder="Jazykové prostředky" />
-                        )}
-                    </Form.Item>
-                    <Form.Item label="Obsah díla">
-                        {getFieldDecorator('obsahDila', {
-                            rules: [{ required: true, message: " " }],
-                        })(
-                            <TextArea
-                                placeholder="Obsah díla"
-                                autoSize={{ minRows: 4, maxRows: 8 }}
-                            />
-                        )}
-                    </Form.Item>
-                    <Button type="primary" htmlType="submit" className="login-form-button">
-                        Přidat dílo
+                        <Form.Item label="Literární druh">
+                            {getFieldDecorator('lit_druh', {
+                                rules: [{ required: true, message: " " }],
+                            })(
+                                <Select style={{ width: '100%' }} >
+                                    {this.state.lit_druh}
+                                </Select>
+
+                            )}
+                        </Form.Item>
+
+                        <Form.Item label="Literární druh">
+                            {getFieldDecorator('lit_zanr', {
+                                rules: [{ required: true, message: " " }],
+                            })(
+                                <Select style={{ width: '100%' }} >
+                                    {this.state.lit_zanr}
+                                </Select>
+                            )}
+                        </Form.Item>
+
+
+                        <Form.Item label="Konkrétní literární útvar">
+                            {getFieldDecorator('konkretni_utvar', {
+                                rules: [{ required: true, message: " " }],
+                            })(
+                                <Select style={{ width: '100%' }} >
+                                    {this.state.konkretni_utvar}
+                                </Select>
+                            )}
+                        </Form.Item>
+
+
+                        <Form.Item label="Doba děje">
+                            {getFieldDecorator('dobaDeje', {
+                                rules: [{ required: true, message: " " }],
+                            })(
+                                <Input placeholder="Doba děje" />
+                            )}
+                        </Form.Item>
+                        <Form.Item label="Místo děje">
+                            {getFieldDecorator('mistoDeje', {
+                                rules: [{ required: true, message: " " }],
+                            })(
+                                <Input placeholder="Místo děje" />
+                            )}
+                        </Form.Item>
+                        <Form.Item label="Postavy">
+                            {getFieldDecorator('postavy', {
+                                rules: [{ required: true, message: " " }],
+                            })(
+                                <TextArea
+                                    placeholder="- **Jméno postavy: ** popis postavy."
+                                    autoSize={{ minRows: 3, maxRows: 5 }}
+                                />
+                            )}
+                        </Form.Item>
+                        <Form.Item label="Téma díla">
+                            {getFieldDecorator('tema_dila', {
+                                rules: [{ required: true, message: " " }],
+                            })(
+                                <Input placeholder="Téma díla" />
+                            )}
+                        </Form.Item>
+                        <Form.Item label="Vypraveč">
+                            {getFieldDecorator('vypravec', {
+                                rules: [{ required: true, message: " " }],
+                            })(
+                                <Select
+                                    mode="multiple"
+                                    style={{ width: '100%' }}
+                                    placeholder="Vypraveč"
+                                >
+                                    {this.state.vypravec}
+                                </Select>
+                            )}
+                        </Form.Item>
+                        <Form.Item label="Typy promluv postav">
+                            {getFieldDecorator('typPromluvyPostav', {
+                                rules: [{ required: true, message: " " }],
+                            })(
+                                <Select
+                                    mode="multiple"
+                                    style={{ width: '100%' }}
+                                    placeholder="Typy promluv postav"
+                                >
+                                    {this.state.typPromluvyPostav}
+                                </Select>
+                            )}
+                        </Form.Item>
+                        <Form.Item label="Veršová výstavba">
+                            {getFieldDecorator('versovaVystavba', {
+                                rules: [{ required: true, message: " " }],
+                            })(
+                                <Select
+                                    mode="multiple"
+                                    style={{ width: '100%' }}
+                                    placeholder="Veršová výstavba"
+
+                                >
+                                    {this.state.versovaVystavba}
+                                </Select>
+                            )}
+                        </Form.Item>
+                        <Form.Item label="Jazykové prostředky">
+                            {getFieldDecorator('jazykoveProstredky', {
+                                rules: [{ required: true, message: " " }],
+                            })(
+                                <Input placeholder="Jazykové prostředky" />
+                            )}
+                        </Form.Item>
+                        <Form.Item label="Obsah díla">
+                            {getFieldDecorator('obsahDila', {
+                                rules: [{ required: true, message: " " }],
+                            })(
+                                <TextArea
+                                    placeholder="Obsah díla"
+                                    autoSize={{ minRows: 4, maxRows: 8 }}
+                                />
+                            )}
+                        </Form.Item>
+                        <Form.Item label="Fotka">
+                            {getFieldDecorator('image', {
+                                rules: [{ required: true, message: " " }],
+                            })(
+                                <Upload {...config}>
+                                    <Button>
+                                        <Icon type="upload" /> Click to Upload
+                                </Button>
+                                </Upload>
+                            )}
+                        </Form.Item>
+                        <Button type="primary" htmlType="submit" className="login-form-button">
+                            Přidat dílo
                     </Button>
-                </Form>
+                    </Form>
+                </Row>
+
             </React.Fragment>
         );
     }
@@ -227,16 +252,15 @@ class AddNewDilo extends Component<Props, State> {
         e.preventDefault();
         this.props.form.validateFields((err: any, values: any) => {
             if (!err) {
-                
                 console.log('Received values of form: ', values);
-                axios({
-                    method: 'post',
-                    url: '/addNovyDilo',
+                let formData = new FormData();
+                formData.append('file', values.image.file);
+                // formData.append('value', values);
+                axios.post('/addNovyDilo', formData, {
                     withCredentials: true,
-                    headers: { 'Authorization': 'Bearer ' + this.props.reducer!.user!.accessToken },
-                    data: {
-                        dilo: values
-                    }
+                    headers: { 'Authorization': 'Bearer ' + this.props.reducer!.user!.accessToken, 
+                    "content-type": 'multipart/form-data'
+                },
                 })
                     .then(
                         res => {

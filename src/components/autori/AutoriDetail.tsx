@@ -118,56 +118,16 @@ class AutoriDetail extends Component<Props, State>{
             .then(
 
                 res => {
+                    console.log(res.data);
                     this.setState({
-                        autor: res.data[0],
+                        autor: res.data,
                         loading: false,
-                        autorZarazeniPath: res.data[0].zarazeni,               
-                        autorZivotPath: res.data[0].zivot,               
-                        autorDilaPath: res.data[0].dila,               
+                        zarazeni: marked(res.data.zarazeni),               
+                        zivot: marked(res.data.zivot),                
+                        dila: marked(res.data.dila),               
                     });
-                  
-                    this.showZarazeni();
-                    this.showZivot();
-                    this.showDila();
                 }
             ).catch(err => err)
-    }
-
-    private showZarazeni = () => {
-        let zarazeniPath = require("./../../autori/"+this.state.autorZarazeniPath);
-        fetch(zarazeniPath)
-            .then(response => {
-                return response.text()
-            })
-            .then(text => {
-                this.setState({
-                    zarazeni: marked(text)
-                })
-            })
-    }
-    private showZivot = () => {
-        let zivotPath = require("./../../autori/"+this.state.autorZivotPath);
-        fetch(zivotPath)
-            .then(response => {
-                return response.text()
-            })
-            .then(text => {
-                this.setState({
-                    zivot: marked(text)
-                })
-            })
-    }
-    private showDila = () => {
-        let diloPath = require("./../../autori/"+this.state.autorDilaPath);
-        fetch(diloPath)
-            .then(response => {
-                return response.text()
-            })
-            .then(text => {
-                this.setState({
-                    dila: marked(text)
-                })
-            })
     }
 }
 

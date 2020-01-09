@@ -17,14 +17,15 @@ interface Props {
 interface State {
   dila?: any
   searchKey?: string
+  fotkaBase64: any
 }
 
-const IconText = ({ type, text }: { type: any, text: string }) => (
-  <span>
-    <Icon type={type} style={{ marginRight: 8 }} />
-    {text}
-  </span>
-);
+// const IconText = ({ type, text }: { type: any, text: string }) => (
+//   <span>
+//     <Icon type={type} style={{ marginRight: 8 }} />
+//     {text}
+//   </span>
+// );
 const { Search } = Input;
 class DilaList extends Component<Props, State> {
 
@@ -32,12 +33,14 @@ class DilaList extends Component<Props, State> {
     super(props);
     this.state = {
       dila: [],
-      searchKey:""
+      searchKey:"",
+      fotkaBase64:""
     }
   }
 
   componentDidMount() {
     this.getDila();
+    // this.getFotku();
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -80,11 +83,15 @@ class DilaList extends Component<Props, State> {
           renderItem={(item: any) => (
             <List.Item
               key={item.id}
-              actions={[<IconText type="like-o" text={item.like} />, <IconText type="dislike-o" text={item.dislike} />]}
+            //  actions={[<IconText type="like-o" text={item.like} />, <IconText type="dislike-o" text={item.dislike} />]}
               extra={
                 <img
                   style={{ height: "11.5em", width: "auto" }}
-                  alt="logo" src={item.img} />
+                  alt="logo" 
+                  // src={require('./../../images/Mai.jpg')}
+                  // src={this.state.fotkaBase64}
+                 src={item.img}
+                />
               }
               onDoubleClick={() => this.diloDetail(item.id)}
             >
@@ -124,6 +131,20 @@ class DilaList extends Component<Props, State> {
     this.props.history.push('dilo/' + id);
   }
 
+  // private getFotku(){
+  //   axios({
+  //     method: 'get',
+  //     url: '/getFotku',
+  //     withCredentials: true,
+  //   })
+  //     .then(
+  //       res => {
+  //         this.setState({ 
+  //           fotkaBase64: "data:;base64," + res.data 
+  //         });
+  //       }
+  //     ).catch(err => err)
+  // }
 
 }
 
