@@ -5,16 +5,17 @@ import { Reducer } from '../../utils/generalTypes';
 import { connect } from 'react-redux';
 
 interface Props {
-    form: any;
-    reducer?: Reducer;
-    dispatch?: Function;
+    form: any
+    history: any
+    reducer?: Reducer
+    dispatch?: Function
 }
 
 interface State {
     dilo: any
-    autori?: any,
-    lit_druh?: any,
-    lit_zanr?: any,
+    autori?: any
+    lit_druh?: any
+    lit_zanr?: any
     konkretni_utvar?: any
     vypravec?: any
     typPromluvyPostav?: any
@@ -255,7 +256,12 @@ class AddNewDilo extends Component<Props, State> {
                 console.log('Received values of form: ', values);
                 let formData = new FormData();
                 formData.append('file', values.image.file);
-                // formData.append('value', values);
+
+                values = {...values, imgName: values.image.file.name}
+
+                for ( var key in values ) {
+                    formData.append(key, values[key]);
+                }
                 axios.post('/addNovyDilo', formData, {
                     withCredentials: true,
                     headers: { 'Authorization': 'Bearer ' + this.props.reducer!.user!.accessToken, 
@@ -265,6 +271,11 @@ class AddNewDilo extends Component<Props, State> {
                     .then(
                         res => {
                             console.log(res);
+                            if(res.data){
+                                this.props.history.push('/dila');
+                            }else{
+                                console.log("Khong dc");
+                            }
                         }
                     ).catch(err => err)
             }
