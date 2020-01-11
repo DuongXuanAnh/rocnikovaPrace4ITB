@@ -17,7 +17,6 @@ interface Props {
 interface State {
   dila?: any
   searchKey?: string
-  fotkaBase64: any
 }
 
 // const IconText = ({ type, text }: { type: any, text: string }) => (
@@ -34,13 +33,11 @@ class DilaList extends Component<Props, State> {
     this.state = {
       dila: [],
       searchKey:"",
-      fotkaBase64:""
     }
   }
 
   componentDidMount() {
     this.getDila();
-    // this.getFotku();
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -88,9 +85,7 @@ class DilaList extends Component<Props, State> {
                 <img
                   style={{ height: "11.5em", width: "auto" }}
                   alt="logo" 
-                  // src={require('./../../images/Mai.jpg')}
-                  // src={this.state.fotkaBase64}
-                 src={item.img}
+                  src={item.img}
                 />
               }
               onDoubleClick={() => this.diloDetail(item.id)}
@@ -130,22 +125,6 @@ class DilaList extends Component<Props, State> {
   private diloDetail = (id: number) => {
     this.props.history.push('dilo/' + id);
   }
-
-  // private getFotku(){
-  //   axios({
-  //     method: 'get',
-  //     url: '/getFotku',
-  //     withCredentials: true,
-  //   })
-  //     .then(
-  //       res => {
-  //         this.setState({ 
-  //           fotkaBase64: "data:;base64," + res.data 
-  //         });
-  //       }
-  //     ).catch(err => err)
-  // }
-
 }
 
 export default withRouter((connect(reducer => reducer)(DilaList)));
