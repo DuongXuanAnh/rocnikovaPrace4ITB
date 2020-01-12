@@ -26,7 +26,6 @@ interface Props {
 
 interface State {
     collapsed: boolean // Otevírání a zavírání leftMenu
-
 }
 
 const { Header, Content, Sider } = Layout;
@@ -38,7 +37,6 @@ class Navbar extends Component<Props, State> {
         super(props);
         this.state = {
             collapsed: false,
-
         }
     }
 
@@ -98,6 +96,17 @@ class Navbar extends Component<Props, State> {
                                         <span>Kvíz</span>
                                     </Link>
                                 </Menu.Item>
+
+                                {(this.props.reducer && this.props.reducer.user && this.props.reducer.user.admin) ?
+                                    <Menu.Item key="7">
+                                        <Link to="/addNewDilo">
+                                            <Icon type="file-add" />
+                                            <span>Přidat dílo</span>
+                                        </Link>
+                                    </Menu.Item>
+                                    :
+                                    ""
+                                }
                             </Menu>
 
                         </Sider>
@@ -120,7 +129,7 @@ class Navbar extends Component<Props, State> {
                                             }}
                                             title={
                                                 <span className="submenu-title-wrapper">
-                                                    <span style={{fontSize: "1.5em", lineHeight: "3em"}}>{ email }</span>
+                                                    <span style={{ fontSize: "1.5em", lineHeight: "3em" }}>{email}</span>
                                                 </span>
                                             }
                                         >
@@ -157,7 +166,6 @@ class Navbar extends Component<Props, State> {
                             </Header>
 
                             <Content>
-
                                 <Route exact path="/dila" component={DilaList} />
                                 <Route exact path="/dilo/:id" component={DiloDetail} />
                                 <Route exact path="/addNewDilo" component={AddNewDilo} />

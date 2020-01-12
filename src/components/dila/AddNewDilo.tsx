@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Select, Button, Input, Form, Row, Col, Upload, Icon } from 'antd';
+import { Select, Button, Input, Form, Row, Upload, Icon } from 'antd';
 import axios from 'axios';
 import { Reducer } from '../../utils/generalTypes';
 import { connect } from 'react-redux';
@@ -55,6 +55,7 @@ class AddNewDilo extends Component<Props, State> {
     }
 
     componentDidMount() {
+        this.checkAdminUser();
         this.getAutori();
         this.getLitDruh();
         this.getLitZanr();
@@ -81,21 +82,21 @@ class AddNewDilo extends Component<Props, State> {
 
                         <Form.Item label="Název díla">
                             {getFieldDecorator('nazev', {
-                                rules: [{ required: true, message: " " }],
+                                rules: [{ required: true, message: "Zadejte název díla" }],
                             })(
                                 <Input placeholder="Název díla" />
                             )}
                         </Form.Item>
-                        <Form.Item label="Description">
+                        <Form.Item label="Popis díla">
                             {getFieldDecorator('description', {
-                                rules: [{ required: true, message: " " }],
+                                rules: [{ required: true, message: "Zadejte popis díla" }],
                             })(
                                 <Input placeholder="Description" />
                             )}
                         </Form.Item>
                         <Form.Item label="Autor">
                             {getFieldDecorator('autor', {
-                                rules: [{ required: true, message: " " }],
+                                rules: [{ required: true, message: "Vyberte si autora" }],
                             })(
                                 <Select
                                     mode="multiple"
@@ -109,7 +110,7 @@ class AddNewDilo extends Component<Props, State> {
 
                         <Form.Item label="Literární druh">
                             {getFieldDecorator('lit_druh', {
-                                rules: [{ required: true, message: " " }],
+                                rules: [{ required: true, message: "Vyberte si literární druh" }],
                             })(
                                 <Select style={{ width: '100%' }} >
                                     {this.state.lit_druh}
@@ -118,9 +119,9 @@ class AddNewDilo extends Component<Props, State> {
                             )}
                         </Form.Item>
 
-                        <Form.Item label="Literární druh">
+                        <Form.Item label="Literární zanr">
                             {getFieldDecorator('lit_zanr', {
-                                rules: [{ required: true, message: " " }],
+                                rules: [{ required: true, message: "Vyberte si literární žánr" }],
                             })(
                                 <Select style={{ width: '100%' }} >
                                     {this.state.lit_zanr}
@@ -131,7 +132,7 @@ class AddNewDilo extends Component<Props, State> {
 
                         <Form.Item label="Konkrétní literární útvar">
                             {getFieldDecorator('konkretni_utvar', {
-                                rules: [{ required: true, message: " " }],
+                                rules: [{ required: true, message: "Vyberte si literární útvar" }],
                             })(
                                 <Select style={{ width: '100%' }} >
                                     {this.state.konkretni_utvar}
@@ -173,7 +174,7 @@ class AddNewDilo extends Component<Props, State> {
                         </Form.Item>
                         <Form.Item label="Vypraveč">
                             {getFieldDecorator('vypravec', {
-                                rules: [{ required: true, message: " " }],
+                                rules: [{ required: true, message: "Vyberte si vypravěče" }],
                             })(
                                 <Select
                                     mode="multiple"
@@ -198,9 +199,7 @@ class AddNewDilo extends Component<Props, State> {
                             )}
                         </Form.Item>
                         <Form.Item label="Veršová výstavba">
-                            {getFieldDecorator('versovaVystavba', {
-                                rules: [{ required: true, message: " " }],
-                            })(
+        
                                 <Select
                                     mode="multiple"
                                     style={{ width: '100%' }}
@@ -209,7 +208,7 @@ class AddNewDilo extends Component<Props, State> {
                                 >
                                     {this.state.versovaVystavba}
                                 </Select>
-                            )}
+                            
                         </Form.Item>
                         <Form.Item label="Jazykové prostředky">
                             {getFieldDecorator('jazykoveProstredky', {
@@ -230,7 +229,7 @@ class AddNewDilo extends Component<Props, State> {
                         </Form.Item>
                         <Form.Item label="Fotka">
                             {getFieldDecorator('image', {
-                                rules: [{ required: true, message: " " }],
+                                rules: [{ required: true, message: "Vyberte si fotku" }],
                             })(
                                 <Upload {...config}>
                                     <Button>
@@ -417,6 +416,23 @@ class AddNewDilo extends Component<Props, State> {
                     });
                 }
             ).catch(err => err)
+    }
+
+    private checkAdminUser = () => {
+        var accessToken = localStorage.getItem('accessToken');
+        var id = Number(localStorage.getItem('id'));
+        var email = localStorage.getItem('email');
+        var admin = localStorage.getItem('admin');
+
+        console.log(accessToken, id, email, admin);
+
+        if (id !== 0 && accessToken !== null && email !== null && admin !== "true") {
+            this.props.history.push('/');
+        }
+        else if (id === 0 && accessToken === null && email === null && admin === null){
+            this.props.history.push('/');
+
+        }
     }
 
 }

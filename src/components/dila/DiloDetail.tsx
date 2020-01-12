@@ -21,6 +21,7 @@ interface State {
     postavy: any
     obsahDilaPath: any
     postavyPath: any
+    editDilo: boolean
 
 }
 
@@ -44,6 +45,7 @@ class DiloDetail extends Component<Props, State> {
             postavy: null,
             obsahDilaPath: null,
             postavyPath: null,
+            editDilo: false
         }
     }
 
@@ -78,18 +80,29 @@ class DiloDetail extends Component<Props, State> {
                     <div>
                         {
                             (this.props.reducer && this.props.reducer.user && this.props.reducer.user.admin === true) ?
-                                <Popconfirm
-                                    title="Opravdu chcete smazat toto dílo?"
-                                    onConfirm={(event) => this.confirm(event)}
-                                    onCancel={(event) => this.cancel(event)}
-                                    okText="Ano"
-                                    cancelText="Ne"
-                                >
-                                    <Button type="danger" style={{
-                                        margin: "2em 0 0 2em"
-                                    }}>Smazat dílo</Button>
+                                <div>
+                                    <Popconfirm
+                                        title="Opravdu chcete smazat toto dílo?"
+                                        onConfirm={(event) => this.confirm(event)}
+                                        onCancel={(event) => this.cancel(event)}
+                                        okText="Ano"
+                                        cancelText="Ne"
+                                    >
+                                        <Button type="danger" style={{
+                                            margin: "2em 0 0 2em"
+                                        }}>Smazat dílo</Button>
 
-                                </Popconfirm>
+                                    </Popconfirm>
+                                    <Button type="primary"
+                                        style={{
+                                            margin: "2em 0 0 2em",
+                                            background: "#ffc53d",
+                                            borderColor: "#faad14"
+                                        }}
+                                        onClick = {() => this.editDilo()}
+                                        >Upravit dílo</Button>
+                                </div>
+
                                 : ""
                         }
                         <h1 style={{
@@ -154,9 +167,7 @@ class DiloDetail extends Component<Props, State> {
                                     </Descriptions.Item>
                                     : ""
                             }
-
                             <Descriptions.Item label="Jazykové prostředky">{dilo.jazykove_prostredky}</Descriptions.Item>
-
                         </Descriptions>
                         <Collapse
                             bordered={false}
@@ -187,7 +198,7 @@ class DiloDetail extends Component<Props, State> {
                 res => {
                     console.log(res.data);
                     this.setState({
-                        dilo: {...res.data, lit_druh: res.data.Lit_druh.nazev, lit_zanr: res.data.Lit_zanr.nazev, konkretni_utvar: res.data.Konkretni_utvar.nazev},
+                        dilo: { ...res.data, lit_druh: res.data.Lit_druh.nazev, lit_zanr: res.data.Lit_zanr.nazev, konkretni_utvar: res.data.Konkretni_utvar.nazev },
                         postavy: marked(res.data.postavy),
                         obsahDila: marked(res.data.obsahDila),
                         loading: false
@@ -219,6 +230,12 @@ class DiloDetail extends Component<Props, State> {
 
     private cancel(e: any) {
 
+    }
+
+    private editDilo(){
+        this.setState({
+            editDilo: true
+        });
     }
 }
 
