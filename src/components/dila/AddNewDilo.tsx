@@ -12,7 +12,6 @@ interface Props {
 }
 
 interface State {
-    dilo: any
     autori?: any
     lit_druh?: any
     lit_zanr?: any
@@ -29,21 +28,6 @@ class AddNewDilo extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            dilo: {
-                nazev: "",
-                description: "",
-                idAutoru: [],
-                lit_druh: "",
-                lit_zanr: "",
-                konkretni_utvar: "",
-                dobaDeje: "",
-                mistoDeje: "",
-                tema_dila: "",
-                vypravec: [],
-                typPromluvyPostav: [],
-                versovaVystavba: [],
-                jazykove_prostredky: "",
-            },
             autori: [],
             lit_druh: [],
             lit_zanr: [],
@@ -199,16 +183,17 @@ class AddNewDilo extends Component<Props, State> {
                             )}
                         </Form.Item>
                         <Form.Item label="Veršová výstavba">
-        
+                        {getFieldDecorator('versovaVystavba', {
+                                rules: [{ required: false, message: " " }],
+                            })(
                                 <Select
                                     mode="multiple"
                                     style={{ width: '100%' }}
                                     placeholder="Veršová výstavba"
-
                                 >
                                     {this.state.versovaVystavba}
                                 </Select>
-                            
+                             )}
                         </Form.Item>
                         <Form.Item label="Jazykové prostředky">
                             {getFieldDecorator('jazykoveProstredky', {

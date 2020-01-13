@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, List, Input } from 'antd';
+import { Icon, List, Input, Spin } from 'antd';
 import axios from 'axios';
 import { Reducer } from '../../utils/generalTypes';
 import { connect } from 'react-redux';
@@ -17,6 +17,7 @@ interface Props {
 interface State {
   dila?: any
   searchKey?: string
+  loading: boolean
 }
 
 // const IconText = ({ type, text }: { type: any, text: string }) => (
@@ -32,7 +33,8 @@ class DilaList extends Component<Props, State> {
     super(props);
     this.state = {
       dila: [],
-      searchKey:"",
+      searchKey: "",
+      loading: false
     }
   }
 
@@ -41,11 +43,11 @@ class DilaList extends Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
-      if( prevState.searchKey !== this.state.searchKey){
-          this.getDila();
-      }
+    if (prevState.searchKey !== this.state.searchKey) {
+      this.getDila();
+    }
   }
-  
+
 
   render() {
     return (
@@ -53,58 +55,81 @@ class DilaList extends Component<Props, State> {
         <Search
           style={{ width: "50%", float: "right", margin: "1em 2em 0 0" }}
           placeholder="Hledat dílo"
-          onSearch={value => {this.setState({searchKey: value});}}
-          onChange={value => {this.setState({searchKey: value.target.value});}}
+          onSearch={value => { this.setState({ searchKey: value }); }}
+          onChange={value => { this.setState({ searchKey: value.target.value }); }}
           enterButton />
         <div
           style={{ clear: "both" }}
         ></div>
-        <List
-          itemLayout="vertical"
-          size="large"
-
-          pagination={{
-            simple: true,
-            pageSize: 3,
-            style: {
+        {this.state.loading ?
+          <div
+            style={{
               position: "fixed",
-              left: "50%",
-              margin: "0 auto",
-              bottom: "1.5em",
-            }
-          }}
+              zIndex: 1501,
+              background: "#000000",
+              height: "100vh",
+              opacity: 0.5,
+              width: "100%",
 
-          style={{ margin: "0 2em 0 3em" }}
-          dataSource={this.state.dila}
-          footer={<div></div>}
-          renderItem={(item: any) => (
-            <List.Item
-              key={item.id}
-            //  actions={[<IconText type="like-o" text={item.like} />, <IconText type="dislike-o" text={item.dislike} />]}
-              extra={
-                <img
-                  style={{ height: "11.5em", width: "auto" }}
-                  alt="logo" 
-                  src={item.img}
-                />
+            }}>>
+              <Spin tip="Načítání díla..." size="large" style={{
+              fontSize: '1.5em',
+              position: 'absolute',
+              left: '50%',
+              top: '45%',
+              "transform": "translate(-50%, -50%)"
+            }}></Spin>
+          </div>
+          :
+          <List
+            itemLayout="vertical"
+            size="large"
+
+            pagination={{
+              simple: true,
+              pageSize: 3,
+              style: {
+                position: "fixed",
+                left: "50%",
+                margin: "0 auto",
+                bottom: "1.5em",
               }
-              onDoubleClick={() => this.diloDetail(item.id)}
-            >
-              <List.Item.Meta
-                title={item.nazev}
-                description={item.description}
-              />
-              {item.content}
-            </List.Item>
+            }}
 
-          )}
-        />
+            style={{ margin: "0 2em 0 3em" }}
+            dataSource={this.state.dila}
+            footer={<div></div>}
+            renderItem={(item: any) => (
+              <List.Item
+                key={item.id}
+                //  actions={[<IconText type="like-o" text={item.like} />, <IconText type="dislike-o" text={item.dislike} />]}
+                extra={
+                  <img
+                    style={{ height: "11.5em", width: "auto" }}
+                    alt="logo"
+                    src={item.img}
+                  />
+                }
+                onDoubleClick={() => this.diloDetail(item.id)}
+              >
+                <List.Item.Meta
+                  title={item.nazev}
+                  description={item.description}
+                />
+                {item.content}
+              </List.Item>
 
+            )}
+          />
+        }
       </React.Fragment>
     );
   }
 
   private getDila = () => {
+    this.setState({
+      loading: true
+    });
     axios({
       method: 'get',
       url: '/dila',
@@ -116,10 +141,15 @@ class DilaList extends Component<Props, State> {
       .then(
         res => {
           this.setState({
-            dila: res.data
+            dila: res.data,
+            loading: false
           });
         }
-      ).catch(err => err)
+      ).catch(err => {
+        this.setState({
+          loading:false
+        });
+      })
   }
 
   private diloDetail = (id: number) => {

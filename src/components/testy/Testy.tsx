@@ -88,7 +88,7 @@ class Testy extends Component<Props, State> {
                 </Row>
                 
                 <h1 style={{ fontSize: "2em", textAlign: "center" }}>Vytoř si svůj test</h1>
-                <Row>
+                <Row style={{width: "35%", margin: "0 auto"}}>
                     <Col>
                     {this.state.testSZ ?
                     <Button

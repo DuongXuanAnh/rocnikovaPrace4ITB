@@ -22,7 +22,6 @@ interface State {
     obsahDilaPath: any
     postavyPath: any
     editDilo: boolean
-
 }
 
 const { Panel } = Collapse;
@@ -123,7 +122,7 @@ class DiloDetail extends Component<Props, State> {
                             <Descriptions.Item label="Literární druh" span={1}>{dilo.lit_druh}</Descriptions.Item>
                             <Descriptions.Item label="Literární žánr" span={1}>{dilo.lit_zanr}</Descriptions.Item>
                             <Descriptions.Item label="Konkrétní literární útvar" span={1}>{dilo.konkretni_utvar}</Descriptions.Item>
-                            <Descriptions.Item label="Místo a doba děje" span={1.5}>
+                            <Descriptions.Item label="Místo a doba děje" span={3}>
 
                                 {
                                     dilo.mistoDeje !== null ? <li>{dilo.mistoDeje}</li> : ""
@@ -132,7 +131,7 @@ class DiloDetail extends Component<Props, State> {
                                     dilo.dobaDeje !== null ? <li>{dilo.dobaDeje}</li> : ""
                                 }
                             </Descriptions.Item>
-                            <Descriptions.Item label="Téma díla" span={1.5}>{dilo.tema_dila}</Descriptions.Item>
+                            <Descriptions.Item label="Téma díla" span={3}>{dilo.tema_dila}</Descriptions.Item>
                             <Descriptions.Item label="Hlavní postavy" span={3}>
                                 <div dangerouslySetInnerHTML={{ __html: this.state.postavy }}></div>
                             </Descriptions.Item>
@@ -186,7 +185,7 @@ class DiloDetail extends Component<Props, State> {
 
     private getDiloDetail() {
         this.setState({
-            //loading: true
+            loading: true
         });
         const id: number = parseInt(this.props.match.params.id, 10);
         axios({
@@ -196,7 +195,6 @@ class DiloDetail extends Component<Props, State> {
         })
             .then(
                 res => {
-                    console.log(res.data);
                     this.setState({
                         dilo: { ...res.data, lit_druh: res.data.Lit_druh.nazev, lit_zanr: res.data.Lit_zanr.nazev, konkretni_utvar: res.data.Konkretni_utvar.nazev },
                         postavy: marked(res.data.postavy),
@@ -204,7 +202,11 @@ class DiloDetail extends Component<Props, State> {
                         loading: false
                     });
                 }
-            ).catch(err => err)
+            ).catch(err => {
+                this.setState({
+                    loading: false
+                });
+            })
     }
 
     private autorDetail(id: number) {
@@ -233,9 +235,8 @@ class DiloDetail extends Component<Props, State> {
     }
 
     private editDilo(){
-        this.setState({
-            editDilo: true
-        });
+        const id: number = parseInt(this.props.match.params.id, 10);
+        this.props.history.push('/editDilo/' + id);
     }
 }
 
