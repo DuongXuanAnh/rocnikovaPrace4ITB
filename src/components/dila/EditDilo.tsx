@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Reducer } from '../../utils/generalTypes';
 import { connect } from 'react-redux';
 import { Select, Button, Input, Form, Row, Upload, Icon } from 'antd';
-import DiloDetail from './DiloDetail';
 
 interface Props {
     form: any
@@ -53,18 +52,6 @@ class EditDilo extends Component<Props, State> {
             loading: false,
         }
     }
-
-    // componentWillMount() {
-    //     this.checkAdminUser();
-    //     this.getAutori();
-    //     this.getLitDruh();
-    //     this.getLitZanr();
-    //     this.getKonkretniUtvar();
-    //     this.getVypravec();
-    //     this.getTypPromluvyPostav();
-    //     this.getVersovaVystavba();
-    //     this.getOriginAutor();
-    // }
 
     componentDidMount() {
         this.checkAdminUser();
@@ -217,6 +204,25 @@ class EditDilo extends Component<Props, State> {
                 // console.log(this.state.originVypravec);
                 // console.log(this.state.originTypPromluvyPostav);
                 // console.log(this.state.originVersovaVystavba);
+                const id: number = parseInt(this.props.match.params.id, 10);
+                axios({
+                    method: 'post',
+                    url: '/editDilo',
+                    withCredentials: true,
+                   data:{
+                       idDilo: id,
+                       dilo: this.state.dilo,
+                       autor: this.state.originAutor,
+                       vypravec: this.state.originVypravec,
+                       typPromluvyPostav: this.state.originTypPromluvyPostav,
+                       versovaVystavba: this.state.originVersovaVystavba
+                   }
+                })
+                    .then(
+                        res => {
+                           console.log(res.data);
+                        }
+                    ).catch(err => err)
             }
         });
     };
@@ -435,7 +441,6 @@ class EditDilo extends Component<Props, State> {
         })
             .then(
                 res => {
-                    console.log(res.data);
                     const originVersovaVystavba: any = [];
                     res.data.map((value: any, key: any) => {
                         originVersovaVystavba.push(value.id_versovaVystavba.toString())
@@ -463,11 +468,13 @@ class EditDilo extends Component<Props, State> {
         });
     }
     private handleChangeLitDruh = (e:any) => {
+        console.log(typeof(e));
         this.setState({
             dilo: {...this.state.dilo, lit_druh: e}
         });
     }
     private handleChangeLitZanr = (e:any) => {
+        console.log(typeof(e));
         this.setState({
             dilo: {...this.state.dilo, lit_zanr: e}
         });
@@ -536,11 +543,12 @@ class EditDilo extends Component<Props, State> {
         })
             .then(
                 res => {
+                    console.log("aa");
+                    console.log(res.data);
                     this.setState({
                         dilo: { ...res.data, lit_druh: res.data.Lit_druh.nazev, lit_zanr: res.data.Lit_zanr.nazev, konkretni_utvar: res.data.Konkretni_utvar.nazev },
                         loading: false
                     });
-                    console.log(this.state.dilo);
                 }
             ).catch(err => {
                 this.setState({
