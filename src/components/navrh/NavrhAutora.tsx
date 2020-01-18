@@ -8,7 +8,7 @@ interface State {
 
 }
 
-class Kviz extends Component<Props, State> {
+class NavrhAutora extends Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
@@ -19,10 +19,10 @@ class Kviz extends Component<Props, State> {
     render() {
         return (
             <React.Fragment>
-                Kviz
+                NavrhAutora
             </React.Fragment>
         );
     }
 }
 
-export default Kviz;
+export default NavrhAutora;

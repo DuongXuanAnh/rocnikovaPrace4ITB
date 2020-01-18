@@ -19,13 +19,6 @@ interface State {
 
 class Hodnoceni extends Component<Props, State> {
 
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-
-        }
-    }
-
     componentDidMount() {
         if(this.props.reducer!.vysledekTestu!.length === 0){
             this.props.history.push('/testy');

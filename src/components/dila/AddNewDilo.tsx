@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Select, Button, Input, Form, Row, Upload, Icon } from 'antd';
+import { Select, Button, Input, Form, Row, Upload, Icon, notification } from 'antd';
 import axios from 'axios';
 import { Reducer } from '../../utils/generalTypes';
 import { connect } from 'react-redux';
@@ -112,8 +112,6 @@ class AddNewDilo extends Component<Props, State> {
                                 </Select>
                             )}
                         </Form.Item>
-
-
                         <Form.Item label="Konkrétní literární útvar">
                             {getFieldDecorator('konkretni_utvar', {
                                 rules: [{ required: true, message: "Vyberte si literární útvar" }],
@@ -123,7 +121,6 @@ class AddNewDilo extends Component<Props, State> {
                                 </Select>
                             )}
                         </Form.Item>
-
 
                         <Form.Item label="Doba děje">
                             {getFieldDecorator('dobaDeje', {
@@ -233,11 +230,21 @@ class AddNewDilo extends Component<Props, State> {
         );
     }
 
+    private openNotificationSuccess = () => {
+        notification.open({
+            message: 'Notifikace',
+            description:
+                'Dílo je úspěšně přidáno!',
+            onClick: () => {
+                console.log('Notification Clicked!');
+            },
+        });
+    };
+
     private handleSubmit = (e: any) => {
         e.preventDefault();
         this.props.form.validateFields((err: any, values: any) => {
             if (!err) {
-                console.log('Received values of form: ', values);
                 let formData = new FormData();
                 formData.append('file', values.image.file);
 
@@ -257,6 +264,7 @@ class AddNewDilo extends Component<Props, State> {
                             console.log(res);
                             if(res.data){
                                 this.props.history.push('/dila');
+                                this.openNotificationSuccess();
                             }else{
                                 console.log("Khong dc");
                             }

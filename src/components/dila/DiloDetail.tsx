@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Collapse, Icon, Descriptions, Spin, Popconfirm, Button } from 'antd';
+import { Collapse, Icon, Descriptions, Spin, Popconfirm, Button, notification } from 'antd';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Reducer } from '../../utils/generalTypes';
@@ -225,6 +225,7 @@ class DiloDetail extends Component<Props, State> {
                 res => {
                     if (res.data === "deleted") {
                         this.props.history.push('/dila');
+                        this.openNotificationDeleted();
                     }
                 }
             ).catch(err => err)
@@ -238,6 +239,17 @@ class DiloDetail extends Component<Props, State> {
         const id: number = parseInt(this.props.match.params.id, 10);
         this.props.history.push('/editDilo/' + id);
     }
+
+    private openNotificationDeleted = () => {
+        notification.open({
+            message: 'Notifikace',
+            description:
+                'Dílo bylo smazaný!',
+            onClick: () => {
+                console.log('Notification Clicked!');
+            },
+        });
+    };
 }
 
 export default withRouter((connect(reducer => reducer)(DiloDetail)));

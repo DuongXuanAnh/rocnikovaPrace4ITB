@@ -53,6 +53,11 @@ class App extends Component<Props, State> {
 
           <Route exact path="/kviz" component={Navbar} />
 
+          <Route exact path="/navrhAutora" component={Navbar} />
+          <Route exact path="/navrhDila" component={Navbar} />
+
+
+
         </React.Fragment>
       </Router>
     );

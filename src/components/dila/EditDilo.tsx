@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Reducer } from '../../utils/generalTypes';
 import { connect } from 'react-redux';
-import { Select, Button, Input, Form, Row, Upload, Icon } from 'antd';
+import { Select, Button, Input, Form, Row, Upload, Icon, notification, Spin } from 'antd';
 
 interface Props {
     form: any
@@ -23,8 +23,8 @@ interface State {
     versovaVystavba?: any
     originAutor: any
     originVypravec: any
-    originTypPromluvyPostav:any
-    originVersovaVystavba:any
+    originTypPromluvyPostav: any
+    originVersovaVystavba: any
     loading: boolean
 }
 
@@ -48,7 +48,7 @@ class EditDilo extends Component<Props, State> {
             originAutor: [],
             originVypravec: [],
             originTypPromluvyPostav: [],
-            originVersovaVystavba:[],
+            originVersovaVystavba: [],
             loading: false,
         }
     }
@@ -76,18 +76,37 @@ class EditDilo extends Component<Props, State> {
         };
         return (
             <React.Fragment>
+                  {this.state.loading ?
+          <div
+            style={{
+              position: "fixed",
+              zIndex: 1501,
+              background: "#000000",
+              height: "100vh",
+              opacity: 0.5,
+              width: "100%",
+
+            }}>>
+              <Spin tip="Načítání..." size="large" style={{
+              fontSize: '1.5em',
+              position: 'absolute',
+              left: '50%',
+              top: '45%',
+              "transform": "translate(-50%, -50%)"
+            }}></Spin>
+          </div>
+          :
                 <Row
                     style={{
                         width: "90%",
                         margin: "0 auto",
                     }}>
                     <Form onSubmit={this.handleSubmit} className="login-form">
-
                         <Form.Item label="Název díla">
-                            <Input placeholder="Název díla" value={this.state.dilo.nazev} onChange={(event:any) => this.handleChangeNazevDila(event)}/>
+                            <Input placeholder="Název díla" value={this.state.dilo.nazev} onChange={(event: any) => this.handleChangeNazevDila(event)} />
                         </Form.Item>
                         <Form.Item label="Popis díla">
-                            <Input placeholder="Popis díla" value={this.state.dilo.description} onChange={(event:any) => this.handleChangeDescription(event)}/>
+                            <Input placeholder="Popis díla" value={this.state.dilo.description} onChange={(event: any) => this.handleChangeDescription(event)} />
                         </Form.Item>
                         <Form.Item label="Autor">
                             <Select
@@ -98,14 +117,14 @@ class EditDilo extends Component<Props, State> {
                                 onChange={(event: any) => this.handleChangeAutora(event)}
                             >
                                 {this.state.autori}
-                            </Select>     
+                            </Select>
                         </Form.Item>
                         <Form.Item label="Literární druh">
                             <Select style={{ width: '100%' }} value={this.state.dilo.lit_druh} onChange={(event: any) => this.handleChangeLitDruh(event)}>
                                 {this.state.lit_druh}
                             </Select>
                         </Form.Item>
-                       <Form.Item label="Literární zanr">
+                        <Form.Item label="Literární zanr">
                             <Select style={{ width: '100%' }} value={this.state.dilo.lit_zanr} onChange={(event: any) => this.handleChangeLitZanr(event)}>
                                 {this.state.lit_zanr}
                             </Select>
@@ -115,13 +134,13 @@ class EditDilo extends Component<Props, State> {
                                 {this.state.konkretni_utvar}
                             </Select>
                         </Form.Item>
-                          <Form.Item label="Doba děje">
-                            <Input placeholder="Doba děje" value={this.state.dilo.dobaDeje} onChange={(event: any) => this.handleChangeDobaDeje(event)}/>
+                        <Form.Item label="Doba děje">
+                            <Input placeholder="Doba děje" value={this.state.dilo.dobaDeje} onChange={(event: any) => this.handleChangeDobaDeje(event)} />
                         </Form.Item>
                         <Form.Item label="Místo děje">
-                            <Input placeholder="Místo děje" value={this.state.dilo.mistoDeje} onChange={(event: any) => this.handleChangeMistoDeje(event)}/>
+                            <Input placeholder="Místo děje" value={this.state.dilo.mistoDeje} onChange={(event: any) => this.handleChangeMistoDeje(event)} />
                         </Form.Item>
-                       <Form.Item label="Postavy">
+                        <Form.Item label="Postavy">
                             <TextArea
                                 placeholder="- **Jméno postavy: ** popis postavy."
                                 autoSize={{ minRows: 3, maxRows: 5 }}
@@ -129,7 +148,7 @@ class EditDilo extends Component<Props, State> {
                             />
                         </Form.Item>
                         <Form.Item label="Téma díla">
-                            <Input placeholder="Téma díla" value={this.state.dilo.tema_dila} onChange={(event: any) => this.handleChangeTemaDila(event)}/>
+                            <Input placeholder="Téma díla" value={this.state.dilo.tema_dila} onChange={(event: any) => this.handleChangeTemaDila(event)} />
                         </Form.Item>
                         <Form.Item label="Vypraveč">
                             <Select
@@ -153,28 +172,28 @@ class EditDilo extends Component<Props, State> {
                                 {this.state.typPromluvyPostav}
                             </Select>
                         </Form.Item>
-                         <Form.Item label="Veršová výstavba">
-                                <Select
-                                    mode="multiple"
-                                    style={{ width: '100%' }}
-                                    placeholder="Veršová výstavba"
-                                    value={this.state.originVersovaVystavba}
-                                    onChange={(event: any) => this.handleChangeVersovaVystavba(event)}
-                                >
-                                    {this.state.versovaVystavba}
-                                </Select>
+                        <Form.Item label="Veršová výstavba">
+                            <Select
+                                mode="multiple"
+                                style={{ width: '100%' }}
+                                placeholder="Veršová výstavba"
+                                value={this.state.originVersovaVystavba}
+                                onChange={(event: any) => this.handleChangeVersovaVystavba(event)}
+                            >
+                                {this.state.versovaVystavba}
+                            </Select>
                         </Form.Item>
                         <Form.Item label="Jazykové prostředky">
                             <Input placeholder="Jazykové prostředky" value={this.state.dilo.jazykove_prostredky} onChange={(event: any) => this.handleChangeJazykoveProstredky(event)} />
                         </Form.Item>
-                         <Form.Item label="Obsah díla">
+                        <Form.Item label="Obsah díla">
                             <TextArea
                                 placeholder="Obsah díla"
                                 autoSize={{ minRows: 4, maxRows: 8 }}
                                 value={this.state.dilo.obsahDila} onChange={(event: any) => this.handleChangeObsahDila(event)}
                             />
                         </Form.Item>
-                       {/*  <Form.Item label="Fotka">
+                        {/*  <Form.Item label="Fotka">
                             {getFieldDecorator('image', {
                                 rules: [{ required: true, message: "Vyberte si fotku" }],
                             })(
@@ -190,7 +209,7 @@ class EditDilo extends Component<Props, State> {
                     </Button>
                     </Form>
                 </Row>
-
+    }
             </React.Fragment>
         );
     }
@@ -204,25 +223,38 @@ class EditDilo extends Component<Props, State> {
                 // console.log(this.state.originVypravec);
                 // console.log(this.state.originTypPromluvyPostav);
                 // console.log(this.state.originVersovaVystavba);
+                this.setState({
+                    loading: true
+                });
                 const id: number = parseInt(this.props.match.params.id, 10);
                 axios({
                     method: 'post',
                     url: '/editDilo',
                     withCredentials: true,
-                   data:{
-                       idDilo: id,
-                       dilo: this.state.dilo,
-                       autor: this.state.originAutor,
-                       vypravec: this.state.originVypravec,
-                       typPromluvyPostav: this.state.originTypPromluvyPostav,
-                       versovaVystavba: this.state.originVersovaVystavba
-                   }
+                    data: {
+                        idDilo: id,
+                        dilo: this.state.dilo,
+                        autor: this.state.originAutor,
+                        vypravec: this.state.originVypravec,
+                        typPromluvyPostav: this.state.originTypPromluvyPostav,
+                        versovaVystavba: this.state.originVersovaVystavba
+                    }
                 })
                     .then(
                         res => {
-                           console.log(res.data);
+                            console.log(res.data);
+                            if (res.data === "editSuccess") {
+                                this.setState({
+                                    loading: false
+                                });
+                                this.openNotification();
+                            }
                         }
-                    ).catch(err => err)
+                    ).catch(err => {
+                        this.setState({
+                            loading: false
+                        });
+                    })
             }
         });
     };
@@ -452,9 +484,9 @@ class EditDilo extends Component<Props, State> {
             ).catch(err => err)
     }
 
-    private handleChangeNazevDila = (e:any) => {
+    private handleChangeNazevDila = (e: any) => {
         this.setState({
-            dilo: {...this.state.dilo, nazev: e.target.value}
+            dilo: { ...this.state.dilo, nazev: e.target.value }
         });
     }
     private handleChangeAutora = (value: any) => {
@@ -462,74 +494,71 @@ class EditDilo extends Component<Props, State> {
             originAutor: value
         });
     }
-    private handleChangeDescription = (e:any) => {
+    private handleChangeDescription = (e: any) => {
         this.setState({
-            dilo: {...this.state.dilo, description: e.target.value}
+            dilo: { ...this.state.dilo, description: e.target.value }
         });
     }
-    private handleChangeLitDruh = (e:any) => {
-        console.log(typeof(e));
+    private handleChangeLitDruh = (e: any) => {
         this.setState({
-            dilo: {...this.state.dilo, lit_druh: e}
+            dilo: { ...this.state.dilo, lit_druh: e }
         });
     }
-    private handleChangeLitZanr = (e:any) => {
-        console.log(typeof(e));
+    private handleChangeLitZanr = (e: any) => {
         this.setState({
-            dilo: {...this.state.dilo, lit_zanr: e}
+            dilo: { ...this.state.dilo, lit_zanr: e }
         });
     }
-    private handleChangeKonkretniUtvar = (e:any) => {
+    private handleChangeKonkretniUtvar = (e: any) => {
         this.setState({
-            dilo: {...this.state.dilo, konkretni_utvar: e}
+            dilo: { ...this.state.dilo, konkretni_utvar: e }
         });
     }
-    private handleChangeDobaDeje = (e:any) => {
+    private handleChangeDobaDeje = (e: any) => {
         this.setState({
-            dilo: {...this.state.dilo, dobaDeje: e.target.value}
+            dilo: { ...this.state.dilo, dobaDeje: e.target.value }
         });
     }
-    private handleChangeMistoDeje = (e:any) => {
+    private handleChangeMistoDeje = (e: any) => {
         this.setState({
-            dilo: {...this.state.dilo, mistoDeje: e.target.value}
+            dilo: { ...this.state.dilo, mistoDeje: e.target.value }
         });
     }
-    private handleChangePostavy = (e:any) => {
+    private handleChangePostavy = (e: any) => {
         this.setState({
-            dilo: {...this.state.dilo, postavy: e.target.value}
+            dilo: { ...this.state.dilo, postavy: e.target.value }
         });
     }
-    private handleChangeTemaDila = (e:any) => {
+    private handleChangeTemaDila = (e: any) => {
         this.setState({
-            dilo: {...this.state.dilo, tema_dila: e.target.value}
+            dilo: { ...this.state.dilo, tema_dila: e.target.value }
         });
     }
-    private handleChangeVypravec = (value:any) => {
+    private handleChangeVypravec = (value: any) => {
         this.setState({
             originVypravec: value
         });
     }
-    private handleChangeTypPromluvyPostav = (value:any) => {
+    private handleChangeTypPromluvyPostav = (value: any) => {
         this.setState({
             originTypPromluvyPostav: value
         });
     }
-    private handleChangeVersovaVystavba = (value:any) => {
+    private handleChangeVersovaVystavba = (value: any) => {
         this.setState({
             originVersovaVystavba: value
         });
     }
-    private handleChangeJazykoveProstredky = (e:any) => {
+    private handleChangeJazykoveProstredky = (e: any) => {
         this.setState({
-            dilo: {...this.state.dilo, jazykove_prostredky: e.target.value}
+            dilo: { ...this.state.dilo, jazykove_prostredky: e.target.value }
         });
     }
-    private handleChangeObsahDila = (e:any) => {
+    private handleChangeObsahDila = (e: any) => {
         this.setState({
-            dilo: {...this.state.dilo, obsahDila: e.target.value}
+            dilo: { ...this.state.dilo, obsahDila: e.target.value }
         });
     }
-    
 
     private getDiloDetail() {
         this.setState({
@@ -543,7 +572,6 @@ class EditDilo extends Component<Props, State> {
         })
             .then(
                 res => {
-                    console.log("aa");
                     console.log(res.data);
                     this.setState({
                         dilo: { ...res.data, lit_druh: res.data.Lit_druh.nazev, lit_zanr: res.data.Lit_zanr.nazev, konkretni_utvar: res.data.Konkretni_utvar.nazev },
@@ -557,6 +585,17 @@ class EditDilo extends Component<Props, State> {
             })
     }
 
+    private openNotification = () => {
+        notification.open({
+            message: 'Upozornění',
+            description:
+                'Dílo bylo úspěšně upraveno!',
+            onClick: () => {
+                console.log('Notification Clicked!');
+            },
+        });
+    };
+
     private checkAdminUser = () => {
         var accessToken = localStorage.getItem('accessToken');
         var id = Number(localStorage.getItem('id'));
@@ -568,10 +607,8 @@ class EditDilo extends Component<Props, State> {
         }
         else if (id === 0 && accessToken === null && email === null && admin === null) {
             this.props.history.push('/');
-
         }
     }
-
 }
 
 export default connect(reducer => reducer)(Form.create({ name: 'addNewDilo' })(EditDilo));

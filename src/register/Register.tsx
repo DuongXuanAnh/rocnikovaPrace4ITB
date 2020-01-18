@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Input, Button, Row, Col, notification, Spin } from 'antd';
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import axios from 'axios';
 import { connect } from 'react-redux';
 
@@ -50,6 +50,7 @@ class Register extends Component<iProps, iState> {
 
     componentDidMount() {
         this.checkLoggedUser();
+        this.openNotificationSuccess();
     }
 
 
@@ -183,6 +184,7 @@ class Register extends Component<iProps, iState> {
                             }
                             if (res.data === "success") {
                                 this.props.history.push('/login');
+                                this.openNotificationSuccess();
                             }
                         }
                     ).catch(err => err)
@@ -195,6 +197,17 @@ class Register extends Component<iProps, iState> {
             message: 'Upozornění',
             description:
                 'Tento E-mail je už zaregistrovaný. Prosím, vyberte si jiný.',
+            onClick: () => {
+                console.log('Notification Clicked!');
+            },
+        });
+    };
+
+    private openNotificationSuccess = () => {
+        notification.open({
+            message: 'Notifikace',
+            description:
+                'Váš účet byl úspěšně vytvořen! Nyní se můžete přihlásit.',
             onClick: () => {
                 console.log('Notification Clicked!');
             },

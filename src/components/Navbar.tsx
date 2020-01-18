@@ -15,6 +15,8 @@ import TestDashboard from './testy/TestDashboard';
 import Hodnoceni from './testy/Hodnoceni';
 import AddNewDilo from './dila/AddNewDilo';
 import EditDilo from './dila/EditDilo';
+import NavrhDila from './navrh/NavrhDila';
+import NavrhAutora from './navrh/NavrhAutora';
 
 interface Props {
     match: any
@@ -108,6 +110,17 @@ class Navbar extends Component<Props, State> {
                                     :
                                     ""
                                 }
+
+                                {(this.props.reducer && this.props.reducer.user && this.props.reducer.user.admin === false) ?
+                                    <Menu.Item key="8">
+                                        <Link to="/navrhDila">
+                                            <Icon type="plus" />
+                                            <span>Navrhnout dílo</span>
+                                        </Link>
+                                    </Menu.Item>
+                                    :
+                                    ""
+                                }
                             </Menu>
 
                         </Sider>
@@ -179,6 +192,8 @@ class Navbar extends Component<Props, State> {
                                 <Route exact path="/testDashboard" component={TestDashboard} />
                                 <Route exact path="/honoceniTestu" component={Hodnoceni} />
                                 <Route exact path="/kviz" component={Kviz} />
+                                <Route exact path="/navrhDila" component={NavrhDila} />
+                                <Route exact path="/navrhAutora" component={NavrhAutora} />
                             </Content>
                         </Layout>
                     </Layout>

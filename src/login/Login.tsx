@@ -33,6 +33,7 @@ class Login extends Component<Props, State> {
 
     componentDidMount() {
         this.checkLoggedUser();
+        
     }
 
     render() {
