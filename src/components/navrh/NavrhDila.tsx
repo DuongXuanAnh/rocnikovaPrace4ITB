@@ -14,6 +14,8 @@ interface State {
     vypravec?: any
     typPromluvyPostav?: any
     versovaVystavba?: any
+    vybranyLitDruh: number
+    vybranyLitZanr: number
 }
 
 const { Option } = Select;
@@ -28,18 +30,22 @@ class NavrhDila extends Component<Props, State> {
                 nazev: "",
                 description: "",
                 autor: "",
-                doba:"",
-                misto:"",
+                doba: "",
+                misto: "",
+                konkretniUtvar:"",
                 temaDila: "",
                 postavy: "",
                 jazykoveProstredky: "",
-                obsahDila:""
+                obsahDila: "",
+                pripominka: ""
             },
             lit_druh: [],
             lit_zanr: [],
             vypravec: [],
             typPromluvyPostav: [],
             versovaVystavba: [],
+            vybranyLitDruh: 0,
+            vybranyLitZanr: 0,
         }
     }
 
@@ -50,7 +56,6 @@ class NavrhDila extends Component<Props, State> {
         this.getTypPromluvyPostav();
         this.getVersovaVystavba();
     }
-
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -65,7 +70,7 @@ class NavrhDila extends Component<Props, State> {
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Item label="Název díla">
                             {getFieldDecorator('nazev', {
-                                rules: [{ required: false, message: "Zadejte název díla" }],
+                                rules: [{ required: true, message: "Zadejte název díla" }],
                             })(
                                 <Input placeholder="Název díla" onChange={(event: any) => this.handleChangeNazevDila(event)} />
                             )}
@@ -75,69 +80,75 @@ class NavrhDila extends Component<Props, State> {
                         </Form.Item>
                         <Form.Item label="Autor">
                             {getFieldDecorator('autor', {
-                                rules: [{ required: false, message: "Zadejte jméno autora" }],
+                                rules: [{ required: true, message: "Zadejte jméno autora" }],
                             })(
                                 <Input placeholder="Jméno autora" onChange={(event: any) => this.handleChangeAutor(event)} />
                             )}
                         </Form.Item>
                         <Form.Item label="Literární druh">
-                            <Select style={{ width: '100%' }} >
+                            <Select style={{ width: '100%' }} onChange={(event: any) => this.handleChangeLitDruh(event)}>
                                 {this.state.lit_druh}
                             </Select>
                         </Form.Item>
                         <Form.Item label="Literární zanr">
-                            <Select style={{ width: '100%' }} >
+                            <Select style={{ width: '100%' }} onChange={(event: any) => this.handleChangeLitZanr(event)}>
                                 {this.state.lit_zanr}
                             </Select>
                         </Form.Item>
                         <Form.Item label="Konkrétní literární útvar">
-                            <Input placeholder="Konkrétní literární útvar" onChange={(event: any) => this.handleChangeLitUtvar(event)}/>
+                            <Input placeholder="Konkrétní literární útvar" onChange={(event: any) => this.handleChangeLitUtvar(event)} />
                         </Form.Item>
                         <Form.Item label="Doba děje">
-                                <Input placeholder="Doba děje" onChange={(event: any) => this.handleChangeDobaDeje(event)}/>
+                            <Input placeholder="Doba děje" onChange={(event: any) => this.handleChangeDobaDeje(event)} />
                         </Form.Item>
                         <Form.Item label="Místo děje">
-                                <Input placeholder="Místo děje" onChange={(event: any) => this.handleChangeMistoDeje(event)}/>
+                            <Input placeholder="Místo děje" onChange={(event: any) => this.handleChangeMistoDeje(event)} />
                         </Form.Item>
                         <Form.Item label="Téma díla">
-                                <Input placeholder="Téma díla" onChange={(event: any) => this.handleChangeTemaDila(event)}/>
+                            <Input placeholder="Téma díla" onChange={(event: any) => this.handleChangeTemaDila(event)} />
                         </Form.Item>
                         <Form.Item label="Postavy">
-                                <TextArea
-                                    placeholder="- **Jméno postavy: ** popis postavy."
-                                    autoSize={{ minRows: 3, maxRows: 5 }}
-                                    onChange={(event: any) => this.handleChangePostavy(event)}
-                                />
+                            <TextArea
+                                placeholder="- **Jméno postavy: ** popis postavy."
+                                autoSize={{ minRows: 3, maxRows: 5 }}
+                                onChange={(event: any) => this.handleChangePostavy(event)}
+                            />
                         </Form.Item>
                         <Form.Item label="Veršová výstavba">
-                                <Select
-                                    mode="multiple"
-                                    style={{ width: '100%' }}
-                                    placeholder="Veršová výstavba"
-                                >
-                                    {this.state.versovaVystavba}
-                                </Select>
+                            <Select
+                                mode="multiple"
+                                style={{ width: '100%' }}
+                                placeholder="Veršová výstavba"
+                            >
+                                {this.state.versovaVystavba}
+                            </Select>
                         </Form.Item>
                         <Form.Item label="Vypraveč">
-                                <Select
-                                    mode="multiple"
-                                    style={{ width: '100%' }}
-                                    placeholder="Vypraveč"
-                                >
-                                    {this.state.vypravec}
-                                </Select>
+                            <Select
+                                mode="multiple"
+                                style={{ width: '100%' }}
+                                placeholder="Vypraveč"
+                            >
+                                {this.state.vypravec}
+                            </Select>
                         </Form.Item>
                         <Form.Item label="Jazykové prostředky">
-                                <Input placeholder="Jazykové prostředky" onChange={(event: any) => this.handleChangeJazykoveProstredky(event)}/>
+                            <Input placeholder="Jazykové prostředky" onChange={(event: any) => this.handleChangeJazykoveProstredky(event)} />
                         </Form.Item>
                         <Form.Item label="Obsah díla">
-                                <TextArea
-                                    placeholder="Obsah díla"
-                                    autoSize={{ minRows: 4, maxRows: 8 }}
-                                    onChange={(event: any) => this.handleChangeObsahDila(event)}
-                                />
+                            <TextArea
+                                placeholder="Obsah díla"
+                                autoSize={{ minRows: 4, maxRows: 8 }}
+                                onChange={(event: any) => this.handleChangeObsahDila(event)}
+                            />
                         </Form.Item>
-
+                        <Form.Item label="Připomínka">
+                            <TextArea
+                                placeholder="Připomínka"
+                                autoSize={{ minRows: 4, maxRows: 8 }}
+                                onChange={(event: any) => this.handleChangePripominka(event)}
+                            />
+                        </Form.Item>
 
                         <Button type="primary" htmlType="submit">
                             Navrhnout dílo
@@ -152,7 +163,23 @@ class NavrhDila extends Component<Props, State> {
         e.preventDefault();
         this.props.form.validateFields((err: any, values: any) => {
             if (!err) {
+                const dilo: any = { ...this.state.dilo, litDruh: this.state.vybranyLitDruh, litZanr: this.state.vybranyLitZanr }
                 console.log(this.state.dilo);
+                console.log(this.state.vybranyLitDruh);
+                console.log(this.state.vybranyLitZanr);
+                axios({
+                    method: 'post',
+                    url: '/navrhnoutDilo',
+                    // withCredentials: true,
+                    data: {
+                        dilo: dilo
+                    }
+                })
+                    .then(
+                        res => {
+                            console.log(res);
+                        }
+                    ).catch(err => err)
             }
         });
     };
@@ -267,7 +294,7 @@ class NavrhDila extends Component<Props, State> {
     }
     private handleChangeLitUtvar = (e: any) => {
         this.setState({
-            dilo: { ...this.state.dilo, lit_utvar: e.target.value }
+            dilo: { ...this.state.dilo, konkretniUtvar: e.target.value }
         });
     }
     private handleChangeMistoDeje = (e: any) => {
@@ -300,8 +327,21 @@ class NavrhDila extends Component<Props, State> {
             dilo: { ...this.state.dilo, obsahDila: e.target.value }
         });
     }
-    
-
+    private handleChangePripominka = (e: any) => {
+        this.setState({
+            dilo: { ...this.state.dilo, pripominka: e.target.value }
+        });
+    }
+    private handleChangeLitDruh = (e: any) => {
+        this.setState({
+            vybranyLitDruh: e
+        });
+    }
+    private handleChangeLitZanr = (e: any) => {
+        this.setState({
+            vybranyLitZanr: e
+        });
+    }
 }
 
 export default connect(reducer => reducer)(Form.create({ name: 'navrhDila' })(NavrhDila));
