@@ -163,10 +163,10 @@ class NavrhDila extends Component<Props, State> {
         e.preventDefault();
         this.props.form.validateFields((err: any, values: any) => {
             if (!err) {
-                const dilo: any = { ...this.state.dilo, litDruh: this.state.vybranyLitDruh, litZanr: this.state.vybranyLitZanr }
-                console.log(this.state.dilo);
-                console.log(this.state.vybranyLitDruh);
-                console.log(this.state.vybranyLitZanr);
+                const dilo: any = { ...this.state.dilo, litDruh: this.state.vybranyLitDruh, litZanr: this.state.vybranyLitZanr, user: localStorage.getItem('id') }
+                // console.log(this.state.dilo);
+                // console.log(this.state.vybranyLitDruh);
+                // console.log(this.state.vybranyLitZanr);
                 axios({
                     method: 'post',
                     url: '/navrhnoutDilo',

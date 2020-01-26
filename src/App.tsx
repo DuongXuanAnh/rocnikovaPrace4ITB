@@ -40,6 +40,8 @@ class App extends Component<Props, State> {
           <Route exact path="/dilo/:id" component={Navbar} />
           <Route exact path="/addNewDilo" component={Navbar} />
           <Route exact path="/editDilo/:id" component={Navbar} />
+          <Route exact path="/zadostONavrhu" component={Navbar} />
+          <Route exact path="/navrhDetail/:id" component={Navbar} />
 
           <Route exact path="/autori" component={Navbar} />
           <Route exact path="/autor/:id" component={Navbar} />

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Select, Button, Input, Form, Row, Upload, Icon, notification } from 'antd';
+import { Select, Button, Input, Form, Row, Upload, Icon, notification, Col } from 'antd';
 import axios from 'axios';
 import { Reducer } from '../../utils/generalTypes';
 import { connect } from 'react-redux';

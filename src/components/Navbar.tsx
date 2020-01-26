@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu, Icon, Badge } from 'antd';
 import AutorsList from './autori/AutorsList';
 import { BrowserRouter as Router, Route, Link, withRouter } from "react-router-dom";
 import DilaList from './dila/DilaList';
@@ -17,6 +17,9 @@ import AddNewDilo from './dila/AddNewDilo';
 import EditDilo from './dila/EditDilo';
 import NavrhDila from './navrh/NavrhDila';
 import NavrhAutora from './navrh/NavrhAutora';
+import AdminNavrhy from './navrh/AdminNavrhy';
+import axios from 'axios';
+import AdminNavrhDetail from './navrh/AdminNavrhDetail';
 
 interface Props {
     match: any
@@ -29,6 +32,7 @@ interface Props {
 
 interface State {
     collapsed: boolean // Otevírání a zavírání leftMenu
+    countNavrhDila: number
 }
 
 const { Header, Content, Sider } = Layout;
@@ -40,11 +44,12 @@ class Navbar extends Component<Props, State> {
         super(props);
         this.state = {
             collapsed: false,
+            countNavrhDila: 0
         }
     }
 
     componentDidMount() {
-
+        this.countNavrhy();
     }
 
     render() {
@@ -99,18 +104,17 @@ class Navbar extends Component<Props, State> {
                                         <span>Kvíz</span>
                                     </Link>
                                 </Menu.Item>
-
                                 {(this.props.reducer && this.props.reducer.user && this.props.reducer.user.admin) ?
                                     <Menu.Item key="7">
                                         <Link to="/addNewDilo">
                                             <Icon type="file-add" />
                                             <span>Přidat dílo</span>
                                         </Link>
+                                
                                     </Menu.Item>
                                     :
                                     ""
                                 }
-
                                 {(this.props.reducer && this.props.reducer.user && this.props.reducer.user.admin === false) ?
                                     <Menu.Item key="8">
                                         <Link to="/navrhDila">
@@ -121,11 +125,21 @@ class Navbar extends Component<Props, State> {
                                     :
                                     ""
                                 }
+                                 {(this.props.reducer && this.props.reducer.user && this.props.reducer.user.admin === true) ?
+                                    <Menu.Item key="9">
+                                        <Link to="/zadostONavrhu">
+                                            <Icon type="profile" />
+                                            <span>Žádost o díla</span>
+                                            <Badge count={this.state.countNavrhDila} style={{marginLeft: "2.8em"}} />
+                                        </Link>
+                                    </Menu.Item>
+                                    :
+                                    ""
+                                }
                             </Menu>
 
                         </Sider>
                         <Layout>
-
                             <Header style={{ background: '#fff', padding: 0 }}>
                                 <Menu mode="horizontal" style={{ "height": "100%" }}>
                                     <Icon
@@ -134,7 +148,6 @@ class Navbar extends Component<Props, State> {
                                         type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                                         onClick={this.toggle}
                                     />
-
                                     {email !== null ?
                                         <SubMenu
                                             style={{
@@ -174,8 +187,6 @@ class Navbar extends Component<Props, State> {
                                             </Menu.Item>
                                         </SubMenu>
                                     }
-
-
                                 </Menu>
                             </Header>
 
@@ -194,6 +205,8 @@ class Navbar extends Component<Props, State> {
                                 <Route exact path="/kviz" component={Kviz} />
                                 <Route exact path="/navrhDila" component={NavrhDila} />
                                 <Route exact path="/navrhAutora" component={NavrhAutora} />
+                                <Route exact path="/zadostONavrhu" component={AdminNavrhy} />
+                                <Route exact path="/navrhDetail/:id" component={AdminNavrhDetail} />
                             </Content>
                         </Layout>
                     </Layout>
@@ -219,6 +232,21 @@ class Navbar extends Component<Props, State> {
     private logOut = () => {
         localStorage.clear();
         window.location.reload();
+    }
+
+    private countNavrhy = () => {
+        axios({
+            method: 'get',
+            url: '/navrhDila',
+            withCredentials: true,
+          })
+            .then(
+              res => {
+                this.setState({
+                  countNavrhDila: res.data.length
+                });
+              }
+            ).catch(err => err)
     }
 
 }
