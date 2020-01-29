@@ -11,11 +11,13 @@ interface State {
     dilo: any
     lit_druh?: any
     lit_zanr?: any
+    konkretni_utvar?: any
     vypravec?: any
     typPromluvyPostav?: any
     versovaVystavba?: any
     vybranyLitDruh: number
     vybranyLitZanr: number
+    vybranykonkretniUtvar: number
 }
 
 const { Option } = Select;
@@ -32,7 +34,7 @@ class NavrhDila extends Component<Props, State> {
                 autor: "",
                 doba: "",
                 misto: "",
-                konkretniUtvar:"",
+                konkretniUtvar: "",
                 temaDila: "",
                 postavy: "",
                 jazykoveProstredky: "",
@@ -41,17 +43,20 @@ class NavrhDila extends Component<Props, State> {
             },
             lit_druh: [],
             lit_zanr: [],
+            konkretni_utvar: [],
             vypravec: [],
             typPromluvyPostav: [],
             versovaVystavba: [],
             vybranyLitDruh: 0,
             vybranyLitZanr: 0,
+            vybranykonkretniUtvar: 0,
         }
     }
 
     componentDidMount() {
         this.getLitDruh();
         this.getLitZanr();
+        this.getKonkretniUtvar();
         this.getVypravec();
         this.getTypPromluvyPostav();
         this.getVersovaVystavba();
@@ -96,7 +101,9 @@ class NavrhDila extends Component<Props, State> {
                             </Select>
                         </Form.Item>
                         <Form.Item label="Konkrétní literární útvar">
-                            <Input placeholder="Konkrétní literární útvar" onChange={(event: any) => this.handleChangeLitUtvar(event)} />
+                            <Select style={{ width: '100%' }} onChange={(event: any) => this.handleChangeKonkretniUtvar(event)} >
+                                {this.state.konkretni_utvar}
+                            </Select>
                         </Form.Item>
                         <Form.Item label="Doba děje">
                             <Input placeholder="Doba děje" onChange={(event: any) => this.handleChangeDobaDeje(event)} />
@@ -163,7 +170,7 @@ class NavrhDila extends Component<Props, State> {
         e.preventDefault();
         this.props.form.validateFields((err: any, values: any) => {
             if (!err) {
-                const dilo: any = { ...this.state.dilo, litDruh: this.state.vybranyLitDruh, litZanr: this.state.vybranyLitZanr, user: localStorage.getItem('id') }
+                const dilo: any = { ...this.state.dilo, litDruh: this.state.vybranyLitDruh, litZanr: this.state.vybranyLitZanr,vybranykonkretniUtvar:this.state.vybranykonkretniUtvar, user: localStorage.getItem('id') }
                 // console.log(this.state.dilo);
                 // console.log(this.state.vybranyLitDruh);
                 // console.log(this.state.vybranyLitZanr);
@@ -217,6 +224,25 @@ class NavrhDila extends Component<Props, State> {
                     })
                     this.setState({
                         lit_zanr: lit_zanr
+                    });
+                }
+            ).catch(err => err)
+    }
+
+    private getKonkretniUtvar = () => {
+        let konkretni_utvar: any = [];
+        axios({
+            method: 'get',
+            url: '/konkretniUtvar',
+            withCredentials: true,
+        })
+            .then(
+                res => {
+                    res.data.map((value: any, key: any) => {
+                        konkretni_utvar.push(<Option key={value.id}>{value.nazev}</Option>);
+                    })
+                    this.setState({
+                        konkretni_utvar: konkretni_utvar
                     });
                 }
             ).catch(err => err)
@@ -292,11 +318,6 @@ class NavrhDila extends Component<Props, State> {
             dilo: { ...this.state.dilo, autor: e.target.value }
         });
     }
-    private handleChangeLitUtvar = (e: any) => {
-        this.setState({
-            dilo: { ...this.state.dilo, konkretniUtvar: e.target.value }
-        });
-    }
     private handleChangeMistoDeje = (e: any) => {
         this.setState({
             dilo: { ...this.state.dilo, misto: e.target.value }
@@ -342,6 +363,12 @@ class NavrhDila extends Component<Props, State> {
             vybranyLitZanr: e
         });
     }
+    private handleChangeKonkretniUtvar = (e: any) => {
+        this.setState({
+            vybranykonkretniUtvar: e
+        });
+    }
+
 }
 
 export default connect(reducer => reducer)(Form.create({ name: 'navrhDila' })(NavrhDila));

@@ -46,6 +46,14 @@ class AdminNavrhDetail extends Component<Props, State> {
 
     componentDidMount() {
         this.getNavrhDilaDetail();
+        this.getAutori();
+        this.getLitDruh();
+        this.getLitZanr();
+        this.getKonkretniUtvar();
+        this.getVypravec();
+        this.getTypPromluvyPostav();
+        this.getVersovaVystavba();
+        console.log(this.state.navrh);
     }
 
     render() {
@@ -57,29 +65,34 @@ class AdminNavrhDetail extends Component<Props, State> {
             <React.Fragment>
                 <Row>
                     <Col span={12}>
-                    {this.state.navrh.nazev}
+                        <Row style={{ marginLeft: "2em", overflow: "scroll", height: "100vh" }}>
+                          }
+                            <h3>Autor:</h3>
+                            {this.state.navrh.autor}
+                            <h3>Vypraveč:</h3>
+                            {/* {this.state.navrh.autor} */}
+                            <h3>Jazykové prostředky:</h3>
+                            {/* {this.state.navrh.autor} */}
+                            <h3>Připomínka:</h3>
+                            {this.state.navrh.pripominka}
+
+                        </Row>
                     </Col>
                     <Col span={12}>
                         <Row
                             style={{
                                 width: "90%",
                                 margin: "0 auto",
+                                overflow: "scroll",
+                                height: "100vh"
                             }}>
                             <Form onSubmit={this.handleSubmit} className="login-form">
 
                                 <Form.Item label="Název díla">
-                                    {getFieldDecorator('nazev', {
-                                        rules: [{ required: true, message: "Zadejte název díla" }],
-                                    })(
-                                        <Input placeholder="Název díla" />
-                                    )}
+                                    <Input placeholder="Název díla" value={this.state.navrh.nazev} onChange={(event: any) => this.handleChangeNazevDila(event)} />
                                 </Form.Item>
                                 <Form.Item label="Popis díla">
-                                    {getFieldDecorator('description', {
-                                        rules: [{ required: true, message: "Zadejte popis díla" }],
-                                    })(
-                                        <Input placeholder="Description" />
-                                    )}
+                                        <Input placeholder="Description" value={this.state.navrh.description} onChange={(event: any) => this.handleChangeDescription(event)} />
                                 </Form.Item>
                                 <Form.Item label="Autor">
                                     {getFieldDecorator('autor', {
@@ -96,70 +109,48 @@ class AdminNavrhDetail extends Component<Props, State> {
                                 </Form.Item>
 
                                 <Form.Item label="Literární druh">
-                                    {getFieldDecorator('lit_druh', {
-                                        rules: [{ required: true, message: "Vyberte si literární druh" }],
-                                    })(
-                                        <Select style={{ width: '100%' }} >
-                                            {this.state.lit_druh}
-                                        </Select>
-
-                                    )}
+                                    <Select
+                                        style={{ width: '100%' }}
+                                        value={this.state.navrh.lit_druh} onChange={(event: any) => this.handleChangeLitDruh(event)}
+                                    >
+                                        {this.state.lit_druh}
+                                    </Select>
                                 </Form.Item>
 
-                                <Form.Item label="Literární zanr">
-                                    {getFieldDecorator('lit_zanr', {
-                                        rules: [{ required: true, message: "Vyberte si literární žánr" }],
-                                    })(
-                                        <Select style={{ width: '100%' }} >
-                                            {this.state.lit_zanr}
-                                        </Select>
-                                    )}
+                                <Form.Item label="Literární žánr">
+                                    <Select
+                                        style={{ width: '100%' }}
+                                        value={this.state.navrh.lit_druh} onChange={(event: any) => this.handleChangeLitZanr(event)}
+                                    >
+                                        {this.state.lit_zanr}
+                                    </Select>
                                 </Form.Item>
                                 <Form.Item label="Konkrétní literární útvar">
-                                    {getFieldDecorator('konkretni_utvar', {
-                                        rules: [{ required: true, message: "Vyberte si literární útvar" }],
-                                    })(
-                                        <Select style={{ width: '100%' }} >
+                                        <Select style={{ width: '100%' }} value={this.state.navrh.konkretni_utvar} onChange={(event: any) => this.handleChangeKonkretniUtvar(event)}>
                                             {this.state.konkretni_utvar}
                                         </Select>
-                                    )}
                                 </Form.Item>
-
                                 <Form.Item label="Doba děje">
-                                    {getFieldDecorator('dobaDeje', {
-                                        rules: [{ required: true, message: " " }],
-                                    })(
-                                        <Input placeholder="Doba děje" />
-                                    )}
+                                    <Input placeholder="Doba děje" value={this.state.navrh.dobaDeje} onChange={(event: any) => this.handleChangeDobaDeje(event)} />
                                 </Form.Item>
-                                <Form.Item label="Místo děje">
-                                    {getFieldDecorator('mistoDeje', {
-                                        rules: [{ required: true, message: " " }],
-                                    })(
-                                        <Input placeholder="Místo děje" />
-                                    )}
+                                <Form.Item label="Místo děje"> 
+                                        <Input placeholder="Místo děje" value={this.state.navrh.mistoDeje} onChange={(event: any) => this.handleChangeMistoDeje(event)}/>
                                 </Form.Item>
                                 <Form.Item label="Postavy">
-                                    {getFieldDecorator('postavy', {
-                                        rules: [{ required: true, message: " " }],
-                                    })(
+                                 
                                         <TextArea
                                             placeholder="- **Jméno postavy: ** popis postavy."
                                             autoSize={{ minRows: 3, maxRows: 5 }}
+                                            value={this.state.navrh.postavy} onChange={(event: any) => this.handleChangePostavy(event)}
                                         />
-                                    )}
+                                    
                                 </Form.Item>
                                 <Form.Item label="Téma díla">
-                                    {getFieldDecorator('tema_dila', {
-                                        rules: [{ required: true, message: " " }],
-                                    })(
-                                        <Input placeholder="Téma díla" />
-                                    )}
+                                  
+                                        <Input placeholder="Téma díla" value={this.state.navrh.temaDila} onChange={(event: any) => this.handleChangeTemaDila(event)}/>
+                                
                                 </Form.Item>
                                 <Form.Item label="Vypraveč">
-                                    {getFieldDecorator('vypravec', {
-                                        rules: [{ required: true, message: "Vyberte si vypravěče" }],
-                                    })(
                                         <Select
                                             mode="multiple"
                                             style={{ width: '100%' }}
@@ -167,7 +158,6 @@ class AdminNavrhDetail extends Component<Props, State> {
                                         >
                                             {this.state.vypravec}
                                         </Select>
-                                    )}
                                 </Form.Item>
                                 <Form.Item label="Typy promluv postav">
                                     {getFieldDecorator('typPromluvyPostav', {
@@ -203,14 +193,11 @@ class AdminNavrhDetail extends Component<Props, State> {
                                     )}
                                 </Form.Item>
                                 <Form.Item label="Obsah díla">
-                                    {getFieldDecorator('obsahDila', {
-                                        rules: [{ required: true, message: " " }],
-                                    })(
-                                        <TextArea
-                                            placeholder="Obsah díla"
-                                            autoSize={{ minRows: 4, maxRows: 8 }}
-                                        />
-                                    )}
+                                    <TextArea
+                                        placeholder="Obsah díla"
+                                        autoSize={{ minRows: 4, maxRows: 8 }}
+                                        value={this.state.navrh.obsahDila} onChange={(event: any) => this.handleChangeObsahDila(event)}
+                                    />
                                 </Form.Item>
                                 <Form.Item label="Fotka">
                                     {getFieldDecorator('image', {
@@ -268,6 +255,144 @@ class AdminNavrhDetail extends Component<Props, State> {
         });
     };
 
+    private getAutori = () => {
+        let autori: any = [];
+        axios({
+            method: 'get',
+            url: '/autori',
+            withCredentials: true,
+            params: {
+                searchKey: ""
+            }
+        })
+            .then(
+                res => {
+
+                    res.data.map((value: any, key: any) => {
+                        autori.push(<Option key={value.id}>{value.name}</Option>);
+                    })
+                    this.setState({
+                        autori: autori
+                    });
+                }
+            ).catch(err => err)
+    }
+
+    private getLitDruh = () => {
+        let lit_druh: any = [];
+        axios({
+            method: 'get',
+            url: '/litDruh',
+            withCredentials: true,
+        })
+            .then(
+                res => {
+                    res.data.map((value: any, key: any) => {
+                        lit_druh.push(<Option value={value.id} key={value.id}>{value.nazev}</Option>);
+                    })
+                    this.setState({
+                        lit_druh: lit_druh
+                    });
+                }
+            ).catch(err => err)
+    }
+
+    private getLitZanr = () => {
+        let lit_zanr: any = [];
+        axios({
+            method: 'get',
+            url: '/litZanr',
+            withCredentials: true,
+        })
+            .then(
+                res => {
+                    res.data.map((value: any, key: any) => {
+                        lit_zanr.push(<Option value={value.id} key={value.id}>{value.nazev}</Option>);
+                    })
+                    this.setState({
+                        lit_zanr: lit_zanr
+                    });
+                }
+            ).catch(err => err)
+    }
+
+    private getKonkretniUtvar = () => {
+        let konkretni_utvar: any = [];
+        axios({
+            method: 'get',
+            url: '/konkretniUtvar',
+            withCredentials: true,
+        })
+            .then(
+                res => {
+                    res.data.map((value: any, key: any) => {
+                        konkretni_utvar.push(<Option value={value.id} key={value.id}>{value.nazev}</Option>);
+                    })
+                    this.setState({
+                        konkretni_utvar: konkretni_utvar
+                    });
+                }
+            ).catch(err => err)
+    }
+
+    private getVypravec = () => {
+        let vypravec: any = [];
+        axios({
+            method: 'get',
+            url: '/vypravec',
+            withCredentials: true,
+        })
+            .then(
+                res => {
+                    res.data.map((value: any, key: any) => {
+                        vypravec.push(<Option key={value.id}>{value.name}</Option>);
+                    })
+                    this.setState({
+                        vypravec: vypravec
+                    });
+                }
+            ).catch(err => err)
+    }
+
+    private getTypPromluvyPostav = () => {
+        let typPromluvyPostav: any = [];
+        axios({
+            method: 'get',
+            url: '/typPromluvyPostav',
+            withCredentials: true,
+        })
+            .then(
+                res => {
+                    res.data.map((value: any, key: any) => {
+                        typPromluvyPostav.push(<Option key={value.id}>{value.nazev}</Option>);
+                    })
+                    this.setState({
+                        typPromluvyPostav: typPromluvyPostav
+                    });
+                }
+            ).catch(err => err)
+    }
+
+    private getVersovaVystavba = () => {
+        let versovaVystavba: any = [];
+        axios({
+            method: 'get',
+            url: '/versovaVystavba',
+            withCredentials: true,
+        })
+            .then(
+                res => {
+                    res.data.map((value: any, key: any) => {
+                        versovaVystavba.push(<Option key={value.id}>{value.nazev}</Option>);
+                    })
+                    this.setState({
+                        versovaVystavba: versovaVystavba
+                    });
+                }
+            ).catch(err => err)
+    }
+
+
     private openNotificationSuccess = () => {
         notification.open({
             message: 'Notifikace',
@@ -278,6 +403,57 @@ class AdminNavrhDetail extends Component<Props, State> {
             },
         });
     };
+
+    private handleChangeNazevDila = (e: any) => {
+        this.setState({
+            navrh: { ...this.state.navrh, nazev: e.target.value }
+        });
+    }
+    private handleChangeDescription = (e: any) => {
+        this.setState({
+            navrh: { ...this.state.navrh, description: e.target.value }
+        });
+    }
+    private handleChangeLitDruh = (e: any) => {
+        this.setState({
+            navrh: { ...this.state.navrh, lit_druh: e }
+        });
+    }
+    private handleChangeLitZanr = (e: any) => {
+        this.setState({
+            navrh: { ...this.state.navrh, lit_zanr: e }
+        });
+    }
+    private handleChangeKonkretniUtvar = (e: any) => {
+        this.setState({
+            navrh: { ...this.state.navrh, konkretni_utvar: e }
+        });
+    }
+    private handleChangePostavy = (e: any) => {
+        this.setState({
+            navrh: { ...this.state.navrh, postavy: e.target.value }
+        });
+    }
+    private handleChangeObsahDila = (e: any) => {
+        this.setState({
+            navrh: { ...this.state.navrh, obsahDila: e.target.value }
+        });
+    }
+    private handleChangeDobaDeje = (e: any) => {
+        this.setState({
+            navrh: { ...this.state.navrh, dobaDeje: e.target.value }
+        });
+    }
+    private handleChangeMistoDeje = (e: any) => {
+        this.setState({
+            navrh: { ...this.state.navrh, mistoDeje: e.target.value }
+        });
+    }
+    private handleChangeTemaDila = (e: any) => {
+        this.setState({
+            navrh: { ...this.state.navrh, temaDila: e.target.value }
+        });
+    }
 
     // -------------------------------------------------------------------------
 
@@ -293,7 +469,7 @@ class AdminNavrhDetail extends Component<Props, State> {
         })
             .then(
                 res => {
-                    console.log(res.data[0].nazev);
+                    console.log(res.data[0]);
                     this.setState({
                         navrh: res.data[0]
                     });
