@@ -8,6 +8,7 @@ interface Props {
 }
 
 interface State {
+    autori?: any
     dilo: any
     lit_druh?: any
     lit_zanr?: any
@@ -41,6 +42,7 @@ class NavrhDila extends Component<Props, State> {
                 obsahDila: "",
                 pripominka: ""
             },
+            autori: [],
             lit_druh: [],
             lit_zanr: [],
             konkretni_utvar: [],
@@ -54,6 +56,7 @@ class NavrhDila extends Component<Props, State> {
     }
 
     componentDidMount() {
+        this.getAutori();
         this.getLitDruh();
         this.getLitZanr();
         this.getKonkretniUtvar();
@@ -75,86 +78,159 @@ class NavrhDila extends Component<Props, State> {
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Item label="Název díla">
                             {getFieldDecorator('nazev', {
-                                rules: [{ required: true, message: "Zadejte název díla" }],
+                                rules: [{ required: false, message: "Zadejte název díla" }],
                             })(
-                                <Input placeholder="Název díla" onChange={(event: any) => this.handleChangeNazevDila(event)} />
+                                <Input placeholder="Název díla" />
                             )}
                         </Form.Item>
                         <Form.Item label="Popis díla">
-                            <Input placeholder="Popis díla" onChange={(event: any) => this.handleChangeDescription(event)} />
+                            {getFieldDecorator('description', {
+                                rules: [{ required: false, message: "Zadejte popis díla" }],
+                            })(
+                                <Input placeholder="Description" />
+                            )}
                         </Form.Item>
                         <Form.Item label="Autor">
                             {getFieldDecorator('autor', {
-                                rules: [{ required: true, message: "Zadejte jméno autora" }],
+                                rules: [{ required: false, message: "Vyberte si autora" }],
                             })(
-                                <Input placeholder="Jméno autora" onChange={(event: any) => this.handleChangeAutor(event)} />
+                                <Select
+                                    mode="multiple"
+                                    style={{ width: '100%' }}
+                                    placeholder="Vyberte si autora"
+                                >
+                                    {this.state.autori}
+                                </Select>
                             )}
                         </Form.Item>
+
                         <Form.Item label="Literární druh">
-                            <Select style={{ width: '100%' }} onChange={(event: any) => this.handleChangeLitDruh(event)}>
-                                {this.state.lit_druh}
-                            </Select>
+                            {getFieldDecorator('lit_druh', {
+                                rules: [{ required: false, message: "Vyberte si literární druh" }],
+                            })(
+                                <Select style={{ width: '100%' }} >
+                                    {this.state.lit_druh}
+                                </Select>
+
+                            )}
                         </Form.Item>
+
                         <Form.Item label="Literární zanr">
-                            <Select style={{ width: '100%' }} onChange={(event: any) => this.handleChangeLitZanr(event)}>
-                                {this.state.lit_zanr}
-                            </Select>
+                            {getFieldDecorator('lit_zanr', {
+                                rules: [{ required: false, message: "Vyberte si literární žánr" }],
+                            })(
+                                <Select style={{ width: '100%' }} >
+                                    {this.state.lit_zanr}
+                                </Select>
+                            )}
                         </Form.Item>
                         <Form.Item label="Konkrétní literární útvar">
-                            <Select style={{ width: '100%' }} onChange={(event: any) => this.handleChangeKonkretniUtvar(event)} >
-                                {this.state.konkretni_utvar}
-                            </Select>
+                            {getFieldDecorator('konkretni_utvar', {
+                                rules: [{ required: false, message: "Vyberte si literární útvar" }],
+                            })(
+                                <Select style={{ width: '100%' }} >
+                                    {this.state.konkretni_utvar}
+                                </Select>
+                            )}
                         </Form.Item>
+
                         <Form.Item label="Doba děje">
-                            <Input placeholder="Doba děje" onChange={(event: any) => this.handleChangeDobaDeje(event)} />
+                            {getFieldDecorator('dobaDeje', {
+                                rules: [{ required: false, message: " " }],
+                            })(
+                                <Input placeholder="Doba děje" />
+                            )}
                         </Form.Item>
                         <Form.Item label="Místo děje">
-                            <Input placeholder="Místo děje" onChange={(event: any) => this.handleChangeMistoDeje(event)} />
-                        </Form.Item>
-                        <Form.Item label="Téma díla">
-                            <Input placeholder="Téma díla" onChange={(event: any) => this.handleChangeTemaDila(event)} />
+                            {getFieldDecorator('mistoDeje', {
+                                rules: [{ required: false, message: " " }],
+                            })(
+                                <Input placeholder="Místo děje" />
+                            )}
                         </Form.Item>
                         <Form.Item label="Postavy">
-                            <TextArea
-                                placeholder="- **Jméno postavy: ** popis postavy."
-                                autoSize={{ minRows: 3, maxRows: 5 }}
-                                onChange={(event: any) => this.handleChangePostavy(event)}
-                            />
+                            {getFieldDecorator('postavy', {
+                                rules: [{ required: false, message: " " }],
+                            })(
+                                <TextArea
+                                    placeholder="- **Jméno postavy: ** popis postavy."
+                                    autoSize={{ minRows: 3, maxRows: 5 }}
+                                />
+                            )}
                         </Form.Item>
-                        <Form.Item label="Veršová výstavba">
-                            <Select
-                                mode="multiple"
-                                style={{ width: '100%' }}
-                                placeholder="Veršová výstavba"
-                            >
-                                {this.state.versovaVystavba}
-                            </Select>
+                        <Form.Item label="Téma díla">
+                            {getFieldDecorator('tema_dila', {
+                                rules: [{ required: false, message: " " }],
+                            })(
+                                <Input placeholder="Téma díla" />
+                            )}
                         </Form.Item>
                         <Form.Item label="Vypraveč">
-                            <Select
-                                mode="multiple"
-                                style={{ width: '100%' }}
-                                placeholder="Vypraveč"
-                            >
-                                {this.state.vypravec}
-                            </Select>
+                            {getFieldDecorator('vypravec', {
+                                rules: [{ required: false, message: "Vyberte si vypravěče" }],
+                            })(
+                                <Select
+                                    mode="multiple"
+                                    style={{ width: '100%' }}
+                                    placeholder="Vypraveč"
+                                >
+                                    {this.state.vypravec}
+                                </Select>
+                            )}
+                        </Form.Item>
+                        <Form.Item label="Typy promluv postav">
+                            {getFieldDecorator('typPromluvyPostav', {
+                                rules: [{ required: false, message: " " }],
+                            })(
+                                <Select
+                                    mode="multiple"
+                                    style={{ width: '100%' }}
+                                    placeholder="Typy promluv postav"
+                                >
+                                    {this.state.typPromluvyPostav}
+                                </Select>
+                            )}
+                        </Form.Item>
+                        <Form.Item label="Veršová výstavba">
+                            {getFieldDecorator('versovaVystavba', {
+                                rules: [{ required: false, message: " " }],
+                            })(
+                                <Select
+                                    mode="multiple"
+                                    style={{ width: '100%' }}
+                                    placeholder="Veršová výstavba"
+                                >
+                                    {this.state.versovaVystavba}
+                                </Select>
+                            )}
                         </Form.Item>
                         <Form.Item label="Jazykové prostředky">
-                            <Input placeholder="Jazykové prostředky" onChange={(event: any) => this.handleChangeJazykoveProstredky(event)} />
+                            {getFieldDecorator('jazykoveProstredky', {
+                                rules: [{ required: false, message: " " }],
+                            })(
+                                <Input placeholder="Jazykové prostředky" />
+                            )}
                         </Form.Item>
                         <Form.Item label="Obsah díla">
-                            <TextArea
-                                placeholder="Obsah díla"
-                                autoSize={{ minRows: 4, maxRows: 8 }}
-                                onChange={(event: any) => this.handleChangeObsahDila(event)}
-                            />
+                            {getFieldDecorator('obsahDila', {
+                                rules: [{ required: false, message: " " }],
+                            })(
+                                <TextArea
+                                    placeholder="Obsah díla"
+                                    autoSize={{ minRows: 4, maxRows: 8 }}
+                                />
+                            )}
                         </Form.Item>
                         <Form.Item label="Připomínka">
-                            <TextArea
-                                placeholder="Připomínka"
-                                autoSize={{ minRows: 4, maxRows: 8 }}
-                                onChange={(event: any) => this.handleChangePripominka(event)}
-                            />
+                            {getFieldDecorator('pripominka', {
+                                rules: [{ required: false, message: " " }],
+                            })(
+                                <TextArea
+                                    placeholder="Připomínka"
+                                    autoSize={{ minRows: 4, maxRows: 8 }}
+                                    onChange={(event: any) => this.handleChangePripominka(event)}
+                                />
+                            )}
                         </Form.Item>
 
                         <Button type="primary" htmlType="submit">
@@ -170,10 +246,11 @@ class NavrhDila extends Component<Props, State> {
         e.preventDefault();
         this.props.form.validateFields((err: any, values: any) => {
             if (!err) {
-                const dilo: any = { ...this.state.dilo, litDruh: this.state.vybranyLitDruh, litZanr: this.state.vybranyLitZanr,vybranykonkretniUtvar:this.state.vybranykonkretniUtvar, user: localStorage.getItem('id') }
+                // const dilo: any = { ...this.state.dilo, litDruh: this.state.vybranyLitDruh, litZanr: this.state.vybranyLitZanr, vybranykonkretniUtvar: this.state.vybranykonkretniUtvar, user: localStorage.getItem('id') }
                 // console.log(this.state.dilo);
-                // console.log(this.state.vybranyLitDruh);
-                // console.log(this.state.vybranyLitZanr);
+               
+                const dilo = {...values, user: localStorage.getItem('id') };
+                console.log(dilo);
                 axios({
                     method: 'post',
                     url: '/navrhnoutDilo',
@@ -190,7 +267,28 @@ class NavrhDila extends Component<Props, State> {
             }
         });
     };
+    private getAutori = () => {
+        let autori: any = [];
+        axios({
+            method: 'get',
+            url: '/autori',
+            withCredentials: true,
+            params: {
+                searchKey: ""
+            }
+        })
+            .then(
+                res => {
 
+                    res.data.map((value: any, key: any) => {
+                        autori.push(<Option key={value.id}>{value.name}</Option>);
+                    })
+                    this.setState({
+                        autori: autori
+                    });
+                }
+            ).catch(err => err)
+    }
     private getLitDruh = () => {
         let lit_druh: any = [];
         axios({
