@@ -228,7 +228,6 @@ class NavrhDila extends Component<Props, State> {
                                 <TextArea
                                     placeholder="Připomínka"
                                     autoSize={{ minRows: 4, maxRows: 8 }}
-                                    onChange={(event: any) => this.handleChangePripominka(event)}
                                 />
                             )}
                         </Form.Item>
@@ -399,72 +398,6 @@ class NavrhDila extends Component<Props, State> {
                     });
                 }
             ).catch(err => err)
-    }
-
-    private handleChangeNazevDila = (e: any) => {
-        this.setState({
-            dilo: { ...this.state.dilo, nazev: e.target.value }
-        });
-    }
-    private handleChangeDescription = (e: any) => {
-        this.setState({
-            dilo: { ...this.state.dilo, description: e.target.value }
-        });
-    }
-    private handleChangeAutor = (e: any) => {
-        this.setState({
-            dilo: { ...this.state.dilo, autor: e.target.value }
-        });
-    }
-    private handleChangeMistoDeje = (e: any) => {
-        this.setState({
-            dilo: { ...this.state.dilo, misto: e.target.value }
-        });
-    }
-    private handleChangeDobaDeje = (e: any) => {
-        this.setState({
-            dilo: { ...this.state.dilo, doba: e.target.value }
-        });
-    }
-    private handleChangeTemaDila = (e: any) => {
-        this.setState({
-            dilo: { ...this.state.dilo, temaDila: e.target.value }
-        });
-    }
-    private handleChangePostavy = (e: any) => {
-        this.setState({
-            dilo: { ...this.state.dilo, postavy: e.target.value }
-        });
-    }
-    private handleChangeJazykoveProstredky = (e: any) => {
-        this.setState({
-            dilo: { ...this.state.dilo, jazykoveProstredky: e.target.value }
-        });
-    }
-    private handleChangeObsahDila = (e: any) => {
-        this.setState({
-            dilo: { ...this.state.dilo, obsahDila: e.target.value }
-        });
-    }
-    private handleChangePripominka = (e: any) => {
-        this.setState({
-            dilo: { ...this.state.dilo, pripominka: e.target.value }
-        });
-    }
-    private handleChangeLitDruh = (e: any) => {
-        this.setState({
-            vybranyLitDruh: e
-        });
-    }
-    private handleChangeLitZanr = (e: any) => {
-        this.setState({
-            vybranyLitZanr: e
-        });
-    }
-    private handleChangeKonkretniUtvar = (e: any) => {
-        this.setState({
-            vybranykonkretniUtvar: e
-        });
     }
 
 }

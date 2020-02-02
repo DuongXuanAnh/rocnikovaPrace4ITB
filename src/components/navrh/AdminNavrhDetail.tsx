@@ -21,8 +21,11 @@ interface State {
     vypravec?: any
     typPromluvyPostav?: any
     versovaVystavba?: any
-
     navrh: any
+    originAutor: any
+    originVypravec: any
+    originTypPromluvyPostav: any
+    originVersovaVystavba: any
 }
 
 const { Option } = Select;
@@ -40,7 +43,11 @@ class AdminNavrhDetail extends Component<Props, State> {
             vypravec: [],
             typPromluvyPostav: [],
             versovaVystavba: [],
-            navrh: {}
+            navrh: {},
+            originAutor: [],
+            originVypravec: [],
+            originTypPromluvyPostav: [],
+            originVersovaVystavba: [],
         }
     }
 
@@ -53,7 +60,9 @@ class AdminNavrhDetail extends Component<Props, State> {
         this.getVypravec();
         this.getTypPromluvyPostav();
         this.getVersovaVystavba();
-        console.log(this.state.navrh);
+        this.getOriginVypravecNavrh();
+        this.getOriginTypPromluvyPostavNavrh();
+        this.getOriginVersovaVystavbaNavrh();
     }
 
     render() {
@@ -155,42 +164,33 @@ class AdminNavrhDetail extends Component<Props, State> {
                                             mode="multiple"
                                             style={{ width: '100%' }}
                                             placeholder="Vypraveč"
+                                            value={this.state.originVypravec}
                                         >
                                             {this.state.vypravec}
                                         </Select>
                                 </Form.Item>
-                                <Form.Item label="Typy promluv postav">
-                                    {getFieldDecorator('typPromluvyPostav', {
-                                        rules: [{ required: true, message: " " }],
-                                    })(
+                                <Form.Item label="Typy promluv postav">               
                                         <Select
                                             mode="multiple"
                                             style={{ width: '100%' }}
                                             placeholder="Typy promluv postav"
+                                            value={this.state.originTypPromluvyPostav}
                                         >
                                             {this.state.typPromluvyPostav}
                                         </Select>
-                                    )}
                                 </Form.Item>
                                 <Form.Item label="Veršová výstavba">
-                                    {getFieldDecorator('versovaVystavba', {
-                                        rules: [{ required: false, message: " " }],
-                                    })(
                                         <Select
                                             mode="multiple"
                                             style={{ width: '100%' }}
                                             placeholder="Veršová výstavba"
+                                            value={this.state.originVersovaVystavba}
                                         >
                                             {this.state.versovaVystavba}
                                         </Select>
-                                    )}
                                 </Form.Item>
                                 <Form.Item label="Jazykové prostředky">
-                                    {getFieldDecorator('jazykoveProstredky', {
-                                        rules: [{ required: true, message: " " }],
-                                    })(
-                                        <Input placeholder="Jazykové prostředky" />
-                                    )}
+                                        <Input placeholder="Jazykové prostředky"  value={this.state.navrh.jazykove_prostredky} onChange={(event: any) => this.handleChangeJazykoveProstredky(event)}/>
                                 </Form.Item>
                                 <Form.Item label="Obsah díla">
                                     <TextArea
@@ -392,7 +392,6 @@ class AdminNavrhDetail extends Component<Props, State> {
             ).catch(err => err)
     }
 
-
     private openNotificationSuccess = () => {
         notification.open({
             message: 'Notifikace',
@@ -453,6 +452,80 @@ class AdminNavrhDetail extends Component<Props, State> {
         this.setState({
             navrh: { ...this.state.navrh, temaDila: e.target.value }
         });
+    }
+
+    private handleChangeJazykoveProstredky = (e: any) => {
+        this.setState({
+            navrh: { ...this.state.navrh, jazykove_prostredky: e.target.value }
+        });
+    }
+
+    private getOriginVypravecNavrh = () => {
+        const id: number = parseInt(this.props.match.params.id, 10);
+        axios({
+            method: 'get',
+            url: '/getOriginVypravecNavrh',
+            withCredentials: true,
+            params: {
+                idDila: id
+            }
+        })
+            .then(
+                res => {
+                    const originVypravec: any = [];
+                    res.data.map((value: any, key: any) => {
+                        originVypravec.push(value.id_vypravec.toString())
+                    })
+                    this.setState({
+                        originVypravec: originVypravec
+                    });
+                }
+            ).catch(err => err)
+    }
+
+    private getOriginTypPromluvyPostavNavrh = () => {
+        const id: number = parseInt(this.props.match.params.id, 10);
+        axios({
+            method: 'get',
+            url: '/getOriginTypPromluvyPostavNavrh',
+            withCredentials: true,
+            params: {
+                idDila: id
+            }
+        })
+            .then(
+                res => {
+                    const originTypPromluvyPostav: any = [];
+                    res.data.map((value: any, key: any) => {
+                        originTypPromluvyPostav.push(value.id_typPromluvyPostav.toString())
+                    })
+                    this.setState({
+                        originTypPromluvyPostav: originTypPromluvyPostav
+                    });
+                }
+            ).catch(err => err)
+    }
+    private getOriginVersovaVystavbaNavrh = () => {
+        const id: number = parseInt(this.props.match.params.id, 10);
+        axios({
+            method: 'get',
+            url: '/getOriginVersovaVystavbaNavrh',
+            withCredentials: true,
+            params: {
+                idDila: id
+            }
+        })
+            .then(
+                res => {
+                    const originVersovaVystavba: any = [];
+                    res.data.map((value: any, key: any) => {
+                        originVersovaVystavba.push(value.id_versovaVystavba.toString())
+                    })
+                    this.setState({
+                        originVersovaVystavba: originVersovaVystavba
+                    });
+                }
+            ).catch(err => err)
     }
 
     // -------------------------------------------------------------------------
