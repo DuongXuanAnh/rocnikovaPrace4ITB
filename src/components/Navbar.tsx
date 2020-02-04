@@ -20,6 +20,7 @@ import NavrhAutora from './navrh/NavrhAutora';
 import AdminNavrhy from './navrh/AdminNavrhy';
 import axios from 'axios';
 import AdminNavrhDetail from './navrh/AdminNavrhDetail';
+import AddNewAutor from './autori/AddNewAutor';
 
 interface Props {
     match: any
@@ -110,13 +111,24 @@ class Navbar extends Component<Props, State> {
                                             <Icon type="file-add" />
                                             <span>Přidat dílo</span>
                                         </Link>
-                                
+
+                                    </Menu.Item>
+                                    :
+                                    ""
+                                }
+                                {(this.props.reducer && this.props.reducer.user && this.props.reducer.user.admin) ?
+                                    <Menu.Item key="8">
+                                        <Link to="/addNewAutor">
+                                            <Icon type="user-add" />
+                                            <span>Přidat autora</span>
+                                        </Link>
+
                                     </Menu.Item>
                                     :
                                     ""
                                 }
                                 {(this.props.reducer && this.props.reducer.user && this.props.reducer.user.admin === false) ?
-                                    <Menu.Item key="8">
+                                    <Menu.Item key="9">
                                         <Link to="/navrhDila">
                                             <Icon type="plus" />
                                             <span>Navrhnout dílo</span>
@@ -125,12 +137,12 @@ class Navbar extends Component<Props, State> {
                                     :
                                     ""
                                 }
-                                 {(this.props.reducer && this.props.reducer.user && this.props.reducer.user.admin === true) ?
-                                    <Menu.Item key="9">
+                                {(this.props.reducer && this.props.reducer.user && this.props.reducer.user.admin === true) ?
+                                    <Menu.Item key="10">
                                         <Link to="/zadostONavrhu">
                                             <Icon type="profile" />
                                             <span>Žádost o díla</span>
-                                            <Badge count={this.state.countNavrhDila} style={{marginLeft: "2.8em"}} />
+                                            <Badge count={this.state.countNavrhDila} style={{ marginLeft: "2.8em" }} />
                                         </Link>
                                     </Menu.Item>
                                     :
@@ -196,6 +208,7 @@ class Navbar extends Component<Props, State> {
                                 <Route exact path="/addNewDilo" component={AddNewDilo} />
                                 <Route exact path="/editDilo/:id" component={EditDilo} />
                                 <Route exact path="/autori" component={AutorsList} />
+                                <Route exact path="/addNewAutor" component={AddNewAutor} />
                                 <Route exact path="/autor/:id" component={AutoriDetail} />
                                 <Route exact path="/ceskaLiteratura" component={CeskaLiteratura} />
                                 <Route exact path="/svetovaLiteratura" component={SvetovaLiteratura} />
@@ -239,13 +252,13 @@ class Navbar extends Component<Props, State> {
             method: 'get',
             url: '/navrhDila',
             withCredentials: true,
-          })
+        })
             .then(
-              res => {
-                this.setState({
-                  countNavrhDila: res.data.length
-                });
-              }
+                res => {
+                    this.setState({
+                        countNavrhDila: res.data.length
+                    });
+                }
             ).catch(err => err)
     }
 

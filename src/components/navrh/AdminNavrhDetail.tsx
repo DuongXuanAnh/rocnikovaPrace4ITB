@@ -60,6 +60,7 @@ class AdminNavrhDetail extends Component<Props, State> {
         this.getVypravec();
         this.getTypPromluvyPostav();
         this.getVersovaVystavba();
+        this.getOriginAutor();
         this.getOriginVypravecNavrh();
         this.getOriginTypPromluvyPostavNavrh();
         this.getOriginVersovaVystavbaNavrh();
@@ -74,20 +75,6 @@ class AdminNavrhDetail extends Component<Props, State> {
             <React.Fragment>
                 <Row>
                     <Col span={12}>
-                        <Row style={{ marginLeft: "2em", overflow: "scroll", height: "100vh" }}>
-                          }
-                            <h3>Autor:</h3>
-                            {this.state.navrh.autor}
-                            <h3>Vypraveč:</h3>
-                            {/* {this.state.navrh.autor} */}
-                            <h3>Jazykové prostředky:</h3>
-                            {/* {this.state.navrh.autor} */}
-                            <h3>Připomínka:</h3>
-                            {this.state.navrh.pripominka}
-
-                        </Row>
-                    </Col>
-                    <Col span={12}>
                         <Row
                             style={{
                                 width: "90%",
@@ -96,7 +83,6 @@ class AdminNavrhDetail extends Component<Props, State> {
                                 height: "100vh"
                             }}>
                             <Form onSubmit={this.handleSubmit} className="login-form">
-
                                 <Form.Item label="Název díla">
                                     <Input placeholder="Název díla" value={this.state.navrh.nazev} onChange={(event: any) => this.handleChangeNazevDila(event)} />
                                 </Form.Item>
@@ -104,19 +90,15 @@ class AdminNavrhDetail extends Component<Props, State> {
                                         <Input placeholder="Description" value={this.state.navrh.description} onChange={(event: any) => this.handleChangeDescription(event)} />
                                 </Form.Item>
                                 <Form.Item label="Autor">
-                                    {getFieldDecorator('autor', {
-                                        rules: [{ required: true, message: "Vyberte si autora" }],
-                                    })(
                                         <Select
                                             mode="multiple"
                                             style={{ width: '100%' }}
                                             placeholder="Vyberte si autora"
+                                            value={this.state.originAutor}
                                         >
                                             {this.state.autori}
                                         </Select>
-                                    )}
                                 </Form.Item>
-
                                 <Form.Item label="Literární druh">
                                     <Select
                                         style={{ width: '100%' }}
@@ -129,7 +111,7 @@ class AdminNavrhDetail extends Component<Props, State> {
                                 <Form.Item label="Literární žánr">
                                     <Select
                                         style={{ width: '100%' }}
-                                        value={this.state.navrh.lit_druh} onChange={(event: any) => this.handleChangeLitZanr(event)}
+                                        value={this.state.navrh.lit_zanr} onChange={(event: any) => this.handleChangeLitZanr(event)}
                                     >
                                         {this.state.lit_zanr}
                                     </Select>
@@ -216,6 +198,12 @@ class AdminNavrhDetail extends Component<Props, State> {
                             </Form>
                         </Row>
                     </Col>
+                    <Col span={12}>
+                        <Row style={{ marginLeft: "2em", overflow: "scroll", height: "100vh" }}>
+                            <h3>Připomínka:</h3>
+                            {this.state.navrh.pripominka}
+                        </Row>
+                    </Col>
                 </Row>
             </React.Fragment>
         );
@@ -223,35 +211,37 @@ class AdminNavrhDetail extends Component<Props, State> {
 
     private handleSubmit = (e: any) => {
         e.preventDefault();
+       
         this.props.form.validateFields((err: any, values: any) => {
-            if (!err) {
-                let formData = new FormData();
-                formData.append('file', values.image.file);
+            console.log(values);
+        //     if (!err) {
+        //         let formData = new FormData();
+        //         formData.append('file', values.image.file);
 
-                values = { ...values, imgName: values.image.file.name }
+        //         values = { ...values, imgName: values.image.file.name }
 
-                for (var key in values) {
-                    formData.append(key, values[key]);
-                }
-                axios.post('/addNovyDilo', formData, {
-                    withCredentials: true,
-                    headers: {
-                        'Authorization': 'Bearer ' + this.props.reducer!.user!.accessToken,
-                        "content-type": 'multipart/form-data'
-                    },
-                })
-                    .then(
-                        res => {
-                            console.log(res);
-                            if (res.data) {
-                                this.props.history.push('/dila');
-                                this.openNotificationSuccess();
-                            } else {
-                                console.log("Khong dc");
-                            }
-                        }
-                    ).catch(err => err)
-            }
+        //         for (var key in values) {
+        //             formData.append(key, values[key]);
+        //         }
+        //         axios.post('/addNovyDilo', formData, {
+        //             withCredentials: true,
+        //             headers: {
+        //                 'Authorization': 'Bearer ' + this.props.reducer!.user!.accessToken,
+        //                 "content-type": 'multipart/form-data'
+        //             },
+        //         })
+        //             .then(
+        //                 res => {
+        //                     console.log(res);
+        //                     if (res.data) {
+        //                         this.props.history.push('/dila');
+        //                         this.openNotificationSuccess();
+        //                     } else {
+        //                         console.log("Khong dc");
+        //                     }
+        //                 }
+        //             ).catch(err => err)
+        //     }
         });
     };
 
@@ -458,6 +448,29 @@ class AdminNavrhDetail extends Component<Props, State> {
         this.setState({
             navrh: { ...this.state.navrh, jazykove_prostredky: e.target.value }
         });
+    }
+
+    private getOriginAutor = () => {
+        const id: number = parseInt(this.props.match.params.id, 10);
+        axios({
+            method: 'get',
+            url: '/getOriginAutorNavrh',
+            withCredentials: true,
+            params: {
+                idDila: id
+            }
+        })
+            .then(
+                res => {
+                    const originAutor: any = [];
+                    res.data.map((value: any, key: any) => {
+                        originAutor.push(value.id_autor.toString())
+                    })
+                    this.setState({
+                        originAutor: originAutor
+                    });
+                }
+            ).catch(err => err)
     }
 
     private getOriginVypravecNavrh = () => {

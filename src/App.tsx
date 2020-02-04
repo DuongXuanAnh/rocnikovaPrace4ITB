@@ -45,6 +45,7 @@ class App extends Component<Props, State> {
 
           <Route exact path="/autori" component={Navbar} />
           <Route exact path="/autor/:id" component={Navbar} />
+          <Route exact path="/addNewAutor" component={Navbar} />
 
           <Route exact path="/ceskaLiteratura" component={Navbar} />
           <Route exact path="/svetovaLiteratura" component={Navbar} />

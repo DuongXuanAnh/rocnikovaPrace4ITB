@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Button, Select, Input, Form } from 'antd';
+import { Row, Button, Select, Input, Form, Col } from 'antd';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
@@ -19,6 +19,7 @@ interface State {
     vybranyLitDruh: number
     vybranyLitZanr: number
     vybranykonkretniUtvar: number
+    pridatAutoraMode: boolean
 }
 
 const { Option } = Select;
@@ -52,6 +53,7 @@ class NavrhDila extends Component<Props, State> {
             vybranyLitDruh: 0,
             vybranyLitZanr: 0,
             vybranykonkretniUtvar: 0,
+            pridatAutoraMode: false
         }
     }
 
@@ -98,10 +100,39 @@ class NavrhDila extends Component<Props, State> {
                                     mode="multiple"
                                     style={{ width: '100%' }}
                                     placeholder="Vyberte si autora"
+                                    disabled={this.state.pridatAutoraMode ? true : false}
                                 >
                                     {this.state.autori}
                                 </Select>
                             )}
+                            {this.state.pridatAutoraMode ?
+                                <a onClick={() => this.pridatAutora()} >Zavřít</a>
+                                :
+                                <a onClick={() => this.pridatAutora()} >Autor není vevýběru</a>
+                            }
+                            {/* {this.state.pridatAutoraMode ?
+                                <Row>
+                                    <Col span={24}><Input placeholder="Jméno autora" /></Col>
+                                    <Col span={8}>
+                                    <TextArea
+                                    placeholder="Zarazeni"
+                                    autoSize={{ minRows: 6, maxRows: 10 }}
+                                />
+                                    </Col>
+                                    <Col span={8}>
+                                    <TextArea
+                                    placeholder="Zivot"
+                                    autoSize={{ minRows: 6, maxRows: 10 }}
+                                />
+                                    </Col>
+                                    <Col span={8}>
+                                    <TextArea
+                                    placeholder="Díla"
+                                    autoSize={{ minRows: 6, maxRows: 10 }}
+                                />
+                                    </Col>
+                                </Row>
+                                : <div></div>} */}
                         </Form.Item>
 
                         <Form.Item label="Literární druh">
@@ -247,8 +278,8 @@ class NavrhDila extends Component<Props, State> {
             if (!err) {
                 // const dilo: any = { ...this.state.dilo, litDruh: this.state.vybranyLitDruh, litZanr: this.state.vybranyLitZanr, vybranykonkretniUtvar: this.state.vybranykonkretniUtvar, user: localStorage.getItem('id') }
                 // console.log(this.state.dilo);
-               
-                const dilo = {...values, user: localStorage.getItem('id') };
+
+                const dilo = { ...values, user: localStorage.getItem('id') };
                 console.log(dilo);
                 axios({
                     method: 'post',
@@ -398,6 +429,12 @@ class NavrhDila extends Component<Props, State> {
                     });
                 }
             ).catch(err => err)
+    }
+
+    private pridatAutora = () => {
+        this.setState({
+            pridatAutoraMode: !this.state.pridatAutoraMode
+        });
     }
 
 }
