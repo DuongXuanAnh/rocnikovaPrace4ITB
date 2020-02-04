@@ -25,7 +25,6 @@ class AddNewAutor extends Component<Props, State> {
 
     }
 
-
     render() {
         const { getFieldDecorator } = this.props.form;
         const config = {

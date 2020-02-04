@@ -1,5 +1,0 @@
-- Plným krokem - budovatelský (román).
-- Občan Brych (román).
-- **Romeno, Julie a tma (Novela z období německé okupace)**
-- Kulhavý Orfeus - román z doby okupace.
-- Když v ráji pršelo.

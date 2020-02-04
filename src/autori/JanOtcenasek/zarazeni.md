@@ -1,5 +1,0 @@
-- Český autor 2. pol. 20. stol.
-- Prozaik (Romány i kratší prozaické útvary).
-- Filmový a televizní scénárista.
-- Různorodá tématika děl - např. německá okupace.
-- Roku 1948, život spol. 60. a 70. let 20. stol.  

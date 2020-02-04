@@ -136,6 +136,9 @@ class AutorsList extends Component<Props, State>  {
                         autori: res.data,
                         loading: false
                     });
+                    console.log("---------------------");
+                    console.log(this.state.autori);
+                    console.log("---------------------");
                 }
             ).catch(err => {
                 this.setState({

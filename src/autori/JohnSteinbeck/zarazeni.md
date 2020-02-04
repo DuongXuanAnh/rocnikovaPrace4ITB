@@ -1,6 +1,0 @@
-- Americký spisovatel 20. stol.
-- Prozaik - romány.
-- Bývá přiřazován ke ztracené generaci (za 1. světovou válkou sice nebojoval, ale byl ovlivněn jejímdopadem).
-- Nositel Nebelovy ceny za literaturu.
-- Představitel sociálně kritického realismu - pravdivě zobrazoval a kritizoval životní podmínky chudiny na jihu USA.
-- Děj většiny děl - Kalifornie (vlastní zkušenosti).
