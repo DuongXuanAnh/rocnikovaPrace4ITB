@@ -144,10 +144,6 @@ class DilaList extends Component<Props, State> {
             dila: res.data,
             loading: false
           });
-          // console.log("---------------------");
-          // console.log(this.state.dila);
-          // console.log("---------------------");
-
         }
       ).catch(err => {
         this.setState({
