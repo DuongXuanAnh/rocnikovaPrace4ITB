@@ -62,7 +62,6 @@ class TestDashboard extends Component<Props, State> {
 
     }
 
-
     render() {
 
         const cisloOtazky: number = this.state.numberOfQuestion + 1
