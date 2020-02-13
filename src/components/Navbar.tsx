@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { Reducer } from '../utils/generalTypes';
 import TestDashboard from './testy/TestDashboard';
 import Hodnoceni from './testy/Hodnoceni';
+import HodnoceniKvizu from './kviz/Hodnoceni';
 import AddNewDilo from './dila/AddNewDilo';
 import EditDilo from './dila/EditDilo';
 import NavrhDila from './navrh/NavrhDila';
@@ -216,6 +217,7 @@ class Navbar extends Component<Props, State> {
                                 <Route exact path="/testDashboard" component={TestDashboard} />
                                 <Route exact path="/honoceniTestu" component={Hodnoceni} />
                                 <Route exact path="/kviz" component={Kviz} />
+                                <Route exact path="/honoceniKvizu" component={HodnoceniKvizu} />
                                 <Route exact path="/navrhDila" component={NavrhDila} />
                                 <Route exact path="/navrhAutora" component={NavrhAutora} />
                                 <Route exact path="/zadostONavrhu" component={AdminNavrhy} />

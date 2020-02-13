@@ -3,9 +3,14 @@ import { Row, Col, Button, Icon } from 'antd';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { Reducer } from '../../utils/generalTypes';
 
 interface Props {
-
+    match: any
+    location: any
+    history: any
+    reducer?: Reducer;
+    dispatch?: Function;
 }
 
 interface State {
@@ -17,8 +22,8 @@ interface State {
     countRightAnswer: number
     countWrongAnswer: number
     showNextButton: boolean
+    pokus: boolean
 }
-
 
 class Kviz extends Component<Props, State> {
 
@@ -32,23 +37,22 @@ class Kviz extends Component<Props, State> {
             answers: [],
             countRightAnswer: 0,
             countWrongAnswer: 0,
-            showNextButton: false
+            showNextButton: false,
+            pokus: false,
         }
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
         if (prevState.countRightAnswer !== this.state.countRightAnswer || prevState.countWrongAnswer !== this.state.countWrongAnswer) {
-            this.zobrazitTlacitkoNaDalsiOtazku();
+                this.zobrazitTlacitkoNaDalsiOtazku();
         }
         if (prevState.numberOfQuestion !== this.state.numberOfQuestion || prevState.numberOfQuestion !== this.state.numberOfQuestion) {
             this.generateAnswers();
-
         }
     }
 
     componentDidMount() {
         this.getQuestion();
-
     }
 
     render() {
@@ -122,7 +126,7 @@ class Kviz extends Component<Props, State> {
                     position: "absolute",
                     right: "6em",
                 }}>
-                    {this.state.showNextButton ?
+                    {(this.state.showNextButton) ?
                         <Col span={24}>
                             <Button type="primary"
                                 style={{
@@ -137,28 +141,7 @@ class Kviz extends Component<Props, State> {
                         </Col> : ""
                     }
 
-
-
                 </Row>
-                {this.state.numberOfQuestion > 0 ?
-                    <Row style={{
-                        bottom: "3em",
-                        position: "absolute",
-                    }}>
-                        <Button type="primary"
-                            style={{
-                                height: "4em",
-                                width: "20em",
-                                marginLeft: "3em"
-                            }}
-                            onClick={() => this.previousQuestion()}
-                        >
-                            <Icon type="left" />
-                            PŘEDCHOZÍ OTÁZKA
-                        </Button>
-                    </Row> : ""
-                }
-
             </React.Fragment >
         );
     }
@@ -169,7 +152,7 @@ class Kviz extends Component<Props, State> {
             url: '/kviz',
             withCredentials: true,
         }).then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
             let question: any = [];
             let wrongAnswers: any = [];
             let rightAnswer: any = [];
@@ -206,11 +189,11 @@ class Kviz extends Component<Props, State> {
         });
 
         const buttons: any = document.getElementsByClassName('btnAnswer');
+
         for (var i = 0; i < buttons.length; i++) {
             buttons[i].style.background = "#FFFFFF";
             buttons[i].disabled = false;
         }
-
     }
 
     private shuffle = (array: any) => {
@@ -247,6 +230,7 @@ class Kviz extends Component<Props, State> {
     }
 
     private zobrazitTlacitkoNaDalsiOtazku = () => {
+
         const buttons: any = document.getElementsByClassName('btnAnswer');
         if ((this.state.countRightAnswer === this.state.rightAnswers[this.state.numberOfQuestion].length) || this.state.countWrongAnswer === this.state.wrongAnswers[this.state.numberOfQuestion].length) {
             this.setState({
@@ -259,18 +243,16 @@ class Kviz extends Component<Props, State> {
     }
 
     private nextQuestion = () => {
-        this.setState({
-            numberOfQuestion: this.state.numberOfQuestion + 1,
-            showNextButton: false,
-            countRightAnswer: 0,
-            countWrongAnswer: 0,
-        });
-    }
-
-    private previousQuestion = () => {
-        this.setState({
-            numberOfQuestion: this.state.numberOfQuestion - 1,
-        });
+        if (this.state.numberOfQuestion === this.state.questions.length - 1) {
+            this.props.history.push('/honoceniKvizu');
+        }else{
+            this.setState({
+                numberOfQuestion: this.state.numberOfQuestion + 1,
+                showNextButton: false,
+                countRightAnswer: 0,
+                countWrongAnswer: 0,
+            });
+        }
     }
 }
 
