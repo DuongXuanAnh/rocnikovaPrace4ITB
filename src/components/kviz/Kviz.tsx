@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Reducer } from '../../utils/generalTypes';
+import * as actions from './../../redux/actions';
 
 interface Props {
     match: any
@@ -14,6 +15,7 @@ interface Props {
 }
 
 interface State {
+    data: any
     numberOfQuestion: number
     questions: any
     wrongAnswers: any
@@ -23,6 +25,8 @@ interface State {
     countWrongAnswer: number
     showNextButton: boolean
     pokus: boolean
+    vaseBody: number
+    maxBody: number
 }
 
 class Kviz extends Component<Props, State> {
@@ -30,6 +34,7 @@ class Kviz extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
+            data: [],
             numberOfQuestion: 0,
             questions: [],
             wrongAnswers: [],
@@ -39,12 +44,14 @@ class Kviz extends Component<Props, State> {
             countWrongAnswer: 0,
             showNextButton: false,
             pokus: false,
+            vaseBody: 0,
+            maxBody: 0,
         }
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
         if (prevState.countRightAnswer !== this.state.countRightAnswer || prevState.countWrongAnswer !== this.state.countWrongAnswer) {
-                this.zobrazitTlacitkoNaDalsiOtazku();
+            this.zobrazitTlacitkoNaDalsiOtazku();
         }
         if (prevState.numberOfQuestion !== this.state.numberOfQuestion || prevState.numberOfQuestion !== this.state.numberOfQuestion) {
             this.generateAnswers();
@@ -79,7 +86,7 @@ class Kviz extends Component<Props, State> {
                         lineHeight: "4.5rem",
                         textAlign: "center",
                     }}>
-                        Vaše body: 11
+                        Vaše body: {this.state.vaseBody}
                     </Col >
                     <Col span={4} style={{
                         background: "#e6fffb",
@@ -89,7 +96,7 @@ class Kviz extends Component<Props, State> {
                         textAlign: "center",
                         "borderRadius": "0 0.5em 0.5em 0"
                     }}>
-                        Maximum: 11
+                        Maximum: {this.state.maxBody}
                     </Col >
                 </Row>
                 <Row
@@ -147,6 +154,9 @@ class Kviz extends Component<Props, State> {
     }
 
     private getQuestion = () => {
+
+        let sum: number = 0;
+
         axios({
             method: 'get',
             url: '/kviz',
@@ -160,11 +170,15 @@ class Kviz extends Component<Props, State> {
                 question.push(value.question);
                 wrongAnswers.push(value.wrongAnswers);
                 rightAnswer.push(value.rightAnswer);
+                sum += value.rightAnswer.length;
+                // sum += value.wrongAnswers.length
             })
             this.setState({
+                data: res.data,
                 questions: question,
                 wrongAnswers: wrongAnswers,
-                rightAnswers: rightAnswer
+                rightAnswers: rightAnswer,
+                maxBody: sum
             });
             this.generateAnswers();
 
@@ -210,18 +224,28 @@ class Kviz extends Component<Props, State> {
 
     private btnChooseAnswer = (e: any) => {
         const odpoved: string = e.target.innerText;
+
+        let pocetBoduZaOtazku: number = this.state.rightAnswers[this.state.numberOfQuestion].length;
+
         if (this.vyhodnotitOdpoved(odpoved)) {
-            this.setState({
-                countRightAnswer: this.state.countRightAnswer + 1
-            });
             e.target.style.background = "#73d13d";
             e.target.disabled = true;
-        } else {
             this.setState({
-                countWrongAnswer: this.state.countWrongAnswer + 1
+                countRightAnswer: this.state.countRightAnswer + 1,
+                vaseBody: this.state.vaseBody + 1
             });
+        } else {
             e.target.style.background = "#f5222d";
             e.target.disabled = true;
+            this.setState({
+                countWrongAnswer: this.state.countWrongAnswer + 1,
+            });
+
+            if (this.state.vaseBody > 0) {
+                this.setState({
+                    vaseBody: this.state.vaseBody - 1,
+                });
+            }
         }
     }
 
@@ -244,8 +268,18 @@ class Kviz extends Component<Props, State> {
 
     private nextQuestion = () => {
         if (this.state.numberOfQuestion === this.state.questions.length - 1) {
+
+            if (this.props.dispatch) {
+
+                const procent: number = parseFloat((this.state.vaseBody / (this.state.maxBody) * 100).toFixed(2));
+
+                this.props.dispatch(actions.odpovedNaKviz(this.state.data));
+                this.props.dispatch(actions.procentUspechuKvizu(procent));
+            }
+
             this.props.history.push('/honoceniKvizu');
-        }else{
+
+        } else {
             this.setState({
                 numberOfQuestion: this.state.numberOfQuestion + 1,
                 showNextButton: false,

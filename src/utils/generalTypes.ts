@@ -4,6 +4,8 @@ export interface Reducer {
     test?: Test
     vysledekTestu?: VysledekTestu[]
     procentUspechuTestu:number
+    procentUspechuKvizu: number
+    odpovedNaKviz: []
 }
 
 export interface User {

@@ -20,15 +20,67 @@ interface State {
 class Hodnoceni extends Component<Props, State> {
 
     componentDidMount() {
-        // if(this.props.reducer!.vysledekTestu!.length === 0){
-        //     this.props.history.push('/testy');
-        // }
+
+        this.props.reducer!.odpovedNaKviz!.map((value: any, key: any) => {
+            console.log(value.rightAnswer);
+        })
+
+        if (this.props.reducer!.odpovedNaKviz!.length === 0) {
+            this.props.history.push('/kviz');
+        }
     }
 
     render() {
         return (
             <React.Fragment>
-               Hello World
+                <Row style={{ background: "#fff", height: "100%" }}>
+                    <Col style={{ background: "#fff", height: "100%", textAlign: "center", display: "table" }} span={12}>
+                        <div style={{
+                            display: "table-cell",
+                            verticalAlign: "middle"
+                        }}>
+                            <Progress
+                                type="dashboard"
+                                percent={this.props.reducer!.procentUspechuKvizu}
+                                width={400}
+                                strokeColor="#5cdbd3"
+                                status="normal"
+                            />
+                            <h1>Celková úspěšnost</h1>
+                        </div>
+
+                    </Col>
+                    <Col style={{ height: "100%", display: "table" }} span={12}>
+                        <div style={{
+                            display: "table-cell",
+                            verticalAlign: "middle",
+                        }}>
+                            <Row
+                                style={{
+                                    background: "#f3f3f3",
+                                    width: "80%",
+                                    margin: "auto",
+                                    boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
+                                }}>
+                                <Row style={{ fontSize: "2.5em", textAlign: "center", borderBottom: "1px solid #d8d8d8" }}>Odpovědy na kvíz</Row>
+                                {this.props.reducer!.odpovedNaKviz!.map((value: any, key: any) => {
+                                    return (
+                                        <Row style={{ fontSize: "1.5em", borderBottom: "1px solid #d8d8d8" }} >
+                                            <Col span={24} style={{ background: "#f3f3f3", paddingLeft: "1em" }}>
+                                                {value.question}
+                                            </Col>
+                                            <Col span={24} style={{ background: "#f3f3f3", color: "#52c41a", paddingLeft: "1em" }}>
+                                                {value.rightAnswer + " "}
+                                            </Col>
+                                        </Row>
+                                    )
+                                })}
+                            </Row>
+                        </div>
+                    </Col>
+
+                </Row>
+
             </React.Fragment>
         );
     }

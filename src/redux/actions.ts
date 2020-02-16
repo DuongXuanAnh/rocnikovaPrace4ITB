@@ -27,3 +27,18 @@ export const procentUspechuTestu = (procentUspechuTestu: number) => {
 		value: procentUspechuTestu
 	}
 }
+
+export const procentUspechuKvizu = (procentUspechuKvizu: number) => {
+	return {
+		type: 'PROCENT_KVIZU',
+		value: procentUspechuKvizu
+	}
+}
+
+export const odpovedNaKviz = (odpovedNaKviz: any) => {
+	return {
+		type: 'ODPOVED_NA_KVIZ',
+		value: odpovedNaKviz
+	}
+}
+
