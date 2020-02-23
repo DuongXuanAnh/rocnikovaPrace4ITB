@@ -59,6 +59,7 @@ class App extends Component<Props, State> {
 
           <Route exact path="/navrhAutora" component={Navbar} />
           <Route exact path="/navrhDila" component={Navbar} />
+          <Route exact path="/addNewAutor/:id" component={Navbar} />
 
 
 

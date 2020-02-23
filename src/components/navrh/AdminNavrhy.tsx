@@ -49,9 +49,9 @@ class AdminNavrhy extends Component<Props, State> {
                             <Card
                                 title={item.nazev}
                                 style={{ margin: "1em" }}
-                                onClick={() => this.showDetailNavrh(item.id)}
+                                onClick={() => this.showDetailNavrh(item.id, item.autorNavrh)}
                             >
-                                {item.autor}
+                                {item.autorNavrh ? "Je nutno přidat autora (" + item.autorNavrh + ")" : ""}
                             </Card>
                         </List.Item>
                     )}
@@ -68,6 +68,7 @@ class AdminNavrhy extends Component<Props, State> {
         })
             .then(
                 res => {
+                    console.log(res.data);
                     this.setState({
                         data: res.data
                     });
@@ -75,8 +76,12 @@ class AdminNavrhy extends Component<Props, State> {
             ).catch(err => err)
     }
 
-    private showDetailNavrh = (id: number) => {
-        this.props.history.push('navrhDetail/' + id);
+    private showDetailNavrh = (id: number, autorNavrh: any) => {
+        if (autorNavrh) {
+            this.props.history.push('addNewAutor/' + id);
+        } else {
+            this.props.history.push('navrhDetail/' + id);
+        }
     }
 }
 

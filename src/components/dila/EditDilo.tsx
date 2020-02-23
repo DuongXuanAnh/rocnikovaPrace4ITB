@@ -218,11 +218,6 @@ class EditDilo extends Component<Props, State> {
         e.preventDefault();
         this.props.form.validateFields((err: any, values: any) => {
             if (!err) {
-                console.log(this.state.dilo);
-                // console.log(this.state.originAutor);
-                // console.log(this.state.originVypravec);
-                // console.log(this.state.originTypPromluvyPostav);
-                // console.log(this.state.originVersovaVystavba);
                 this.setState({
                     loading: true
                 });
@@ -601,7 +596,6 @@ class EditDilo extends Component<Props, State> {
         var id = Number(localStorage.getItem('id'));
         var email = localStorage.getItem('email');
         var admin = localStorage.getItem('admin');
-        // console.log(accessToken, id, email, admin);
         if (id !== 0 && accessToken !== null && email !== null && admin !== "true") {
             this.props.history.push('/');
         }

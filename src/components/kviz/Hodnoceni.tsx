@@ -20,11 +20,6 @@ interface State {
 class Hodnoceni extends Component<Props, State> {
 
     componentDidMount() {
-
-        this.props.reducer!.odpovedNaKviz!.map((value: any, key: any) => {
-            console.log(value.rightAnswer);
-        })
-
         if (this.props.reducer!.odpovedNaKviz!.length === 0) {
             this.props.history.push('/kviz');
         }
@@ -76,6 +71,14 @@ class Hodnoceni extends Component<Props, State> {
                                     )
                                 })}
                             </Row>
+                            <Row style={{
+                                marginTop: "6em",
+                                textAlign: "center",
+                            }}>
+                                <Col span={12}>
+                                    <Button type="primary" style={{width:"14em"}} onClick={() => this.jesteJednou()}>JEŠTĚ JEDNOU</Button>
+                                </Col>
+                            </Row>
                         </div>
                     </Col>
 
@@ -83,6 +86,12 @@ class Hodnoceni extends Component<Props, State> {
 
             </React.Fragment>
         );
+    }
+
+    private jesteJednou = () => {
+        if (this.props.dispatch) {
+            this.props.history.push('/kviz');
+        }
     }
 }
 

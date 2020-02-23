@@ -9,8 +9,8 @@ interface Props {
     match: any
     location: any
     history: any
-    reducer?: Reducer;
-    dispatch?: Function;
+    reducer?: Reducer
+    dispatch?: Function
 }
 
 interface State {

@@ -80,21 +80,21 @@ class NavrhDila extends Component<Props, State> {
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Item label="Název díla">
                             {getFieldDecorator('nazev', {
-                                rules: [{ required: false, message: "Zadejte název díla" }],
+                                rules: [{ required: true, message: "Zadejte název díla" }],
                             })(
                                 <Input placeholder="Název díla" />
                             )}
                         </Form.Item>
                         <Form.Item label="Popis díla">
                             {getFieldDecorator('description', {
-                                rules: [{ required: false, message: "Zadejte popis díla" }],
+                                rules: [{ required: true, message: "Zadejte popis díla" }],
                             })(
                                 <Input placeholder="Description" />
                             )}
                         </Form.Item>
                         <Form.Item label="Autor">
                             {getFieldDecorator('autor', {
-                                rules: [{ required: false, message: "Vyberte si autora" }],
+                                rules: [{ required: !this.state.pridatAutoraMode, message: "Vyberte si autora" }],
                             })(
                                 <Select
                                     mode="multiple"
@@ -110,34 +110,55 @@ class NavrhDila extends Component<Props, State> {
                                 :
                                 <a onClick={() => this.pridatAutora()} >Autor není vevýběru</a>
                             }
-                            {/* {this.state.pridatAutoraMode ?
-                                <Row>
-                                    <Col span={24}><Input placeholder="Jméno autora" /></Col>
-                                    <Col span={8}>
-                                    <TextArea
-                                    placeholder="Zarazeni"
-                                    autoSize={{ minRows: 6, maxRows: 10 }}
-                                />
-                                    </Col>
-                                    <Col span={8}>
-                                    <TextArea
-                                    placeholder="Zivot"
-                                    autoSize={{ minRows: 6, maxRows: 10 }}
-                                />
-                                    </Col>
-                                    <Col span={8}>
-                                    <TextArea
-                                    placeholder="Díla"
-                                    autoSize={{ minRows: 6, maxRows: 10 }}
-                                />
-                                    </Col>
-                                </Row>
-                                : <div></div>} */}
                         </Form.Item>
-
+                        {this.state.pridatAutoraMode ?
+                            <Form.Item label="Jméno autora">
+                                {getFieldDecorator('jmenoAutora', {
+                                    rules: [{ required: true, message: "Zadejte jmeno autora" }],
+                                })(
+                                    <Input placeholder="Jméno autora" />
+                                )}
+                            </Form.Item> : <div></div>
+                        }
+                        {this.state.pridatAutoraMode ?
+                            <Form.Item label="Zarazeni autora">
+                                {getFieldDecorator('zarazeni', {
+                                    rules: [{ required: true, message: "Vyplňte zařazení" }],
+                                })(
+                                    <TextArea
+                                        placeholder="Zarazeni"
+                                        autoSize={{ minRows: 6, maxRows: 10 }}
+                                    />
+                                )}
+                            </Form.Item> : <div></div>
+                        }
+                        {this.state.pridatAutoraMode ?
+                            <Form.Item label="Zivot autora">
+                                {getFieldDecorator('zivot', {
+                                    rules: [{ required: true, message: "Vyplňte zařazení" }],
+                                })(
+                                    <TextArea
+                                        placeholder="Zivot"
+                                        autoSize={{ minRows: 6, maxRows: 10 }}
+                                    />
+                                )}
+                            </Form.Item> : <div></div>
+                        }
+                        {this.state.pridatAutoraMode ?
+                            <Form.Item label="Dila autora">
+                                {getFieldDecorator('dilo', {
+                                    rules: [{ required: true, message: "Vyplňte zařazení" }],
+                                })(
+                                    <TextArea
+                                        placeholder="Díla"
+                                        autoSize={{ minRows: 6, maxRows: 10 }}
+                                    />
+                                )}
+                            </Form.Item> : <div></div>
+                        }
                         <Form.Item label="Literární druh">
                             {getFieldDecorator('lit_druh', {
-                                rules: [{ required: false, message: "Vyberte si literární druh" }],
+                                rules: [{ required: true, message: "Vyberte si literární druh" }],
                             })(
                                 <Select style={{ width: '100%' }} >
                                     {this.state.lit_druh}
@@ -148,7 +169,7 @@ class NavrhDila extends Component<Props, State> {
 
                         <Form.Item label="Literární zanr">
                             {getFieldDecorator('lit_zanr', {
-                                rules: [{ required: false, message: "Vyberte si literární žánr" }],
+                                rules: [{ required: true, message: "Vyberte si literární žánr" }],
                             })(
                                 <Select style={{ width: '100%' }} >
                                     {this.state.lit_zanr}
@@ -157,7 +178,7 @@ class NavrhDila extends Component<Props, State> {
                         </Form.Item>
                         <Form.Item label="Konkrétní literární útvar">
                             {getFieldDecorator('konkretni_utvar', {
-                                rules: [{ required: false, message: "Vyberte si literární útvar" }],
+                                rules: [{ required: true, message: "Vyberte si literární útvar" }],
                             })(
                                 <Select style={{ width: '100%' }} >
                                     {this.state.konkretni_utvar}
@@ -167,21 +188,21 @@ class NavrhDila extends Component<Props, State> {
 
                         <Form.Item label="Doba děje">
                             {getFieldDecorator('dobaDeje', {
-                                rules: [{ required: false, message: " " }],
+                                rules: [{ required: true, message: " " }],
                             })(
                                 <Input placeholder="Doba děje" />
                             )}
                         </Form.Item>
                         <Form.Item label="Místo děje">
                             {getFieldDecorator('mistoDeje', {
-                                rules: [{ required: false, message: " " }],
+                                rules: [{ required: true, message: " " }],
                             })(
                                 <Input placeholder="Místo děje" />
                             )}
                         </Form.Item>
                         <Form.Item label="Postavy">
                             {getFieldDecorator('postavy', {
-                                rules: [{ required: false, message: " " }],
+                                rules: [{ required: true, message: " " }],
                             })(
                                 <TextArea
                                     placeholder="- **Jméno postavy: ** popis postavy."
@@ -191,14 +212,14 @@ class NavrhDila extends Component<Props, State> {
                         </Form.Item>
                         <Form.Item label="Téma díla">
                             {getFieldDecorator('tema_dila', {
-                                rules: [{ required: false, message: " " }],
+                                rules: [{ required: true, message: " " }],
                             })(
                                 <Input placeholder="Téma díla" />
                             )}
                         </Form.Item>
                         <Form.Item label="Vypraveč">
                             {getFieldDecorator('vypravec', {
-                                rules: [{ required: false, message: "Vyberte si vypravěče" }],
+                                rules: [{ required: true, message: "Vyberte si vypravěče" }],
                             })(
                                 <Select
                                     mode="multiple"
@@ -211,7 +232,7 @@ class NavrhDila extends Component<Props, State> {
                         </Form.Item>
                         <Form.Item label="Typy promluv postav">
                             {getFieldDecorator('typPromluvyPostav', {
-                                rules: [{ required: false, message: " " }],
+                                rules: [{ required: true, message: " " }],
                             })(
                                 <Select
                                     mode="multiple"
@@ -237,14 +258,14 @@ class NavrhDila extends Component<Props, State> {
                         </Form.Item>
                         <Form.Item label="Jazykové prostředky">
                             {getFieldDecorator('jazykoveProstredky', {
-                                rules: [{ required: false, message: " " }],
+                                rules: [{ required: true, message: " " }],
                             })(
                                 <Input placeholder="Jazykové prostředky" />
                             )}
                         </Form.Item>
                         <Form.Item label="Obsah díla">
                             {getFieldDecorator('obsahDila', {
-                                rules: [{ required: false, message: " " }],
+                                rules: [{ required: true, message: " " }],
                             })(
                                 <TextArea
                                     placeholder="Obsah díla"
@@ -277,14 +298,13 @@ class NavrhDila extends Component<Props, State> {
         this.props.form.validateFields((err: any, values: any) => {
             if (!err) {
                 // const dilo: any = { ...this.state.dilo, litDruh: this.state.vybranyLitDruh, litZanr: this.state.vybranyLitZanr, vybranykonkretniUtvar: this.state.vybranykonkretniUtvar, user: localStorage.getItem('id') }
-                // console.log(this.state.dilo);
+                console.log(values);
 
                 const dilo = { ...values, user: localStorage.getItem('id') };
                 console.log(dilo);
                 axios({
                     method: 'post',
                     url: '/navrhnoutDilo',
-                    // withCredentials: true,
                     data: {
                         dilo: dilo
                     }

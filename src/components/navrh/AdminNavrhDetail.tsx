@@ -87,17 +87,18 @@ class AdminNavrhDetail extends Component<Props, State> {
                                     <Input placeholder="Název díla" value={this.state.navrh.nazev} onChange={(event: any) => this.handleChangeNazevDila(event)} />
                                 </Form.Item>
                                 <Form.Item label="Popis díla">
-                                        <Input placeholder="Description" value={this.state.navrh.description} onChange={(event: any) => this.handleChangeDescription(event)} />
+                                    <Input placeholder="Description" value={this.state.navrh.description} onChange={(event: any) => this.handleChangeDescription(event)} />
                                 </Form.Item>
                                 <Form.Item label="Autor">
-                                        <Select
-                                            mode="multiple"
-                                            style={{ width: '100%' }}
-                                            placeholder="Vyberte si autora"
-                                            value={this.state.originAutor}
-                                        >
-                                            {this.state.autori}
-                                        </Select>
+                                    <Select
+                                        mode="multiple"
+                                        style={{ width: '100%' }}
+                                        placeholder="Vyberte si autora"
+                                        value={this.state.originAutor}
+                                        onChange={(event: any) => this.handleChangeAutora(event)}
+                                    >
+                                        {this.state.autori}
+                                    </Select>
                                 </Form.Item>
                                 <Form.Item label="Literární druh">
                                     <Select
@@ -117,62 +118,65 @@ class AdminNavrhDetail extends Component<Props, State> {
                                     </Select>
                                 </Form.Item>
                                 <Form.Item label="Konkrétní literární útvar">
-                                        <Select style={{ width: '100%' }} value={this.state.navrh.konkretni_utvar} onChange={(event: any) => this.handleChangeKonkretniUtvar(event)}>
-                                            {this.state.konkretni_utvar}
-                                        </Select>
+                                    <Select style={{ width: '100%' }} value={this.state.navrh.konkretni_utvar} onChange={(event: any) => this.handleChangeKonkretniUtvar(event)}>
+                                        {this.state.konkretni_utvar}
+                                    </Select>
                                 </Form.Item>
                                 <Form.Item label="Doba děje">
                                     <Input placeholder="Doba děje" value={this.state.navrh.dobaDeje} onChange={(event: any) => this.handleChangeDobaDeje(event)} />
                                 </Form.Item>
-                                <Form.Item label="Místo děje"> 
-                                        <Input placeholder="Místo děje" value={this.state.navrh.mistoDeje} onChange={(event: any) => this.handleChangeMistoDeje(event)}/>
+                                <Form.Item label="Místo děje">
+                                    <Input placeholder="Místo děje" value={this.state.navrh.mistoDeje} onChange={(event: any) => this.handleChangeMistoDeje(event)} />
                                 </Form.Item>
                                 <Form.Item label="Postavy">
-                                 
-                                        <TextArea
-                                            placeholder="- **Jméno postavy: ** popis postavy."
-                                            autoSize={{ minRows: 3, maxRows: 5 }}
-                                            value={this.state.navrh.postavy} onChange={(event: any) => this.handleChangePostavy(event)}
-                                        />
-                                    
+                                    <TextArea
+                                        placeholder="- **Jméno postavy: ** popis postavy."
+                                        autoSize={{ minRows: 3, maxRows: 5 }}
+                                        value={this.state.navrh.postavy} onChange={(event: any) => this.handleChangePostavy(event)}
+                                    />
                                 </Form.Item>
                                 <Form.Item label="Téma díla">
-                                  
-                                        <Input placeholder="Téma díla" value={this.state.navrh.temaDila} onChange={(event: any) => this.handleChangeTemaDila(event)}/>
-                                
+
+                                    <Input placeholder="Téma díla" value={this.state.navrh.temaDila} onChange={(event: any) => this.handleChangeTemaDila(event)} />
+
                                 </Form.Item>
                                 <Form.Item label="Vypraveč">
-                                        <Select
-                                            mode="multiple"
-                                            style={{ width: '100%' }}
-                                            placeholder="Vypraveč"
-                                            value={this.state.originVypravec}
-                                        >
-                                            {this.state.vypravec}
-                                        </Select>
+                                    <Select
+                                        mode="multiple"
+                                        style={{ width: '100%' }}
+                                        placeholder="Vypraveč"
+                                        value={this.state.originVypravec}
+                                        onChange={(event: any) => this.handleChangeVypravec(event)}
+
+                                    >
+                                        {this.state.vypravec}
+                                    </Select>
                                 </Form.Item>
-                                <Form.Item label="Typy promluv postav">               
-                                        <Select
-                                            mode="multiple"
-                                            style={{ width: '100%' }}
-                                            placeholder="Typy promluv postav"
-                                            value={this.state.originTypPromluvyPostav}
-                                        >
-                                            {this.state.typPromluvyPostav}
-                                        </Select>
+                                <Form.Item label="Typy promluv postav">
+                                    <Select
+                                        mode="multiple"
+                                        style={{ width: '100%' }}
+                                        placeholder="Typy promluv postav"
+                                        value={this.state.originTypPromluvyPostav}
+                                        onChange={(event: any) => this.handleChangeTypPromluvyPostav(event)}
+
+                                    >
+                                        {this.state.typPromluvyPostav}
+                                    </Select>
                                 </Form.Item>
                                 <Form.Item label="Veršová výstavba">
-                                        <Select
-                                            mode="multiple"
-                                            style={{ width: '100%' }}
-                                            placeholder="Veršová výstavba"
-                                            value={this.state.originVersovaVystavba}
-                                        >
-                                            {this.state.versovaVystavba}
-                                        </Select>
+                                    <Select
+                                        mode="multiple"
+                                        style={{ width: '100%' }}
+                                        placeholder="Veršová výstavba"
+                                        value={this.state.originVersovaVystavba}
+                                        onChange={(event: any) => this.handleChangeVersovaVystavba(event)}
+                                    >
+                                        {this.state.versovaVystavba}
+                                    </Select>
                                 </Form.Item>
                                 <Form.Item label="Jazykové prostředky">
-                                        <Input placeholder="Jazykové prostředky"  value={this.state.navrh.jazykove_prostredky} onChange={(event: any) => this.handleChangeJazykoveProstredky(event)}/>
+                                    <Input placeholder="Jazykové prostředky" value={this.state.navrh.jazykove_prostredky} onChange={(event: any) => this.handleChangeJazykoveProstredky(event)} />
                                 </Form.Item>
                                 <Form.Item label="Obsah díla">
                                     <TextArea
@@ -211,37 +215,45 @@ class AdminNavrhDetail extends Component<Props, State> {
 
     private handleSubmit = (e: any) => {
         e.preventDefault();
-       
+
         this.props.form.validateFields((err: any, values: any) => {
-            console.log(values);
-        //     if (!err) {
-        //         let formData = new FormData();
-        //         formData.append('file', values.image.file);
+            // console.log(this.state.navrh);
+            if (!err) {
+                // let x: any;
+                // for (x in this.state.navrh) {
+                //     if (this.state.navrh[x] === "") {
+                //         console.log("Vyplnte all information");
+                //     } else {
+                //         console.log(this.state.navrh[x]);
+                //     }
+                // }
+                        let formData = new FormData();
+                        formData.append('file', values.image.file);
 
-        //         values = { ...values, imgName: values.image.file.name }
+                        values = { ...this.state.navrh, imgName: values.image.file.name }
 
-        //         for (var key in values) {
-        //             formData.append(key, values[key]);
-        //         }
-        //         axios.post('/addNovyDilo', formData, {
-        //             withCredentials: true,
-        //             headers: {
-        //                 'Authorization': 'Bearer ' + this.props.reducer!.user!.accessToken,
-        //                 "content-type": 'multipart/form-data'
-        //             },
-        //         })
-        //             .then(
-        //                 res => {
-        //                     console.log(res);
-        //                     if (res.data) {
-        //                         this.props.history.push('/dila');
-        //                         this.openNotificationSuccess();
-        //                     } else {
-        //                         console.log("Khong dc");
-        //                     }
-        //                 }
-        //             ).catch(err => err)
-        //     }
+                        for (var key in values) {
+                            formData.append(key, values[key]);
+                        }
+                        axios.post('/addNovyDilo', formData, {
+                            withCredentials: true,
+                            headers: {
+                                'Authorization': 'Bearer ' + this.props.reducer!.user!.accessToken,
+                                "content-type": 'multipart/form-data'
+                            },
+                        })
+                            .then(
+                                res => {
+                                    console.log(res);
+                                    if (res.data) {
+                                        this.props.history.push('/dila');
+                                        this.openNotificationSuccess();
+                                    } else {
+                                        console.log("Khong dc");
+                                    }
+                                }
+                            ).catch(err => err)
+            }
         });
     };
 
@@ -257,7 +269,6 @@ class AdminNavrhDetail extends Component<Props, State> {
         })
             .then(
                 res => {
-
                     res.data.map((value: any, key: any) => {
                         autori.push(<Option key={value.id}>{value.name}</Option>);
                     })
@@ -403,6 +414,14 @@ class AdminNavrhDetail extends Component<Props, State> {
             navrh: { ...this.state.navrh, description: e.target.value }
         });
     }
+
+    private handleChangeAutora = (value: any) => {
+        this.setState({
+            originAutor: value,
+            navrh: { ...this.state.navrh, autor: value }
+        });
+    }
+
     private handleChangeLitDruh = (e: any) => {
         this.setState({
             navrh: { ...this.state.navrh, lit_druh: e }
@@ -440,13 +459,34 @@ class AdminNavrhDetail extends Component<Props, State> {
     }
     private handleChangeTemaDila = (e: any) => {
         this.setState({
-            navrh: { ...this.state.navrh, temaDila: e.target.value }
+            navrh: { ...this.state.navrh, tema_dila: e.target.value }
         });
     }
 
     private handleChangeJazykoveProstredky = (e: any) => {
         this.setState({
             navrh: { ...this.state.navrh, jazykove_prostredky: e.target.value }
+        });
+    }
+
+    private handleChangeVypravec = (value: any) => {
+        this.setState({
+            originVypravec: value,
+            navrh: { ...this.state.navrh, vypravec: value }
+        });
+    }
+
+    private handleChangeTypPromluvyPostav = (value: any) => {
+        this.setState({
+            originTypPromluvyPostav: value,
+            navrh: { ...this.state.navrh, typPromluvyPostav: value }
+        });
+    }
+
+    private handleChangeVersovaVystavba = (value: any) => {
+        this.setState({
+            originVersovaVystavba: value,
+            navrh: { ...this.state.navrh, versovaVystavba: value }
         });
     }
 
@@ -467,7 +507,8 @@ class AdminNavrhDetail extends Component<Props, State> {
                         originAutor.push(value.id_autor.toString())
                     })
                     this.setState({
-                        originAutor: originAutor
+                        originAutor: originAutor,
+                        navrh: { ...this.state.navrh, autor: originAutor }
                     });
                 }
             ).catch(err => err)
@@ -490,7 +531,8 @@ class AdminNavrhDetail extends Component<Props, State> {
                         originVypravec.push(value.id_vypravec.toString())
                     })
                     this.setState({
-                        originVypravec: originVypravec
+                        originVypravec: originVypravec,
+                        navrh: { ...this.state.navrh, vypravec: originVypravec }
                     });
                 }
             ).catch(err => err)
@@ -513,7 +555,8 @@ class AdminNavrhDetail extends Component<Props, State> {
                         originTypPromluvyPostav.push(value.id_typPromluvyPostav.toString())
                     })
                     this.setState({
-                        originTypPromluvyPostav: originTypPromluvyPostav
+                        originTypPromluvyPostav: originTypPromluvyPostav,
+                        navrh: { ...this.state.navrh, typPromluvyPostav: originTypPromluvyPostav }
                     });
                 }
             ).catch(err => err)
@@ -535,7 +578,8 @@ class AdminNavrhDetail extends Component<Props, State> {
                         originVersovaVystavba.push(value.id_versovaVystavba.toString())
                     })
                     this.setState({
-                        originVersovaVystavba: originVersovaVystavba
+                        originVersovaVystavba: originVersovaVystavba,
+                        navrh: { ...this.state.navrh, versovaVystavba: originVersovaVystavba }
                     });
                 }
             ).catch(err => err)
@@ -555,7 +599,6 @@ class AdminNavrhDetail extends Component<Props, State> {
         })
             .then(
                 res => {
-                    console.log(res.data[0]);
                     this.setState({
                         navrh: res.data[0]
                     });

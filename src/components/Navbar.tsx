@@ -22,6 +22,7 @@ import AdminNavrhy from './navrh/AdminNavrhy';
 import axios from 'axios';
 import AdminNavrhDetail from './navrh/AdminNavrhDetail';
 import AddNewAutor from './autori/AddNewAutor';
+import NavrhAddNewAutor from './navrh/NavrhAddNewAutor';
 
 interface Props {
     match: any
@@ -210,6 +211,7 @@ class Navbar extends Component<Props, State> {
                                 <Route exact path="/editDilo/:id" component={EditDilo} />
                                 <Route exact path="/autori" component={AutorsList} />
                                 <Route exact path="/addNewAutor" component={AddNewAutor} />
+                                <Route exact path="/addNewAutor/:id" component={NavrhAddNewAutor} />
                                 <Route exact path="/autor/:id" component={AutoriDetail} />
                                 <Route exact path="/ceskaLiteratura" component={CeskaLiteratura} />
                                 <Route exact path="/svetovaLiteratura" component={SvetovaLiteratura} />
