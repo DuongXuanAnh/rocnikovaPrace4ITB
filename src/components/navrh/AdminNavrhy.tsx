@@ -77,11 +77,12 @@ class AdminNavrhy extends Component<Props, State> {
     }
 
     private showDetailNavrh = (id: number, autorNavrh: any) => {
-        if (autorNavrh) {
-            this.props.history.push('addNewAutor/' + id);
-        } else {
-            this.props.history.push('navrhDetail/' + id);
-        }
+        // if (autorNavrh) {
+        //     this.props.history.push('addNewAutor/' + id);
+        // } else {
+        //     this.props.history.push('navrhDetail/' + id);
+        // }
+        this.props.history.push('navrhDetail/' + id);
     }
 }
 

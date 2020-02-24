@@ -160,7 +160,7 @@ class NavrhAddNewAutor extends Component<Props, State> {
                     .then(
                         res => {
                             if (res.data === "success") {
-                                this.props.history.push('/autori');
+                                this.props.history.push('/navrhDetail/'+ parseInt(this.props.match.params.id, 10));
                                 this.openNotificationSuccess();
                             } else {
                                 console.log("Khong dc");

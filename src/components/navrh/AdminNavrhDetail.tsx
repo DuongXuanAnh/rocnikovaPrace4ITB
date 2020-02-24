@@ -99,6 +99,7 @@ class AdminNavrhDetail extends Component<Props, State> {
                                     >
                                         {this.state.autori}
                                     </Select>
+                                    <a onClick={() => {this.props.history.push('/addNewAutor/' + parseInt(this.props.match.params.id, 10))}}>Přidat autora</a>
                                 </Form.Item>
                                 <Form.Item label="Literární druh">
                                     <Select
@@ -217,16 +218,7 @@ class AdminNavrhDetail extends Component<Props, State> {
         e.preventDefault();
 
         this.props.form.validateFields((err: any, values: any) => {
-            // console.log(this.state.navrh);
             if (!err) {
-                // let x: any;
-                // for (x in this.state.navrh) {
-                //     if (this.state.navrh[x] === "") {
-                //         console.log("Vyplnte all information");
-                //     } else {
-                //         console.log(this.state.navrh[x]);
-                //     }
-                // }
                         let formData = new FormData();
                         formData.append('file', values.image.file);
 
@@ -244,10 +236,11 @@ class AdminNavrhDetail extends Component<Props, State> {
                         })
                             .then(
                                 res => {
-                                    console.log(res);
                                     if (res.data) {
                                         this.props.history.push('/dila');
+                                        this.smazatDiloZNavrhu();
                                         this.openNotificationSuccess();
+                                        
                                     } else {
                                         console.log("Khong dc");
                                     }
@@ -605,6 +598,21 @@ class AdminNavrhDetail extends Component<Props, State> {
                 }
             ).catch(err => err)
     }
+
+    private smazatDiloZNavrhu = () => {
+        const id: number = parseInt(this.props.match.params.id, 10);
+        axios({
+            method: 'delete',
+            url: '/smazatNavrh/' + id,
+            withCredentials: true,
+            headers: { 'Authorization': 'Bearer ' + this.props.reducer!.user!.accessToken },
+        })
+            .then(
+                res => {
+                    console.log("ok");
+                }
+            ).catch(err => err)
+    }
 }
 
-export default connect(reducer => reducer)(Form.create({ name: 'addNewDilo' })(AdminNavrhDetail));
+export default connect(reducer => reducer)(Form.create({ name: 'AdminNavrhDetail' })(AdminNavrhDetail));
