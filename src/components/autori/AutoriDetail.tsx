@@ -11,7 +11,6 @@ interface Props {
     history: any
     reducer?: Reducer
     dispatch?: Function
-
 }
 
 interface State {
