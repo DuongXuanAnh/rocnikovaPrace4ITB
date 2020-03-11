@@ -126,7 +126,7 @@ class AutoriDetail extends Component<Props, State>{
         this.setState({
             loading: true
         });
-        const id: number = parseInt(this.props.match.params.id, 10);;
+        const id: number = parseInt(this.props.match.params.id, 10);
         axios({
             method: 'get',
             url: '/autor/' + id,
@@ -135,7 +135,6 @@ class AutoriDetail extends Component<Props, State>{
             .then(
 
                 res => {
-                    console.log(res.data);
                     this.setState({
                         autor: res.data,
                         loading: false,

@@ -24,6 +24,7 @@ import AdminNavrhDetail from './navrh/AdminNavrhDetail';
 import AddNewAutor from './autori/AddNewAutor';
 import NavrhAddNewAutor from './navrh/NavrhAddNewAutor';
 import EditAutora from './autori/EditAutora';
+import Literatura from './literatura/Literatura';
 
 interface Props {
     match: any
@@ -216,7 +217,9 @@ class Navbar extends Component<Props, State> {
                                 <Route exact path="/addNewAutor/:id" component={NavrhAddNewAutor} />
                                 <Route exact path="/autor/:id" component={AutoriDetail} />
                                 <Route exact path="/ceskaLiteratura" component={CeskaLiteratura} />
+                                <Route exact path="/ceskaLiteratura/:link" component={Literatura} />
                                 <Route exact path="/svetovaLiteratura" component={SvetovaLiteratura} />
+                                <Route exact path="/svetovaLiteratura/:link" component={Literatura} />
                                 <Route exact path="/testy" component={Testy} />
                                 <Route exact path="/testDashboard" component={TestDashboard} />
                                 <Route exact path="/honoceniTestu" component={Hodnoceni} />
