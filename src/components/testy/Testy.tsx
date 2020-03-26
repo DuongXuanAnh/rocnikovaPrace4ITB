@@ -73,7 +73,7 @@ class Testy extends Component<Props, State> {
                             />
                         </Col>
                         <Col span={6}>
-                            <h3 style={{ marginLeft: "3em", marginTop: "1em" }}>Počet příkladů</h3>
+                            <h3 style={{ marginLeft: "3em", marginTop: "1em",color:'var(--text-color)' }}>Počet příkladů</h3>
                             <InputNumber
                                 min={4}
                                 max={40}
@@ -87,7 +87,7 @@ class Testy extends Component<Props, State> {
                     </Col>
                 </Row>
                 
-                <h1 style={{ fontSize: "2em", textAlign: "center" }}>Vytoř si svůj test</h1>
+                <h1 style={{ fontSize: "2em", textAlign: "center", color:'var(--text-color)' }}>Vytoř si svůj test</h1>
                 <Row style={{width: "35%", margin: "0 auto"}}>
                     <Col>
                     {this.state.testSZ ?

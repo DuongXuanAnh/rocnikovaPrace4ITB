@@ -44,7 +44,7 @@ class EditAutora extends Component<Props, State> {
             <Fragment>
                 <Row style={{ width: "90%", margin: "0 auto" }}>
                     <Form onSubmit={this.handleSubmit} className="login-form">
-                        <Form.Item label="Jméno autora">
+                        <Form.Item label="Jméno autora" >
                             <Input
                                 placeholder="Jméno autora"
                                 value={this.state.autor.name}
@@ -69,7 +69,6 @@ class EditAutora extends Component<Props, State> {
                             />
                         </Form.Item>
                         <Form.Item label="Rip" style={{ width: "50%" }}>
-
                             <InputNumber
                                 min={1} max={2020}
                                 placeholder="Úmrtí"
@@ -137,7 +136,6 @@ class EditAutora extends Component<Props, State> {
     }
 
     private handleSubmit = (e: any) => {
-        // console.log(this.state.autor);
         e.preventDefault();
         this.props.form.validateFields((err: any, values: any) => {
             if (!err) {

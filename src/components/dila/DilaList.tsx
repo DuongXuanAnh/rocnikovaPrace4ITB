@@ -20,12 +20,6 @@ interface State {
   loading: boolean
 }
 
-// const IconText = ({ type, text }: { type: any, text: string }) => (
-//   <span>
-//     <Icon type={type} style={{ marginRight: 8 }} />
-//     {text}
-//   </span>
-// );
 const { Search } = Input;
 class DilaList extends Component<Props, State> {
 
@@ -47,7 +41,6 @@ class DilaList extends Component<Props, State> {
       this.getDila();
     }
   }
-
 
   render() {
     return (
@@ -102,7 +95,6 @@ class DilaList extends Component<Props, State> {
             renderItem={(item: any) => (
               <List.Item
                 key={item.id}
-                //  actions={[<IconText type="like-o" text={item.like} />, <IconText type="dislike-o" text={item.dislike} />]}
                 extra={
                   <img
                     style={{ height: "11.5em", width: "auto" }}
@@ -113,8 +105,9 @@ class DilaList extends Component<Props, State> {
                 onDoubleClick={() => this.diloDetail(item.id)}
               >
                 <List.Item.Meta
-                  title={item.nazev}
-                  description={item.description}
+                  style={{color:'var(--text-color)'}}
+                  title={<p style={{color:'var(--text-color)'}}>{item.nazev}</p>}
+                  description={<p style={{color:'var(--text-color)'}}>{item.description}</p>}
                 />
                 {item.content}
               </List.Item>

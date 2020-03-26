@@ -25,12 +25,11 @@ class Hodnoceni extends Component<Props, State> {
         }
     }
 
-
     render() {
         return (
             <React.Fragment>
-                <Row style={{ background: "#fff", height: "100%" }}>
-                    <Col style={{ background: "#fff", height: "100%", textAlign: "center", display: "table" }} span={12}>
+                <Row style={{ background: "var(--background)", height: "100%" }}>
+                    <Col style={{ background: "var(--background)", height: "100%", textAlign: "center", display: "table" }} span={12}>
                         <div style={{
                             display: "table-cell",
                             verticalAlign: "middle"
@@ -42,7 +41,7 @@ class Hodnoceni extends Component<Props, State> {
                                 strokeColor="#5cdbd3"
                                 status="normal"
                             />
-                            <h1>Celková úspěšnost</h1>
+                            <h1 style={{color:'var(--text-color)'}}>Celková úspěšnost</h1>
                         </div>
 
                     </Col>
@@ -90,9 +89,7 @@ class Hodnoceni extends Component<Props, State> {
                             </Row>
                         </div>
                     </Col>
-
                 </Row>
-
             </React.Fragment>
         );
     }

@@ -52,7 +52,7 @@ class AutorsList extends Component<Props, State>  {
         return (
             <React.Fragment>
                 <Search
-                    style={{ width: "50%", float: "right", margin: "2em 2em 1em 0" }}
+                    style={{ width: "50%", float: "right", margin: "2em 2em 1em 0"}}
                     placeholder="Hledat autora"
                     onSearch={value => { this.setState({ searchKey: value }); }}
                     onChange={value => { this.setState({ searchKey: value.target.value }); }}
@@ -69,8 +69,7 @@ class AutorsList extends Component<Props, State>  {
                             height: "100vh",
                             opacity: 0.5,
                             width: "100%",
-
-                        }}>>
+                        }}>
                         <Spin tip="Načítání autorů..." size="large" style={{
                             fontSize: '1.5em',
                             position: 'absolute',
@@ -91,9 +90,13 @@ class AutorsList extends Component<Props, State>  {
                                 left: "50%",
                                 margin: "0 auto",
                                 bottom: "1.5em",
+                                color:"var(--text-color)",
                             }
                         }}
-                        style={{ marginLeft: "2em", marginRight: "2em" }}
+                        style={{ 
+                            marginLeft: "2em",
+                            marginRight: "2em",
+                        }}
                         renderItem={(item: any) => (
                             <List.Item
                                 key={item.id}
@@ -105,11 +108,10 @@ class AutorsList extends Component<Props, State>  {
                                             src={item.smallImg}
                                             size={145}
                                         />}
-                                    title={<h1 style={{ "fontSize": "2em" }}>{item.name}</h1>}
-                                    description={item.description}
+                                    title={<h1 style={{ "fontSize": "2em", color:'var(--text-color)' }}>{item.name}</h1>}
+                                    description={<p style={{color:'var(--text-color)'}}>{item.description}</p>}
                                 />
                             </List.Item>
-
                         )}
                     />
                 }
@@ -136,9 +138,6 @@ class AutorsList extends Component<Props, State>  {
                         autori: res.data,
                         loading: false
                     });
-                    console.log("---------------------");
-                    console.log(this.state.autori);
-                    console.log("---------------------");
                 }
             ).catch(err => {
                 this.setState({

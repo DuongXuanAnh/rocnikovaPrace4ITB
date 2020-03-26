@@ -80,7 +80,7 @@ class TestDashboard extends Component<Props, State> {
                         paddingLeft: "1rem",
                     }}>
                         {this.props.reducer!.test ?
-                            <span>{cisloOtazky}/{this.props.reducer!.test.countQuestions}</span> :
+                            <span style={{color:"black" }}>{cisloOtazky}/{this.props.reducer!.test.countQuestions}</span> :
                             this.props.history.push('/testy')
                         }
                     </Col>
@@ -90,6 +90,7 @@ class TestDashboard extends Component<Props, State> {
                         fontSize: "2rem",
                         lineHeight: "4.5rem",
                         textAlign: "center",
+                        color:"black"
                     }}>
                         {this.state.rightAnswer.length}
                     </Col >
@@ -99,6 +100,7 @@ class TestDashboard extends Component<Props, State> {
                         fontSize: "2rem",
                         lineHeight: "4.5rem",
                         textAlign: "center",
+                        color:"black",
                         "borderRadius": "0 0.5em 0.5em 0"
                     }}>
                         {this.state.wrongAnswer.length}
@@ -131,7 +133,7 @@ class TestDashboard extends Component<Props, State> {
                             borderRadius: "1em",
                             textAlign: "center"
                         }}>
-                            <Col span={24} style={{ height: "100%", fontSize: "2.5em", lineHeight: "3em" }}>
+                            <Col span={24} style={{ height: "100%", fontSize: "2.5em", lineHeight: "3em", color:"black" }}>
                                 {
                                     this.state.questions[this.state.numberOfQuestion] !== undefined ? this.state.questions[this.state.numberOfQuestion].question : ""
                                 }

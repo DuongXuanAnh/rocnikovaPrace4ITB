@@ -76,7 +76,7 @@ class AutoriDetail extends Component<Props, State>{
                                             style={{
                                                 margin: "2em 0 0 2em",
                                                 background: "#ffc53d",
-                                                borderColor: "#faad14"
+                                                borderColor: "#faad14",
                                             }}
                                             onClick={() => this.editAutora()}
                                         >Upravit Autora</Button>
@@ -95,21 +95,21 @@ class AutoriDetail extends Component<Props, State>{
                                     }}
                                     alt="logo" src={this.state.autor.imgB64} />
                             </Col>
-                            <Col span={16}>
+                            <Col span={16} style={{color:'var(--text-color)'}}>
                                 <div style={{ padding: "2em" }}>
-                                    <h1 style={{ fontSize: "2em" }}>{this.state.autor.name} <span>({this.state.autor.born} - {this.state.autor.rip})</span></h1>
+                                    <h1 style={{ fontSize: "2em",color:'var(--text-color)' }}>{this.state.autor.name} <span>({this.state.autor.born} - {this.state.autor.rip})</span></h1>
                                 </div>
                                 <Row>
                                     <Col span={8} style={{ paddingRight: "1em" }}>
-                                        <h3>Zařazení:</h3>
+                                        <h3 style={{color:'var(--text-color)'}}>Zařazení:</h3>
                                         <div dangerouslySetInnerHTML={{ __html: this.state.zarazeni }}></div>
                                     </Col>
                                     <Col span={8} style={{ paddingRight: "1em" }}>
-                                        <h3>Život:</h3>
+                                        <h3 style={{color:'var(--text-color)'}}>Život:</h3>
                                         <div dangerouslySetInnerHTML={{ __html: this.state.zivot }}></div>
                                     </Col>
                                     <Col span={8} style={{ paddingRight: "1em" }}>
-                                        <h3>Díla:</h3>
+                                        <h3 style={{color:'var(--text-color)'}}>Díla:</h3>
                                         <div dangerouslySetInnerHTML={{ __html: this.state.dila }}></div>
                                     </Col>
                                 </Row>

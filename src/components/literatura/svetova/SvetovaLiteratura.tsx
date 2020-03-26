@@ -33,7 +33,12 @@ class SvetovaLiteratura extends Component<Props, State> {
         return (
             <React.Fragment>
                {this.state.data.map((value:any, key:any) => (
-                   <div>
+                   <div
+                   style={{
+                    margin: "0.5em 0 0 1em",
+                    fontSize: "1.5em"
+                   }}
+                   >
                         <a  onClick={() => this.titleClick(value.link)}>{key + 1}. {value.nazev}</a>
                    </div>
                ))}

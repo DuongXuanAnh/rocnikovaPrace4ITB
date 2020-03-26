@@ -29,7 +29,8 @@ class App extends Component<Props, State> {
   
   render() {
     return (
-      <Router>
+    
+         <Router>
         <React.Fragment>
           <Route exact path="/" component={Navbar} />
           <Route exact path="/home" component={Navbar} />
@@ -63,11 +64,10 @@ class App extends Component<Props, State> {
           <Route exact path="/navrhAutora" component={Navbar} />
           <Route exact path="/navrhDila" component={Navbar} />
           <Route exact path="/addNewAutor/:id" component={Navbar} />
-
-
-
         </React.Fragment>
       </Router>
+  
+ 
     );
 
   }

@@ -49,7 +49,7 @@ class Navbar extends Component<Props, State> {
         super(props);
         this.state = {
             collapsed: false,
-            countNavrhDila: 0
+            countNavrhDila: 0,
         }
     }
 
@@ -62,10 +62,9 @@ class Navbar extends Component<Props, State> {
         return (
             <Router>
                 <React.Fragment>
-                    <Layout style={{ minHeight: '100vh' }}>
+                    <Layout style={{ minHeight: '100vh'}}>
                         <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-                            <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-
+                            <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} >
                                 <Menu.Item key="1">
                                     <Link to="/dila">
                                         <Icon type="book" />
@@ -156,8 +155,8 @@ class Navbar extends Component<Props, State> {
 
                         </Sider>
                         <Layout>
-                            <Header style={{ background: '#fff', padding: 0 }}>
-                                <Menu mode="horizontal" style={{ "height": "100%" }}>
+                            <Header style={{ padding: 0 }}>
+                                <Menu mode="horizontal" style={{ "height": "100%", background: 'var(--background)', color:'var(--text-color)' }}>
                                     <Icon
                                         style={{ "marginLeft": "1rem", "fontSize": "1.7rem", "flex": 1, "verticalAlign": "bottom" }}
                                         className="trigger"
@@ -206,7 +205,7 @@ class Navbar extends Component<Props, State> {
                                 </Menu>
                             </Header>
 
-                            <Content>
+                            <Content style={{background: 'var(--background)', color:'var(--text-color)'}}>
                                 <Route exact path="/dila" component={DilaList} />
                                 <Route exact path="/dilo/:id" component={DiloDetail} />
                                 <Route exact path="/addNewDilo" component={AddNewDilo} />

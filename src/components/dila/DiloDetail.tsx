@@ -31,6 +31,7 @@ const customPanelStyle = {
     marginBottom: 0,
     border: 0,
     overflow: 'hidden',
+    
 };
 
 class DiloDetail extends Component<Props, State> {
@@ -107,39 +108,40 @@ class DiloDetail extends Component<Props, State> {
                         <h1 style={{
                             textTransform: "uppercase",
                             padding: "1em",
-                            fontSize: "2em"
+                            fontSize: "2em",
+                            color:'var(--text-color)'
                         }}
                         >{dilo.nazev}</h1>
-                        <Descriptions title="" bordered>
+                        <Descriptions title="" bordered style={{color:'var(--text-color)'}}>
                             <Descriptions.Item label="Autor" span={3}>
                                 {
                                     dilo.Autors !== undefined ?
                                         dilo.Autors.map((value: any, key: any) => {
-                                            return <a onClick={() => this.autorDetail(value.id)} ><li>{value.name}</li></a>
+                                            return <a onClick={() => this.autorDetail(value.id)} ><li style={{color:'var(--text-color)'}}>{value.name}</li></a>
                                         }) : ""
                                 }
                             </Descriptions.Item>
-                            <Descriptions.Item label="Literární druh" span={1}>{dilo.lit_druh}</Descriptions.Item>
-                            <Descriptions.Item label="Literární žánr" span={1}>{dilo.lit_zanr}</Descriptions.Item>
-                            <Descriptions.Item label="Konkrétní literární útvar" span={1}>{dilo.konkretni_utvar}</Descriptions.Item>
+                            <Descriptions.Item label="Literární druh" span={1}><span style={{color:'var(--text-color)'}}>{dilo.lit_druh}</span></Descriptions.Item>
+                            <Descriptions.Item label="Literární žánr" span={1}><span style={{color:'var(--text-color)'}}>{dilo.lit_zanr}</span></Descriptions.Item>
+                            <Descriptions.Item label="Konkrétní literární útvar" span={1}><span style={{color:'var(--text-color)'}}>{dilo.konkretni_utvar}</span></Descriptions.Item>
                             <Descriptions.Item label="Místo a doba děje" span={3}>
 
                                 {
-                                    dilo.mistoDeje !== null ? <li>{dilo.mistoDeje}</li> : ""
+                                    dilo.mistoDeje !== null ? <li style={{color:'var(--text-color)'}}>{dilo.mistoDeje}</li> : ""
                                 }
                                 {
-                                    dilo.dobaDeje !== null ? <li>{dilo.dobaDeje}</li> : ""
+                                    dilo.dobaDeje !== null ? <li style={{color:'var(--text-color)'}}>{dilo.dobaDeje}</li> : ""
                                 }
                             </Descriptions.Item>
-                            <Descriptions.Item label="Téma díla" span={3}>{dilo.tema_dila}</Descriptions.Item>
+                            <Descriptions.Item label="Téma díla" span={3}><span style={{color:'var(--text-color)'}}>{dilo.tema_dila}</span></Descriptions.Item>
                             <Descriptions.Item label="Hlavní postavy" span={3}>
-                                <div dangerouslySetInnerHTML={{ __html: this.state.postavy }}></div>
+                                <div dangerouslySetInnerHTML={{ __html: this.state.postavy }} style={{color:'var(--text-color)'}}></div>
                             </Descriptions.Item>
                             <Descriptions.Item label="Vypraveč">
                                 {
                                     dilo.Vypravecs !== undefined ?
                                         dilo.Vypravecs.map((value: any, key: any) => {
-                                            return <li>{value.name}</li>
+                                            return <li style={{color:'var(--text-color)'}}>{value.name}</li>
                                         }) : ""
                                 }
                             </Descriptions.Item>
@@ -147,7 +149,7 @@ class DiloDetail extends Component<Props, State> {
                                 {
                                     dilo.Typ_Promluvy_Postavs !== undefined ?
                                         dilo.Typ_Promluvy_Postavs.map((value: any, key: any) => {
-                                            return <li>{value.nazev}</li>
+                                            return <li style={{color:'var(--text-color)'}}>{value.nazev}</li>
                                         }) : ""
                                 }
                             </Descriptions.Item>
@@ -159,7 +161,7 @@ class DiloDetail extends Component<Props, State> {
                                         {
                                             dilo.Versova_vystavbas !== "" ?
                                                 dilo.Versova_vystavbas.map((value: any, key: any) => {
-                                                    return <li>{value.nazev}</li>
+                                                    return <li style={{color:'var(--text-color)'}}>{value.nazev}</li>
                                                 }) : "Nemá"
                                         }
 
@@ -173,7 +175,7 @@ class DiloDetail extends Component<Props, State> {
                             expandIcon={({ isActive }) => <Icon type="caret-right" rotate={isActive ? 90 : 0} />}
                         >
                             <Panel header="Obsah díla" key="1" style={customPanelStyle}>
-                                <div dangerouslySetInnerHTML={{ __html: this.state.obsahDila }}></div>
+                                <div dangerouslySetInnerHTML={{ __html: this.state.obsahDila }} style={{color:'var(--text-color)'}}></div>
                             </Panel>
                         </Collapse>
                     </div>
