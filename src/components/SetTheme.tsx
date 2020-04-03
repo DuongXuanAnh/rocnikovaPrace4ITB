@@ -17,11 +17,41 @@ interface State {
 }
 
 class SetTheme extends Component<Props, State> {
+
+    themeMap:any;
+    theme:any;
+    tmp:any;
+
     constructor(props: Props) {
         super(props);
         this.state = {
             theme: 1
         }
+        this.themeMap = {
+            dark: "light",
+            light: "gold",
+            gold: "silver",
+            silver: "dark",
+          };
+
+        this.theme = localStorage.getItem('theme')
+          || (this.tmp = Object.keys(this.themeMap)[0],
+              localStorage.setItem('theme', this.tmp),
+              this.tmp);
+        const bodyClass:any = document.body.classList;
+        bodyClass.add(this.theme);
+    }
+
+   
+      
+     
+      
+    toggleTheme() {
+        const current:any = localStorage.getItem('theme');
+        const next = this.themeMap[current];
+      
+        document.body.classList.replace(current, next);
+        localStorage.setItem('theme', next);
     }
     
     render() {
@@ -33,6 +63,7 @@ class SetTheme extends Component<Props, State> {
                     "height": "4em",
                     "margin": "1em"
                  }}
+                 onClick={() => this.toggleTheme()}
                  id="themeButton">
                      Change theme mode</button>
                      <button 
