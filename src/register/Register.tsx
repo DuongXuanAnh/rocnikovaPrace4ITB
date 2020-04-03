@@ -50,7 +50,6 @@ class Register extends Component<iProps, iState> {
 
     componentDidMount() {
         this.checkLoggedUser();
-        this.openNotificationSuccess();
     }
 
 
@@ -168,7 +167,6 @@ class Register extends Component<iProps, iState> {
                 axios({
                     method: 'post',
                     url: '/addNewUser',
-                    // withCredentials: true,
                     data: {
                         email: values.email,
                         password: values.password,

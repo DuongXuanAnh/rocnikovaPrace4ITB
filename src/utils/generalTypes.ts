@@ -6,6 +6,7 @@ export interface Reducer {
     procentUspechuTestu:number
     procentUspechuKvizu: number
     odpovedNaKviz: [],
+    menuTheme: number,
 }
 
 export interface User {

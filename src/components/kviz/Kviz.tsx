@@ -76,6 +76,7 @@ class Kviz extends Component<Props, State> {
                         fontSize: "2rem",
                         lineHeight: "4.5rem",
                         paddingLeft: "1rem",
+                        color:"black"
                     }}>
                         {this.state.numberOfQuestion + 1}/{this.state.questions.length}
                     </Col>
@@ -85,6 +86,7 @@ class Kviz extends Component<Props, State> {
                         fontSize: "2rem",
                         lineHeight: "4.5rem",
                         textAlign: "center",
+                        color:"black",
                     }}>
                         Vaše body: {this.state.vaseBody}
                     </Col >
@@ -94,7 +96,8 @@ class Kviz extends Component<Props, State> {
                         fontSize: "2rem",
                         lineHeight: "4.5rem",
                         textAlign: "center",
-                        "borderRadius": "0 0.5em 0.5em 0"
+                        "borderRadius": "0 0.5em 0.5em 0",
+                        color:"black"
                     }}>
                         Maximum: {this.state.maxBody}
                     </Col >
@@ -107,7 +110,7 @@ class Kviz extends Component<Props, State> {
                         borderRadius: "1em",
                         textAlign: "center"
                     }}>
-                    <Col span={24} style={{ height: "100%", fontSize: "2em", lineHeight: "3em" }}>
+                    <Col span={24} style={{ height: "100%", fontSize: "2em", lineHeight: "3em", color:"black"}}>
                         {this.state.questions[this.state.numberOfQuestion]}
                     </Col>
                 </Row>
@@ -162,7 +165,6 @@ class Kviz extends Component<Props, State> {
             url: '/kviz',
             withCredentials: true,
         }).then((res) => {
-            // console.log(res.data);
             let question: any = [];
             let wrongAnswers: any = [];
             let rightAnswer: any = [];
@@ -171,7 +173,6 @@ class Kviz extends Component<Props, State> {
                 wrongAnswers.push(value.wrongAnswers);
                 rightAnswer.push(value.rightAnswer);
                 sum += value.rightAnswer.length;
-                // sum += value.wrongAnswers.length
             })
             this.setState({
                 data: res.data,

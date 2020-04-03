@@ -25,6 +25,7 @@ import AddNewAutor from './autori/AddNewAutor';
 import NavrhAddNewAutor from './navrh/NavrhAddNewAutor';
 import EditAutora from './autori/EditAutora';
 import Literatura from './literatura/Literatura';
+import SetTheme from './SetTheme';
 
 interface Props {
     match: any
@@ -38,6 +39,8 @@ interface Props {
 interface State {
     collapsed: boolean // Otevírání a zavírání leftMenu
     countNavrhDila: number
+    theme:any
+    pokus: number
 }
 
 const { Header, Content, Sider } = Layout;
@@ -50,6 +53,8 @@ class Navbar extends Component<Props, State> {
         this.state = {
             collapsed: false,
             countNavrhDila: 0,
+            theme:["dark", "light"],
+            pokus: 0
         }
     }
 
@@ -64,7 +69,7 @@ class Navbar extends Component<Props, State> {
                 <React.Fragment>
                     <Layout style={{ minHeight: '100vh'}}>
                         <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-                            <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} >
+                            <Menu theme={this.state.theme[this.props.reducer!.menuTheme]} mode="inline" defaultSelectedKeys={['1']} >
                                 <Menu.Item key="1">
                                     <Link to="/dila">
                                         <Icon type="book" />
@@ -156,7 +161,7 @@ class Navbar extends Component<Props, State> {
                         </Sider>
                         <Layout>
                             <Header style={{ padding: 0 }}>
-                                <Menu mode="horizontal" style={{ "height": "100%", background: 'var(--background)', color:'var(--text-color)' }}>
+                                <Menu mode="horizontal" style={{ "height": "100%", background: 'var(--menu)', color:'var( --text-menu-color)' }}>
                                     <Icon
                                         style={{ "marginLeft": "1rem", "fontSize": "1.7rem", "flex": 1, "verticalAlign": "bottom" }}
                                         className="trigger"
@@ -206,6 +211,7 @@ class Navbar extends Component<Props, State> {
                             </Header>
 
                             <Content style={{background: 'var(--background)', color:'var(--text-color)'}}>
+                                <Route exact path="/" component={SetTheme} />
                                 <Route exact path="/dila" component={DilaList} />
                                 <Route exact path="/dilo/:id" component={DiloDetail} />
                                 <Route exact path="/addNewDilo" component={AddNewDilo} />

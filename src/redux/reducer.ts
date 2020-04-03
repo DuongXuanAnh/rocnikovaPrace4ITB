@@ -6,7 +6,8 @@ const initialState: generalTypes.Reducer = {
     vysledekTestu: [],
     procentUspechuTestu: 0,
     procentUspechuKvizu: 0,
-    odpovedNaKviz: []
+    odpovedNaKviz: [],
+    menuTheme: 0,
 };
 
 export default (state = initialState, payload: { type: string, value: any }) => {
@@ -54,6 +55,12 @@ export default (state = initialState, payload: { type: string, value: any }) => 
             };
         }
 
+        case 'CHANGE_MENU_THEME': {
+            return {
+                ...state,
+                menuTheme: payload.value
+            }
+        }
         
         default: return state;
     }

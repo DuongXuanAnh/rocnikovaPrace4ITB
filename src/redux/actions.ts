@@ -42,3 +42,10 @@ export const odpovedNaKviz = (odpovedNaKviz: any) => {
 	}
 }
 
+export const zmenitmenuTheme = (menuTheme: any) => {
+	return {
+		type: 'CHANGE_MENU_THEME',
+		value: menuTheme
+	}
+}
+

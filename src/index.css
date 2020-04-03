@@ -2,11 +2,29 @@
 :root .light{
     --text-color: #1f1f1f;
     --background: #ececec;
+    --menu: #001529;
+    --text-menu-color: #ececec;
 }
 
 :root .dark{
   --text-color: #b6b6b6;
   --background: #000000;
+  --menu: #000000;
+  --text-menu-color: #b6b6b6;
+}
+
+:root .gold{
+  --text-color: #ffffff;
+  --background: #D4AF37;
+  --menu: #000000;
+  --text-menu-color: #b6b6b6;
+}
+
+:root .silver{
+  --text-color: #000000;
+  --background: #C0C0C0;
+  --menu: #000000;
+  --text-menu-color: #b6b6b6;
 }
 
 body {
@@ -39,4 +57,21 @@ li.ant-pagination-simple-pager {
 
 input[type="text"] {
   color: black !important;
+}
+th.ant-descriptions-item-label.ant-descriptions-item-colon {
+  background: var(--background);
+  color: var(--text-color);
+}
+.ant-collapse-content.ant-collapse-content-active {
+  background-color: var(--background) !important;
+}
+span.ant-upload-list-item-name.ant-upload-list-item-name-icon-count-1 {
+  color: var(--text-color);
+}
+
+ul.ant-menu.ant-menu-light.ant-menu-root.ant-menu-inline {
+  height: 100%;
+}
+ul.ant-menu.ant-menu-light.ant-menu-inline-collapsed.ant-menu-root.ant-menu-vertical {
+  height: 100%;
 }
