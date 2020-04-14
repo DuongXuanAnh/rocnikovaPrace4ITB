@@ -70,13 +70,13 @@ class Navbar extends Component<Props, State> {
                     <Layout style={{ minHeight: '100vh'}}>
                         <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
                             <Menu theme={this.state.theme[this.props.reducer!.menuTheme]} mode="inline" defaultSelectedKeys={['1']} >
-                            <Menu.Item key="0">
+                            <Menu.Item key="1">
                                     <Link to="/">
                                         <Icon type="home" />
                                         <span>HOME</span>
                                     </Link>
                             </Menu.Item>
-                                <Menu.Item key="1">
+                                <Menu.Item key="0">
                                     <Link to="/dila">
                                         <Icon type="book" />
                                         <span>Díla</span>

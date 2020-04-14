@@ -168,7 +168,7 @@ class DiloDetail extends Component<Props, State> {
                                     </Descriptions.Item>
                                     : ""
                             }
-                            <Descriptions.Item label="Jazykové prostředky">{dilo.jazykove_prostredky}</Descriptions.Item>
+                            <Descriptions.Item label="Jazykové prostředky"><div style={{color:'var(--text-color)'}}>{dilo.jazykove_prostredky}</div></Descriptions.Item>
                         </Descriptions>
                         <Collapse
                             bordered={false}

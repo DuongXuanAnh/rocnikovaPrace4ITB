@@ -75,3 +75,7 @@ ul.ant-menu.ant-menu-light.ant-menu-root.ant-menu-inline {
 ul.ant-menu.ant-menu-light.ant-menu-inline-collapsed.ant-menu-root.ant-menu-vertical {
   height: 100%;
 }
+
+table, th, td {
+  border: 1px solid var(--text-color) !important;
+}

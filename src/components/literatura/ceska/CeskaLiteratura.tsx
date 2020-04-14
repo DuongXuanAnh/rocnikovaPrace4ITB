@@ -36,7 +36,7 @@ class CeskaLiteratura extends Component<Props, State> {
                    <div
                    style={{
                     margin: "0.5em 0 0 1em",
-                    fontSize: "1.5em"
+                    fontSize: "1.5em",
                    }}
                    >
                         <a  onClick={() => this.titleClick(value.link)}>{key + 1}. {value.nazev}</a>

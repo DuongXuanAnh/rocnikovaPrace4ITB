@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Select, Button, Input, Form, Row, Upload, Icon, notification, Col } from 'antd';
+import { Select, Button, Input, Form, Row, Upload, Icon, notification, Col, Popconfirm } from 'antd';
 import { Reducer } from '../../utils/generalTypes';
 import { connect } from 'react-redux';
 
@@ -74,6 +74,19 @@ class AdminNavrhDetail extends Component<Props, State> {
         return (
             <React.Fragment>
                 <Row>
+                <Popconfirm
+                    title="Opravdu chcete smazat toto dílo?"
+                    onConfirm={() => this.odstranitDiloZNavrhu()}
+                    onCancel={(event) => this.cancel(event)}
+                    okText="Ano"
+                    cancelText="Ne"
+                >
+                    <Button type="danger" style={{
+                        margin: "2em 0 0 2em"
+                    }}>Smazat tento návrh</Button>
+
+                </Popconfirm>
+                
                     <Col span={12}>
                         <Row
                             style={{
@@ -610,8 +623,37 @@ class AdminNavrhDetail extends Component<Props, State> {
             .then(
                 res => {
                     console.log("ok");
+
                 }
             ).catch(err => err)
+    }
+
+    private odstranitDiloZNavrhu = () => {
+        const id: number = parseInt(this.props.match.params.id, 10);
+        axios({
+            method: 'delete',
+            url: '/smazatNavrh/' + id,
+            withCredentials: true,
+            headers: { 'Authorization': 'Bearer ' + this.props.reducer!.user!.accessToken },
+        })
+            .then(
+                res => {
+                    console.log("ok");
+                    this.props.history.push('/zadostONavrhu');
+                    notification.open({
+                        message: 'Notifikace',
+                        description:
+                            'Návrh byl úspěšně smazán!',
+                        onClick: () => {
+                            console.log('Notification Clicked!');
+                        },
+                    });
+                }
+            ).catch(err => err)
+    }
+
+    private cancel(e: any) {
+
     }
 }
 

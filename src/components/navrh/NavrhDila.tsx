@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import { Row, Button, Select, Input, Form, Col } from 'antd';
+import { Row, Button, Select, Input, Form, notification } from 'antd';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { Reducer } from '../../utils/generalTypes';
 
 interface Props {
     form: any
+    match: any
+    location: any
+    history: any
+    reducer?: Reducer
+    dispatch?: Function
 }
 
 interface State {
@@ -311,7 +317,8 @@ class NavrhDila extends Component<Props, State> {
                 })
                     .then(
                         res => {
-                            console.log(res);
+                            this.props.history.push('/');
+                            this.openNotificationSuccess();
                         }
                     ).catch(err => err)
             }
@@ -456,6 +463,17 @@ class NavrhDila extends Component<Props, State> {
             pridatAutoraMode: !this.state.pridatAutoraMode
         });
     }
+
+    private openNotificationSuccess = () => {
+        notification.open({
+            message: 'Notifikace',
+            description:
+                'Váš návrh byl odeslán!',
+            onClick: () => {
+                console.log('Notification Clicked!');
+            },
+        });
+    };
 
 }
 

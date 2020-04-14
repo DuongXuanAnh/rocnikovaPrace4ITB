@@ -32,7 +32,7 @@ class Literatura extends Component<Props, State> {
     render() {
         return (
             <React.Fragment>
-                <div dangerouslySetInnerHTML={{ __html: marked(this.state.data) }}></div>
+                <div style={{padding: "2em"}} dangerouslySetInnerHTML={{ __html: marked(this.state.data) }}></div>
             </React.Fragment>
         );
     }
