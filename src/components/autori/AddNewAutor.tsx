@@ -25,6 +25,15 @@ class AddNewAutor extends Component<Props, State> {
 
     }
 
+    CheckDatum = (rule:any, value:any, callback:any) => {
+        const { form } = this.props;
+        if (value && value <= form.getFieldValue('born')) {
+          callback('Zkontrolujte si datum!');
+        } else {
+          callback();
+        }
+      };
+
     render() {
         const { getFieldDecorator } = this.props.form;
         const config = {
@@ -48,16 +57,22 @@ class AddNewAutor extends Component<Props, State> {
                                 <Input placeholder="Popis autora" />
                             )}
                         </Form.Item>
-                        <Form.Item label="Born" style={{ width: "50%" }}>
+                        <Form.Item label="Rok narození" style={{ width: "50%" }}>
                             {getFieldDecorator('born', {
                                 rules: [{ required: true, message: "Zadejte rok narození" }],
                             })(
                                 <InputNumber min={1} max={2020} placeholder="Narození" style={{ width: "50%" }} />
                             )}
                         </Form.Item>
-                        <Form.Item label="Rip" style={{ width: "50%" }}>
+                        <Form.Item label="Rok úmrtí" style={{ width: "50%" }}>
                             {getFieldDecorator('rip', {
-                                rules: [{ required: false, message: "" }],
+                                rules: [
+                                    { required: false, message: "" },
+                                     {
+                                        validator: this.CheckDatum,
+                                      },
+          
+                                ],
                             })(
                                 <InputNumber min={1} max={2020} placeholder="Úmrtí" style={{ width: "50%" }} />
                             )}
